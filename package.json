@@ -1,0 +1,24 @@
+{
+  "name": "solutils",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Leonardo Galante",
+    "email": "lndgalante@gmail.com"
+  },
+  "dependencies": {
+    "@project-serum/anchor": "^0.25.0",
+    "@project-serum/borsh": "^0.2.5",
+    "@solana/wallet-adapter-react": "^0.15.20",
+    "@solana/web3.js": "^1.66.2",
+    "cross-fetch": "^3.1.5",
+    "pako": "^2.0.4",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/pako": "^2.0.0",
+    "@types/react": "^18.0.21",
+    "prettier": "^2.7.1"
+  }
+}
