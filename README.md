@@ -28,7 +28,7 @@
 
   </details>
 
-* [Address and Keypairs](#Address-And-Keypairs)
+* [Keypairs](#Keypairs)
   <details>
     <summary>Methods</summary>
 
@@ -60,7 +60,17 @@
 
   </details>
 
-- [Transactions](#Transactions)
+- [Serialization](#Serialization)
+  <details>
+    <summary>Methods</summary>
+
+  - [getEncodedBufferFromData()](#getEncodedBufferFromData)
+  - [getDecodedDataFromBufferAndSchema()](#getDecodedDataFromBufferAndSchema)
+  - [getEmptyBuffer()][#getemptybuffer]
+
+  </details>
+
+* [Transactions](#Transactions)
   <details>
     <summary>Methods</summary>
 
@@ -71,16 +81,6 @@
     <summary>Hooks</summary>
 
   - [useTransactionDetails()](#useTransactionDetails)
-
-  </details>
-
-* [Serialization](#Serialization)
-  <details>
-    <summary>Methods</summary>
-
-  - [getEncodedBufferFromData()](#getEncodedBufferFromData)
-  - [getDecodedDataFromBufferAndSchema()](#getDecodedDataFromBufferAndSchema)
-  - [getEmptyBuffer()][#getemptybuffer]
 
   </details>
 
@@ -113,17 +113,7 @@
 
   </details>
 
-- [Tokens](#Tokens)
-  <details>
-    <summary>Hooks</summary>
-
-  - [useUserBalance()](#useUserBalance)
-  - [useRequestSolAirdrop()](#useRequestSolAirdrop)
-  - [useTransferSolTokens()](#useTransferSolTokens)
-
-  </details>
-
-* [Blockchain](#Blockchain)
+- [Blockchain](#Blockchain)
   <details>
     <summary>Methods</summary>
 
@@ -134,6 +124,16 @@
     <summary>Hooks</summary>
 
   - [useSolanaStatus()](#useSolanaStatus)
+
+  </details>
+
+* [Tokens](#Tokens)
+  <details>
+    <summary>Hooks</summary>
+
+  - [useUserBalance()](#useUserBalance)
+  - [useRequestSolAirdrop()](#useRequestSolAirdrop)
+  - [useTransferSolTokens()](#useTransferSolTokens)
 
   </details>
 
@@ -186,7 +186,7 @@ console.log(clusterName); // "Mainnet"
 
 ---
 
-#### Address and Keypairs
+#### Keypairs
 
 ##### getNewKeypair()
 
@@ -401,59 +401,6 @@ console.log(solscanUrl); // "https://solscan.io/block/153335451?cluster=mainnet-
 
 ---
 
-#### Transactions
-
-##### getTransactionDetails()
-
-_Definition_
-
-Returns all details related to a transaction by sending its signature.
-
-_Example_
-
-```typescript
-import { getTransactionDetails } from 'solutils';
-
-const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
-
-const { connection } = getClusterConnection('mainnet-beta');
-const { transactionDetails } = getTransactionDetails(transactionSignature, connection);
-
-console.log(transactionDetails);
-```
-
-##### useTransactionDetails()
-
-_Definition_
-
-Same as previous method but in a hook form, accepting an `autoTrigger` which by defaults is true to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
-
-_Example_
-
-```tsx
-import { useTransactionDetails } from 'solutils';
-
-function DemoComponent() {
-  // constants
-  const transactionSignature =
-    '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
-
-  // solutils hooks
-  const { status, error, result } = useTransactionDetails(transactionSignature);
-
-  return (
-    <div>
-      {status === 'iddle' ? <p>Haven't request any transaction details yet</p> : null}
-      {status === 'loading' ? <p>Requesting your transaction details</p> : null}
-      {status === 'success' ? <pre>{JSON.stringify(null, 2, result)}</pre> : null}
-      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
-    </div>
-  );
-}
-```
-
----
-
 #### Serialization
 
 ##### getEncodedBufferFromData()
@@ -559,6 +506,59 @@ sendAndConfirmTransaction(connection, transaction, [EXAMPLE_SIGNER]).then((trans
 
 ---
 
+#### Transactions
+
+##### getTransactionDetails()
+
+_Definition_
+
+Returns all details related to a transaction by sending its signature.
+
+_Example_
+
+```typescript
+import { getTransactionDetails } from 'solutils';
+
+const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+
+const { connection } = getClusterConnection('mainnet-beta');
+const { transactionDetails } = getTransactionDetails(transactionSignature, connection);
+
+console.log(transactionDetails);
+```
+
+##### useTransactionDetails()
+
+_Definition_
+
+Same as previous method but in a hook form, accepting an `autoTrigger` which by defaults is true to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
+
+_Example_
+
+```tsx
+import { useTransactionDetails } from 'solutils';
+
+function DemoComponent() {
+  // constants
+  const transactionSignature =
+    '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+
+  // solutils hooks
+  const { status, error, result } = useTransactionDetails(transactionSignature);
+
+  return (
+    <div>
+      {status === 'iddle' ? <p>Haven't request any transaction details yet</p> : null}
+      {status === 'loading' ? <p>Requesting your transaction details</p> : null}
+      {status === 'success' ? <pre>{JSON.stringify(null, 2, result)}</pre> : null}
+      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+    </div>
+  );
+}
+```
+
+---
+
 #### IDLs
 
 ##### getIdlFromAddress()
@@ -640,6 +640,64 @@ function DemoComponent() {
       {status === 'loading' ? <p>Requesting your IDL</p> : null}
       {status === 'success' ? <pre>{JSON.stringify(null, 2, idl)}</pre> : null}
       {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+    </div>
+  );
+}
+```
+
+---
+
+#### PDAs
+
+##### getPdaFromSeedAndProgramAddress()
+
+_Definition_
+
+Returns PDAs public key and address from a string seed and a program address.
+
+_Example_
+
+```typescript
+import { getPdaFromSeedAndProgramAddress } from 'solutils';
+
+const SEED = 'SOME_RANDOM_SEED';
+const PROGRAM_ADDRESS = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN';
+
+const { pdaPublicKey, pdaAddress, bump } = await getPdaFromSeedAndProgramAddress(SEED, PROGRAM_ADDRESS);
+```
+
+##### usePdaFromUserPublicKeyAndProgramAddress()
+
+_Definition_
+
+Use it to get PDA public key and address using public key from user connected wallet and a pogram address. Optionally `getPdaFromUserPublicKeyAndProgramAddress` accepts a second argument with a seeds string array.
+
+_Example_
+
+```tsx
+import { usePdaFromUserPublicKeyAndProgramAddress } from 'solutils';
+
+function DemoComponent() {
+  // solutils hooks
+  const { getPdaFromUserPublicKeyAndProgramAddress, status, result, error } =
+    usePdaFromUserPublicKeyAndProgramAddress();
+
+  // constants
+  const PROGRAM_ADDRESS = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN';
+  const EXTRA_SEEDS = ['part-a', 'part-b'];
+
+  // handlers
+  function handleRequestPDA() {
+    getPdaFromUserPublicKeyAndProgramAddress(PROGRAM_ADDRESS, EXTRA_SEEDS);
+  }
+
+  return (
+    <div>
+      <button onClick={handleRequestPDA}>Request PDA</button>
+      {state === 'iddle' ? <p>Haven't request any PDA yet</p> : null}
+      {state === 'loading' ? <p>Requesting PDA...</p> : null}
+      {state === 'success' ? <p>We successfully get PDA address: {result.pdaAddress}</p> : null}
+      {state === 'error' ? <p>Ups, something wrong happened</p> : null}
     </div>
   );
 }
@@ -814,64 +872,6 @@ function DemoComponent() {
           </a>
         </div>
       ) : null}
-      {state === 'error' ? <p>Ups, something wrong happened</p> : null}
-    </div>
-  );
-}
-```
-
----
-
-#### PDAs
-
-##### getPdaFromSeedAndProgramAddress()
-
-_Definition_
-
-Returns PDAs public key and address from a string seed and a program address.
-
-_Example_
-
-```typescript
-import { getPdaFromSeedAndProgramAddress } from 'solutils';
-
-const SEED = 'SOME_RANDOM_SEED';
-const PROGRAM_ADDRESS = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN';
-
-const { pdaPublicKey, pdaAddress, bump } = await getPdaFromSeedAndProgramAddress(SEED, PROGRAM_ADDRESS);
-```
-
-##### usePdaFromUserPublicKeyAndProgramAddress()
-
-_Definition_
-
-Use it to get PDA public key and address using public key from user connected wallet and a pogram adddress. Optionally `getPdaFromUserPublicKeyAndProgramAddress` accepts a second argument with a seeds string array.
-
-_Example_
-
-```tsx
-import { usePdaFromUserPublicKeyAndProgramAddress } from 'solutils';
-
-function DemoComponent() {
-  // solutils hooks
-  const { getPdaFromUserPublicKeyAndProgramAddress, status, result, error } =
-    usePdaFromUserPublicKeyAndProgramAddress();
-
-  // constants
-  const PROGRAM_ADDRESS = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN';
-  const EXTRA_SEEDS = ['part-a', 'part-b'];
-
-  // handlers
-  function handleRequestPDA() {
-    getPdaFromUserPublicKeyAndProgramAddress(PROGRAM_ADDRESS, EXTRA_SEEDS);
-  }
-
-  return (
-    <div>
-      <button onClick={handleRequestPDA}>Request PDA</button>
-      {state === 'iddle' ? <p>Haven't request any PDA yet</p> : null}
-      {state === 'loading' ? <p>Requesting PDA...</p> : null}
-      {state === 'success' ? <p>We successfully get PDA address: {result.pdaAddress}</p> : null}
       {state === 'error' ? <p>Ups, something wrong happened</p> : null}
     </div>
   );
