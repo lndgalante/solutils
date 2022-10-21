@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://svgur.com/i/na6.svg">
-    <img alt="wagmi logo" src="https://svgur.com/i/n_N.svg" width="auto" height="90">
+    <source media="(prefers-color-scheme: dark)" srcset="https://svgur.com/i/n_N.svg">
+    <img alt="wagmi logo" src="https://svgur.com/i/na6.svg" width="auto" height="90">
   </picture>
 </p>
 
