@@ -11,11 +11,7 @@
 
 ---
 
-### Considerations
-
-- This library is still a WIP, so community help and feedback is more than welcome. **LFG**
-
-* Examples uses top-level await, if you don't have this feature remember to wrap these examples into async functions.
+> This library is still a WIP, so community help and feedback is more than welcome.
 
 ### Summary
 
@@ -573,10 +569,14 @@ _Example_
 ```typescript
 import { getIdlFromAddress } from 'solutils';
 
-const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
-const { idl } = await getIdlFromAddress(address);
+async function example() {
+  const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
+  const { idl } = await getIdlFromAddress(address);
 
-console.log(idl); // { version: '4.4.0', name: 'candy_machine', ... }
+  console.log(idl); // { version: '4.4.0', name: 'candy_machine', ... }
+}
+
+example();
 ```
 
 ##### getInstructionFromIdl()
@@ -590,13 +590,15 @@ _Example_
 ```typescript
 import { getIdlFromAddress, getInstructionFromIdl } from 'solutils';
 
-const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
+async function example() {
+  const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
 
-const { idl } = await getIdlFromAddress(address);
-const { method } = await getInstructionFromIdl(idl, 'updateCandyMachine');
+  const { idl } = await getIdlFromAddress(address);
+  const { method } = await getInstructionFromIdl(idl, 'updateCandyMachine');
 
-console.log(method);
-/*
+  console.log(method);
+
+  /*
   {
     name: 'updateCandyMachine',
     accounts: [
@@ -607,6 +609,9 @@ console.log(method);
     args: [ { name: 'data', type: [ { name: 'data', type: { defined: 'CandyMachineData' } } ] } ]
   }
 */
+}
+
+example();
 ```
 
 ##### useRequestIdlFromAddress()
@@ -660,10 +665,14 @@ _Example_
 ```typescript
 import { getPdaFromSeedAndProgramAddress } from 'solutils';
 
-const SEED = 'SOME_RANDOM_SEED';
-const PROGRAM_ADDRESS = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN';
+async function example() {
+  const SEED = 'SOME_RANDOM_SEED';
+  const PROGRAM_ADDRESS = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN';
 
-const { pdaPublicKey, pdaAddress, bump } = await getPdaFromSeedAndProgramAddress(SEED, PROGRAM_ADDRESS);
+  const { pdaPublicKey, pdaAddress, bump } = await getPdaFromSeedAndProgramAddress(SEED, PROGRAM_ADDRESS);
+}
+
+example();
 ```
 
 ##### usePdaFromUserPublicKeyAndProgramAddress()
@@ -718,9 +727,13 @@ _Example_
 ```typescript
 import { getSolanaStatus } from 'solutils';
 
-const { isHealthy } = await getSolanaStatus();
+async function example() {
+  const { isHealthy } = await getSolanaStatus();
 
-console.log(isHealthy); // true
+  console.log(isHealthy); // true
+}
+
+example();
 ```
 
 ##### useSolanaStatus()
