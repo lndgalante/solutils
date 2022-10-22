@@ -345,7 +345,7 @@ _Definition_
 
 Returns a RPC endpoint by defining a provider and a cluster type.
 
-Current supported RPC providers are: [Solana](https://solana.com/rpc), [Project Serum](https://github.com/project-serum/awesome-serum#rpc-servers), [GenesysGo](https://shdw.genesysgo.com/genesysgo/the-genesysgo-rpc-network), [AllThatNode](https://www.allthatnode.com/solana.dsrv), [Blockdaemon](https://try.blockdaemon.com/rpc/solana), [Ankr](https://www.ankr.com/rpc/solana), [GetBlock](https://getblock.io/nodes/sol).
+Current supported RPC providers are: [Solana](https://solana.com/rpc), [Project Serum](https://github.com/project-serum/awesome-serum#rpc-servers), [GenesysGo](https://shdw.genesysgo.com/genesysgo/the-genesysgo-rpc-network), [AllThatNode](https://www.allthatnode.com/solana.dsrv), [Blockdaemon](https://try.blockdaemon.com/rpc/solana), [Ankr](https://www.ankr.com/rpc/solana), [GetBlock](https://getblock.io/nodes/sol), and [Alchemy](https://www.alchemy.com/solana). Being Alchemy the only one that needs an API key that will be received as a third parameter.
 
 > ⚠️ WARNING: For production you probably want to get a paid RPC service due to service limitations.
 
@@ -544,7 +544,7 @@ function DemoComponent() {
     '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
 
   // solutils hooks
-  const { status, error, result } = useTransactionDetails(transactionSignature);
+  const { result, status, error } = useTransactionDetails(transactionSignature);
 
   return (
     <div>
@@ -628,7 +628,7 @@ function DemoComponent() {
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
 
   // handlers
-  function handleIdlRequest() {
+  async function handleIdlRequest() {
     await getIdlFromAddress(address);
     console.log('Operation finalized');
   }
@@ -679,7 +679,7 @@ import { usePdaFromUserPublicKeyAndProgramAddress } from 'solutils';
 
 function DemoComponent() {
   // solutils hooks
-  const { getPdaFromUserPublicKeyAndProgramAddress, status, result, error } =
+  const { getPdaFromUserPublicKeyAndProgramAddress, result, status, error } =
     usePdaFromUserPublicKeyAndProgramAddress();
 
   // constants
@@ -736,7 +736,7 @@ import { useSolanaStatus } from 'solutils';
 
 function DemoComponent() {
   // solutils hooks
-  const { status, error, result } = useSolanaStatus();
+  const { result, status, error } = useSolanaStatus();
 
   return (
     <div>
@@ -766,7 +766,7 @@ import { useUserBalance } from 'solutils';
 
 function DemoComponent() {
   // solutils hooks
-  const { getUserBalance, userBalance, status } = useUserBalance();
+  const { getUserBalance, result, status } = useUserBalance();
 
   // handlers
   function handleUserBalanceRequest() {
@@ -798,7 +798,7 @@ import { useRequestSolAirdrop } from 'solutils';
 
 function DemoComponent() {
   // solutils hooks
-  const { getSolAirdrop, status, error } = useRequestSolAirdrop();
+  const { getSolAirdrop, result, status, error } = useRequestSolAirdrop();
 
   // constants
   const SOL = 2;
@@ -844,7 +844,7 @@ import { useTransferSolTokens } from 'solutils';
 
 function DemoComponent() {
   // solutils hooks
-  const { getTransferSolTokensReceipt, status, result, error } = useTransferSolTokens();
+  const { getTransferSolTokensReceipt, result, status, error } = useTransferSolTokens();
 
   // constants
   const SOL_TO_SEND = 0.5;
