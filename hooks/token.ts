@@ -8,17 +8,16 @@ import { ErrorState, StatusState } from '../common';
 
 // core
 import {
-  getSolscanUrl,
+  AllExplorerUrls,
   getLamportsToSol,
   getSolToLamports,
-  getSolanaExplorerUrl,
+  getAllExplorersUrl,
   getPublicKeyFromAddress,
 } from '../core';
 
 // types
 type AirdropResultState = {
-  solscanUrl: string;
-  solanaExplorerUrl: string;
+  urls: AllExplorerUrls;
   transactionSignature: TransactionSignature;
 } | null;
 
@@ -59,9 +58,8 @@ export function useRequestSolAirdrop() {
         return null;
       }
 
-      const { solscanUrl } = getSolscanUrl(transactionSignature);
-      const { solanaExplorerUrl } = getSolanaExplorerUrl(transactionSignature);
-      const result = { transactionSignature, solscanUrl, solanaExplorerUrl };
+      const { urls } = getAllExplorersUrl(transactionSignature);
+      const result = { transactionSignature, urls };
 
       setResult(result);
       setStatus('success');
@@ -112,8 +110,7 @@ export function useUserBalance() {
 }
 
 type TransefSolTokensResultState = {
-  solscanUrl: string;
-  solanaExplorerUrl: string;
+  urls: AllExplorerUrls;
   transactionSignature: TransactionSignature;
 } | null;
 
@@ -156,9 +153,8 @@ export function useTransferSolTokens() {
         return;
       }
 
-      const { solscanUrl } = getSolscanUrl(transactionSignature);
-      const { solanaExplorerUrl } = getSolanaExplorerUrl(transactionSignature);
-      const result = { transactionSignature, solscanUrl, solanaExplorerUrl };
+      const { urls } = getAllExplorersUrl(transactionSignature);
+      const result = { transactionSignature, urls };
 
       setStatus('success');
       setResult(result);
