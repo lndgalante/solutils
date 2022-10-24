@@ -142,6 +142,8 @@
 
   </details>
 
+> Solana Pay, and NFT helpers coming soon!
+
 ---
 
 #### Cluster
