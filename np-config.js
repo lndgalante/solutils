@@ -1,4 +1,4 @@
 module.exports = {
-  yarn: true,
+  yarn: false,
   contents: 'dist',
 };
