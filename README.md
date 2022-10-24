@@ -52,8 +52,8 @@
     <summary>Methods</summary>
 
   - [getRpcEndpointUrl()](#getRpcEndpointUrl)
-  - [getSolanaExplorerUrl()](#getSolanaExplorerUrl)
-  - [getSolscanUrl()](#getSolscanUrl)
+  - [getExplorerUrl()](#getExplorerUrl)
+  - [getAllExplorersUrl()](#getAllExplorersUrl)
 
   </details>
 
@@ -374,42 +374,45 @@ const { rpcEndpointUrl: genesysGoRpc } = getRpcEndpointUrl('genesysgo', 'devnet'
 console.log(genesysGoRpc); // "https://devnet.genesysgo.net"
 ```
 
-##### getSolanaExplorerUrl()
+##### getExplorerUrl()
 
 _Definition_
 
-Returns a Solana explorer url from a signature.
-It automatically switches between `"tx"`, `"address"` or `"block"` types based on parameter length.
-By default uses Mainnet cluster, but optionally takes a cluster as second parameter.
+Returns a Solana explorer url explorer type that could be [Solana Explorer](https://explorer.solana.com), [Solscan](https://solscan.io), [SolanaFM](https://solana.fm), or [Solana Beach](https://solanabeach.io), and a transaction siganture, block or address.
+It automatically switches between a transaction, block, or address url parameter based on its length.
+By default uses Mainnet cluster, but optionally takes a cluster as third parameter.
 
 _Example_
 
 ```typescript
-import { getSolanaExplorerUrl } from 'solutils';
+import { getExplorerUrl } from 'solutils';
 
 const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
-const { solanaExplorerUrl } = getSolanaExplorerUrl(transactionSignature);
+const { url: solanaExplorerUrl } = getExplorerUrl('solana-explorer', transactionSignature);
+const { url: solscanUrl } = getExplorerUrl('solscan', transactionSignature);
 
 console.log(solanaExplorerUrl); // "https://explorer.solana.com/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM32wiEzdwSRzFnddqBTLiErPJr2XsqgfdTQkr92ygW4duSWCjLAomCnTdu3a?cluster=mainnet-beta"
+
+console.log(solscanUrl); // "https://solscan.io/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM32wiEzdwSRzFnddqBTLiErPJr2XsqgfdTQkr92ygW4duSWCjLAomCnTdu3a?cluster=mainnet-beta"
 ```
 
-##### getSolscanUrl()
+##### getAllExplorersUrl()
 
 _Definition_
 
-Returns a solscan url from a signature.
-It automatically switches between `"tx"`, `"account"`, `"token"` or `"block"` types based on parameter length.
-By default uses Mainnet cluster, but optionally takes a cluster as second parameter.
+Returns all explorer URLs from [Solana Explorer](https://explorer.solana.com), [Solscan](https://solscan.io), [SolanaFM](https://solana.fm), and [Solana Beach](https://solanabeach.io).
 
 _Example_
 
 ```typescript
-import { getSolscanUrl } from 'solutils';
+import { getAllExplorersUrl } from 'solutils';
 
-const block = '153335451';
-const { solscanUrl } = getSolscanUrl(block);
+const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+const { urls } = getAllExplorersUrl(transactionSignature);
 
-console.log(solscanUrl); // "https://solscan.io/block/153335451?cluster=mainnet-beta"
+console.log(urls.solanaExplorerUrl); // "https://explorer.solana.com/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM32wiEzdwSRzFnddqBTLiErPJr2XsqgfdTQkr92ygW4duSWCjLAomCnTdu3a?cluster=mainnet-beta"
+
+console.log(urls.solscanUrl); // "https://solscan.io/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM32wiEzdwSRzFnddqBTLiErPJr2XsqgfdTQkr92ygW4duSWCjLAomCnTdu3a?cluster=mainnet-beta"
 ```
 
 ---
@@ -847,10 +850,10 @@ function DemoComponent() {
         <div>
           <p>Your {SOL} tokens have arrived, check your wallet!</p>
           <p>Transaction signature: {result.transactionSignature}</p>
-          <a href={result.solscanUrl} target='_blank'>
+          <a href={result.urls.solscanUrl} target='_blank'>
             Solscan
           </a>
-          <a href={result.solanaExplorerUrl} target='_blank'>
+          <a href={result.urls.solanaExplorerUrl} target='_blank'>
             Solana Explorer
           </a>
         </div>
@@ -894,10 +897,10 @@ function DemoComponent() {
         <div>
           <p>We successfully sent: {SOL_TO_SEND} SOL</p>
           <p>Transaction signature: {result.transactionSignature}</p>
-          <a href={result.solscanUrl} target='_blank'>
+          <a href={result.urls.solscanUrl} target='_blank'>
             Solscan
           </a>
-          <a href={result.solanaExplorerUrl} target='_blank'>
+          <a href={result.urls.solanaExplorerUrl} target='_blank'>
             Solana Explorer
           </a>
         </div>
