@@ -3,7 +3,7 @@ import { useConnection } from '@solana/wallet-adapter-react';
 import { TransactionSignature, ParsedTransactionWithMeta } from '@solana/web3.js';
 
 // common
-import { ErrorState, StatusState } from '../common/types';
+import { ErrorState, StatusState } from '../common';
 
 // types
 type ResultState = ParsedTransactionWithMeta | null;

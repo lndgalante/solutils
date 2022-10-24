@@ -4,7 +4,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, Transaction, SystemProgram, TransactionSignature } from '@solana/web3.js';
 
 // common
-import { ErrorState, StatusState } from '../common/types';
+import { ErrorState, StatusState } from '../common';
 
 // core
 import {

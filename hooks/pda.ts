@@ -3,7 +3,7 @@ import { PublicKey } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
 
 // common
-import { ErrorState, StatusState } from '../common/types';
+import { ErrorState, StatusState } from '../common';
 
 // core
 import { getPublicKeyFromAddress, getAddressFromPublicKey } from '../core';

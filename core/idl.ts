@@ -5,7 +5,7 @@ import { decodeIdlAccount, Idl, IdlInstruction } from '@project-serum/anchor/dis
 
 // internal helpers
 import { getClusterConnection } from './cluster';
-import { getPublicKeyFromAddress } from './address';
+import { getPublicKeyFromAddress } from './keypairs';
 
 export async function getIdlFromAddress(
   address: string,

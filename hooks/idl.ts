@@ -6,7 +6,7 @@ import { utf8 } from '@project-serum/anchor/dist/cjs/utils/bytes';
 import { decodeIdlAccount, Idl } from '@project-serum/anchor/dist/cjs/idl';
 
 // common
-import { ErrorState, StatusState } from '../common/types';
+import { ErrorState, StatusState } from '../common';
 
 // core
 import { getPublicKeyFromAddress } from '../core';

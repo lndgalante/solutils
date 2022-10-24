@@ -1,7 +1,7 @@
 import { PublicKey } from '@solana/web3.js';
 
 // core
-import { getAddressFromPublicKey, getPublicKeyFromAddress } from './address';
+import { getAddressFromPublicKey, getPublicKeyFromAddress } from './keypairs';
 
 export async function getPdaFromSeedAndProgramAddress(
   seed: string,

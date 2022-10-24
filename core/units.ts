@@ -1,7 +1,7 @@
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 // common
-import { toFixed } from '../common/numbers';
+import { toFixed } from '../common';
 
 export function getLamportsToSol(lamports: number, digitsToDisplay?: number): { sol: number } {
   const sol = lamports / LAMPORTS_PER_SOL;

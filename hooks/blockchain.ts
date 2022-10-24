@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // common
-import { ErrorState, StatusState } from '../common/types';
+import { ErrorState, StatusState } from '../common';
 
 // core
 import { getSolanaStatus } from '../core';

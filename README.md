@@ -29,6 +29,7 @@
     <summary>Methods</summary>
 
   - [getNewKeypair()](#getNewKeypair)
+  - [getKeypairFromFile()](#getKeypairFromFile)
   - [getKeypairFromSecretKey()](#getKeypairFromSecretKey)
   - [getAddressFromPublicKey()](#getAddressFromPublicKey)
   - [getPublicKeyFromAddress()](#getPublicKeyFromAddress)
@@ -196,6 +197,22 @@ _Example_
 import { getNewKeypair } from 'solutils';
 
 const { keypair } = getNewKeypair();
+```
+
+##### getKeypairFromFile()
+
+_Definition_
+
+It returns a keypair by reading a secret key from a filepath, if not path is specified it will use defaults Solana path which is `~/.config/solana/id.json`.
+
+> ⚠️ WARNING: This method only works on a Node.js only environment.
+
+_Example_
+
+```typescript
+import { getNewKeypair } from 'solutils';
+
+const { keypair } = getKeypairFromFile();
 ```
 
 ##### getKeypairFromSecretKey()

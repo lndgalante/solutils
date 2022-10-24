@@ -1,10 +1,18 @@
 import { Keypair, PublicKey } from '@solana/web3.js';
 
 // common
-import { getTruncatedText } from '../common/strings';
+import { getTruncatedText } from '../common';
 
 export function getNewKeypair(): { keypair: Keypair } {
   const keypair = Keypair.generate();
+  return { keypair };
+}
+
+export function getKeypairFromFile(path?: string): { keypair: Keypair } {
+  const parsedPath = path ?? `${require('os').homedir()}/.config/solana/id.json`;
+  const fileContent = JSON.parse(require('fs').readFileSync(parsedPath, 'utf-8'));
+  const keypair = Keypair.fromSecretKey(Buffer.from(fileContent));
+
   return { keypair };
 }
 
