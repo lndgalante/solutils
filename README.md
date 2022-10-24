@@ -725,10 +725,10 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleRequestPDA}>Request PDA</button>
-      {state === 'iddle' ? <p>Haven't request any PDA yet</p> : null}
-      {state === 'loading' ? <p>Requesting PDA...</p> : null}
-      {state === 'success' ? <p>We successfully get PDA address: {result.pdaAddress}</p> : null}
-      {state === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'iddle' ? <p>Haven't request any PDA yet</p> : null}
+      {status === 'loading' ? <p>Requesting PDA...</p> : null}
+      {status === 'success' ? <p>We successfully get PDA address: {result.pdaAddress}</p> : null}
+      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
     </div>
   );
 }
@@ -777,8 +777,8 @@ function DemoComponent() {
     <div>
       {result === true ? <p>All systems are operational</p> : null}
       {result === false ? <p>Blockchain is having some issues</p> : null}
-      {state === 'loading' ? <p>Requesting blockchain status</p> : null}
-      {state === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'loading' ? <p>Requesting blockchain status</p> : null}
+      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
     </div>
   );
 }
@@ -848,7 +848,7 @@ function DemoComponent() {
       <button onClick={handleSolRequest}>Request Airdrop</button>
       {status === 'iddle' ? <p>Haven't request any SOL yet</p> : null}
       {status === 'loading' ? <p>Airdroping your SOL tokens</p> : null}
-      {state === 'success' ? (
+      {status === 'success' ? (
         <div>
           <p>Your {SOL} tokens have arrived, check your wallet!</p>
           <p>Transaction signature: {result.transactionSignature}</p>
@@ -893,9 +893,9 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleUserBalanceRequest}>Send {SOL_TO_SEND} SOL tokens</button>
-      {state === 'iddle' ? <p>Haven't sent any SOL yet</p> : null}
-      {state === 'loading' ? <p>Sending your SOL tokens</p> : null}
-      {state === 'success' ? (
+      {status === 'iddle' ? <p>Haven't sent any SOL yet</p> : null}
+      {status === 'loading' ? <p>Sending your SOL tokens</p> : null}
+      {status === 'success' ? (
         <div>
           <p>We successfully sent: {SOL_TO_SEND} SOL</p>
           <p>Transaction signature: {result.transactionSignature}</p>
@@ -907,7 +907,7 @@ function DemoComponent() {
           </a>
         </div>
       ) : null}
-      {state === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
     </div>
   );
 }
