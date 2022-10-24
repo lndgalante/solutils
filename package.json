@@ -1,6 +1,6 @@
 {
-  "name": "solutils",
-  "version": "0.0.1",
+  "name": "sol-utils",
+  "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
   "author": {
@@ -19,13 +19,12 @@
   "devDependencies": {
     "@types/pako": "^2.0.0",
     "@types/react": "^18.0.21",
-    "np": "^7.6.2",
     "prettier": "^2.7.1",
     "tsup": "^6.3.0",
     "typescript": "^4.8.4"
   },
   "scripts": {
     "build": "tsup",
-    "release": "np"
+    "release": "npx np"
   }
 }
