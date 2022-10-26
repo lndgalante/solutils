@@ -1,11 +1,9 @@
-import { clusterApiUrl, Connection, Cluster } from '@solana/web3.js';
+import { Connection, Cluster } from '@solana/web3.js';
 
-export function getClusterConnection(cluster: Cluster): {
+export function getNewConnection(endpoint: string): {
   connection: Connection;
 } {
-  const clusterUrl = clusterApiUrl(cluster);
-  const connection = new Connection(clusterUrl);
-
+  const connection = new Connection(endpoint);
   return { connection };
 }
 
@@ -21,7 +19,7 @@ export function getClusterName(cluster: Cluster): { clusterName: string } {
 }
 
 export async function getClusterNameFromEndpoint(
-  endpoint: string
+  endpoint: string,
 ): Promise<{ clusterName: Cluster | 'localnet' | 'unknown' }> {
   if (endpoint.includes('localhost') || endpoint.includes('127.0.0.1')) {
     return { clusterName: 'localnet' };
@@ -29,6 +27,7 @@ export async function getClusterNameFromEndpoint(
 
   const connection = new Connection(endpoint);
   const genesisHash = await connection.getGenesisHash();
+
   switch (genesisHash) {
     case 'EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG':
       return { clusterName: 'devnet' };

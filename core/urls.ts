@@ -1,10 +1,15 @@
 import { Cluster, clusterApiUrl } from '@solana/web3.js';
 
 function getClusterSuffix(connectionUrl: Cluster): { clusterSuffix: string } {
-  if (connectionUrl === 'mainnet-beta') return { clusterSuffix: '?cluster=mainnet' };
-  if (connectionUrl === 'devnet') return { clusterSuffix: '?cluster=devnet' };
+  if (connectionUrl === 'mainnet-beta') {
+    return { clusterSuffix: '?cluster=mainnet' };
+  }
 
-  return { clusterSuffix: '' };
+  if (connectionUrl === 'devnet') {
+    return { clusterSuffix: '?cluster=devnet' };
+  }
+
+  throw new Error('Unknown cluster');
 }
 
 export function getSolanaExplorerUrl(signature: string, clusterSuffix: string): { url: string } {
@@ -66,7 +71,7 @@ export function getExplorerUrl(
     return getSolanaBeach(signature, clusterSuffix);
   }
 
-  return { url: '' };
+  throw new Error('Unknown explorer');
 }
 
 export type AllExplorerUrls = {
