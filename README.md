@@ -957,4 +957,4 @@ function DemoComponent() {
 
 ### Authors
 
-Thanks to Alejandro (@afreitezzz) for creating the logo!
+Thanks to Alejandro [@afreitezzz](https://twitter.com/afreitezzz) for creating the logo!
