@@ -19,7 +19,7 @@
   <details>
     <summary>Methods</summary>
 
-  - [getClusterConnection()](#getClusterConnection)
+  - [getNewConnection()](#getNewConnection)
   - [getClusterName()](#getClusterName)
   - [getClusterNameFromEndpoint()](#getClusterNameFromEndpoint)
 
@@ -149,20 +149,21 @@
 
 #### Cluster
 
-##### getClusterConnection()
+##### getNewConnection()
 
 _Definition_
 
-Establish a JSON RPC connection from a particular cluster (devnet, testnet or mainnet) or a custom endpoint and return a [Connection](https://docs.solana.com/developing/clients/javascript-reference#connection) object.
+Establish a JSON RPC connection from a provided endpoint and return a [Connection](https://docs.solana.com/developing/clients/javascript-reference#connection) object.
 
 > ⚠️ WARNING: You shouldn't use this method if you're using [@solana/wallet-adapter-react](https://github.com/solana-labs/wallet-adapter) since you have this method in a hook form.
 
 _Example_
 
 ```typescript
-import { getClusterConnection } from 'solutils';
+import { getRpcEndpointUrl, getNewConnection } from 'solutils';
 
-const { connection } = getClusterConnection('devnet');
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { connection } = getNewConnection(rpcEndpointUrl);
 
 // Then trigger any API method from connection
 connection.getSlot().then((slot) => console.log(slot));
@@ -449,10 +450,11 @@ Returns a serialized buffer from a data array, to afterwards use in your instruc
 _Example_
 
 ```typescript
-import { getClusterConnection, getEncodedBufferFromData, getSolanaExplorerUrl } from 'solutils';
 import { Transaction, TransactionInstruction, sendAndConfirmTransaction } from '@solana/web3.js';
+import { getRpcEndpointUrl, getNewConnection, getEncodedBufferFromData, getExplorerUrl } from 'solutils';
 
-const connection = getClusterConnection('devnet');
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'devnet');
+const connection = getNewConnection(rpcEndpointUrl);
 
 const data = [
   { label: 'variant', type: 'u8', value: 2 },
@@ -472,8 +474,8 @@ const instruction = new TransactionInstruction({
 transaction.add(instruction);
 
 sendAndConfirmTransaction(connection, transaction, [EXAMPLE_SIGNER]).then((transactionSignature) => {
-  const { solanaExplorerUrl } = getSolanaExplorerUrl(transactionSignature, 'devnet');
-  console.log(`Transaction submitted: ${solanaExplorerUrl}`);
+  const { url } = getExplorerUrl('solana-explorer', transactionSignature, 'devnet');
+  console.log(`Transaction submitted: ${url}`);
 });
 ```
 
@@ -520,7 +522,7 @@ _Example_
 ```typescript
 import { getEmptyBuffer } from 'solutils';
 
-const connection = getClusterConnection('devnet');
+const connection = getNewConnection('devnet');
 
 const { instructionBuffer } = getEmptyBuffer(data);
 
@@ -534,8 +536,8 @@ const instruction = new TransactionInstruction({
 transaction.add(instruction);
 
 sendAndConfirmTransaction(connection, transaction, [EXAMPLE_SIGNER]).then((transactionSignature) => {
-  const { solanaExplorerUrl } = getSolanaExplorerUrl(transactionSignature, 'devnet');
-  console.log(`Transaction submitted: ${solanaExplorerUrl}`);
+  const { url } = getExplorerUrl('solana-explorer', transactionSignature, 'devnet');
+  console.log(`Transaction submitted: ${url}`);
 });
 ```
 
@@ -556,7 +558,7 @@ import { getTransactionDetails } from 'solutils';
 
 const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
 
-const { connection } = getClusterConnection('mainnet-beta');
+const { connection } = getNewConnection('mainnet-beta');
 const { transactionDetails } = getTransactionDetails(transactionSignature, connection);
 
 console.log(transactionDetails);
