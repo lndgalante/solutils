@@ -950,3 +950,9 @@ function DemoComponent() {
   const { provider } = useAnchorProvider();
 }
 ```
+
+---
+
+### Authors
+
+Thanks to Alejandro (@afreitezzz) for creating the logo!
