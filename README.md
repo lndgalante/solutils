@@ -1,6 +1,6 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/lndgalante/solutils/main/docs/solutils-white.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/lndgalante/solutils/main/docs/solutils-light.svg">
     <img alt="solutils logo" src="https://raw.githubusercontent.com/lndgalante/solutils/main/docs/solutils-dark.svg" width="auto" height="90">
   </picture>
 </p>
