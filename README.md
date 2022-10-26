@@ -153,7 +153,7 @@
 
 _Definition_
 
-Establish a JSON RPC connection from a particular cluster (devnet, testnet or mainnet) and return a [Connection](https://docs.solana.com/developing/clients/javascript-reference#connection) object.
+Establish a JSON RPC connection from a particular cluster (devnet, testnet or mainnet) or a custom endpoint and return a [Connection](https://docs.solana.com/developing/clients/javascript-reference#connection) object.
 
 > ⚠️ WARNING: You shouldn't use this method if you're using [@solana/wallet-adapter-react](https://github.com/solana-labs/wallet-adapter) since you have this method in a hook form.
 
