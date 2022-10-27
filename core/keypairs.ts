@@ -8,13 +8,22 @@ export function getNewKeypair(): { keypair: Keypair } {
   return { keypair };
 }
 
+/*
+
+TODO: Make Node.js methods work when importing library on the browser
+
 export function getKeypairFromFile(path?: string): { keypair: Keypair } {
+  if (typeof window !== 'undefined') {
+    throw new Error('getKeypairFromFile() is not supported in Browsers');
+  }
+
   const parsedPath = path ?? `${require('os').homedir()}/.config/solana/id.json`;
   const fileContent = JSON.parse(require('fs').readFileSync(parsedPath, 'utf-8'));
   const keypair = Keypair.fromSecretKey(Buffer.from(fileContent));
 
   return { keypair };
 }
+*/
 
 export function getKeypairFromSecretKey(secret: number[]): { keypair: Keypair } {
   const secretKey = Uint8Array.from(secret);
