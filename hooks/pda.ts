@@ -53,11 +53,11 @@ export function usePdaFromUserPublicKeyAndProgramAddress(): {
       const result = { pdaPublickKey, pdaAddress, bump };
 
       setStatus('success');
-      setResult(result);
+      setResult(result as ResultState);
 
       return result;
     } catch (error) {
-      setError(error);
+      setError(error as Error);
       setStatus('error');
       return null;
     }

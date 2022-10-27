@@ -66,7 +66,7 @@ export function useRequestSolAirdrop() {
 
       return result;
     } catch (error) {
-      setError(error);
+      setError(error as Error);
       setStatus('error');
       return null;
     }
@@ -100,7 +100,7 @@ export function useUserBalance() {
 
       return sol;
     } catch (error) {
-      setError(error);
+      setError(error as Error);
       setStatus('error');
       return null;
     }
@@ -161,7 +161,7 @@ export function useTransferSolTokens() {
 
       return result;
     } catch (error) {
-      setError(error);
+      setError(error as Error);
       setStatus('error');
       return null;
     }

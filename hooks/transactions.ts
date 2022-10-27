@@ -38,7 +38,7 @@ export async function useTransactionDetails(transactionSignature: TransactionSig
         setResult(transactionDetails);
         setStatus('success');
       } catch (error) {
-        setError(error);
+        setError(error as Error);
         setStatus('error');
       }
     }

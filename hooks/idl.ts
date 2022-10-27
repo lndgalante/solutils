@@ -49,7 +49,7 @@ export function useRequestIdlFromAddress(): {
 
       return { idl };
     } catch (error) {
-      setError(error);
+      setError(error as Error);
       setStatus('error');
       return { idl: null };
     }
