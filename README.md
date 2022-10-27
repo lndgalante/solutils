@@ -13,6 +13,8 @@
 
 > This library is still a WIP, so community help and feedback is more than welcome.
 
+> ⚠️ Library is still not published at NPM, coming soon ⚠️
+
 ### Summary
 
 - [Cluster](#Cluster)
