@@ -10,6 +10,7 @@
   "files": [
     "dist/"
   ],
+  "repository": "git://github.com/lndgalante/solutils.git",
   "dependencies": {
     "@project-serum/anchor": "^0.25.0",
     "@project-serum/borsh": "^0.2.5",
@@ -22,7 +23,7 @@
   "devDependencies": {
     "@types/pako": "^2.0.0",
     "@types/react": "^18.0.23",
-    "prettier": "^2.7.1",
+    "npm publish --dry-runettier": "^2.7.1",
     "tsup": "^6.3.0",
     "typescript": "^4.8.4"
   },
