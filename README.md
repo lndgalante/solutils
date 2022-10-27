@@ -173,8 +173,6 @@ pnpm add @lndgalante/solutils
 
 ##### getNewConnection()
 
-_Definition_
-
 Establish a JSON RPC connection from a provided endpoint and return a [Connection](https://docs.solana.com/developing/clients/javascript-reference#connection) object.
 
 > ⚠️ WARNING: You shouldn't use this method if you're using [@solana/wallet-adapter-react](https://github.com/solana-labs/wallet-adapter) since you have this method in a hook form.
@@ -182,7 +180,7 @@ Establish a JSON RPC connection from a provided endpoint and return a [Connectio
 _Example_
 
 ```typescript
-import { getRpcEndpointUrl, getNewConnection } from 'solutils';
+import { getRpcEndpointUrl, getNewConnection } from '@lndgalante/solutils';
 
 const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
 const { connection } = getNewConnection(rpcEndpointUrl);
@@ -191,16 +189,16 @@ const { connection } = getNewConnection(rpcEndpointUrl);
 connection.getSlot().then((slot) => console.log(slot));
 ```
 
-##### getClusterName()
+[Codesandbox](https://codesandbox.io/s/solutils-usesolanastatus-vj8uy9?file=/src/App.js)
 
-_Definition_
+##### getClusterName()
 
 It returns a parsed name from your cluster name.
 
 _Example_
 
 ```typescript
-import { getClusterName } from 'solutils';
+import { getClusterName } from '@lndgalante/solutils';
 
 const { clusterName } = getClusterName('mainnet-beta');
 
@@ -209,14 +207,12 @@ console.log(clusterName); // "Mainnet"
 
 ##### getClusterNameFromEndpoint()
 
-_Definition_
-
 It returns the cluster name from any endpoint. This is especially useful when you want to know which cluster the user is on when they are using a custom endpoint.
 
 _Example_
 
 ```typescript
-import { getClusterNameFromEndpoint } from 'solutils';
+import { getClusterNameFromEndpoint } from '@lndgalante/solutils';
 
 const { clusterName } = await getClusterNameFromEndpoint('https://solana-api.projectserum.com');
 
@@ -229,21 +225,17 @@ console.log(clusterName); // "mainnet-beta"
 
 ##### getNewKeypair()
 
-_Definition_
-
 It returns a new account keypair that could be used for testing purposes like signing transactions.
 
 _Example_
 
 ```typescript
-import { getNewKeypair } from 'solutils';
+import { getNewKeypair } from '@lndgalante/solutils';
 
 const { keypair } = getNewKeypair();
 ```
 
 ##### getKeypairFromFile()
-
-_Definition_
 
 It returns a keypair by reading a secret key from a filepath, if not path is specified it will use defaults Solana path which is `~/.config/solana/id.json`.
 
@@ -252,21 +244,19 @@ It returns a keypair by reading a secret key from a filepath, if not path is spe
 _Example_
 
 ```typescript
-import { getNewKeypair } from 'solutils';
+import { getNewKeypair } from '@lndgalante/solutils';
 
 const { keypair } = getKeypairFromFile();
 ```
 
 ##### getKeypairFromSecretKey()
 
-_Definition_
-
 It returns an account keypair from a secret key, needed when you have a secret key but not the public key related.
 
 _Example_
 
 ```typescript
-import { getKeypairFromSecretKey, getAddressFromPublicKey } from 'solutils';
+import { getKeypairFromSecretKey, getAddressFromPublicKey } from '@lndgalante/solutils';
 
 const secretKey = [
   134, 98, 243, 255, 26, 77, 24, 179, 246, 4, 71, 250, 137, 117, 154, 223, 245, 56, 40, 129, 83, 9, 251, 155, 79, 73,
@@ -282,14 +272,12 @@ console.log(address); // BV4uLAAaPtQSZRYrvwvFzn2fJJkinLQJb73mnhgPYfDM
 
 ##### getAddressFromPublicKey()
 
-_Definition_
-
 Returns an account address from a public key object.
 
 _Example_
 
 ```typescript
-import { getNewKeypair, getAddressFromPublicKey } from 'solutils';
+import { getNewKeypair, getAddressFromPublicKey } from '@lndgalante/solutils';
 
 const { keypair } = getNewKeypair();
 const { address } = getAddressFromPublicKey(keypair.publicKey);
@@ -299,14 +287,12 @@ console.log(address); // G9KwiPLZyC52zrSsHnbf9FPnuHu77CDAeGoVkSa1wS8R
 
 ##### getPublicKeyFromAddress()
 
-_Definition_
-
 Returns an account public key from an address string.
 
 _Example_
 
 ```typescript
-import { getPublicKeyFromAddres } from 'solutils';
+import { getPublicKeyFromAddres } from '@lndgalante/solutils';
 
 const address = 'G9KwiPLZyC52zrSsHnbf9FPnuHu77CDAeGoVkSa1wS8R';
 const { publicKey } = getPublicKeyFromAddres(address);
@@ -314,14 +300,12 @@ const { publicKey } = getPublicKeyFromAddres(address);
 
 ##### getIsValidPublicKey()
 
-_Definition_
-
 Validates if a public key is correct or not.
 
 _Example_
 
 ```typescript
-import { getNewKeypair, getIsValidPublicKey } from 'solutils';
+import { getNewKeypair, getIsValidPublicKey } from '@lndgalante/solutils';
 
 const { keypair } = getNewKeypair();
 const { isValid } = getIsValidPublicKey(keypair.publicKey);
@@ -331,14 +315,12 @@ console.log(isValid); // true
 
 ##### getShortAddress()
 
-_Definition_
-
 Returns a shorter string from your address.
 
 _Example_
 
 ```typescript
-import { getShortAddress } from 'solutils';
+import { getShortAddress } from '@lndgalante/solutils';
 
 const address = 'BV4uLAAaPtQSZRYrvwvFzn2fJJkinLQJb73mnhgPYfDM';
 const { shortAddress } = getShortAddress(address);
@@ -352,14 +334,12 @@ console.log(shortAddress); // "BV4u...YfDM"
 
 ##### getLamportsToSol()
 
-_Definition_
-
 Converts lamports units to SOL units. Optionally send a second argument to define amount of digits to truncate without rounding.
 
 _Example_
 
 ```typescript
-import { getLamportsToSol } from 'solutils';
+import { getLamportsToSol } from '@lndgalante/solutils';
 
 const { sol } = getLamportsToSol(3005000000);
 
@@ -367,7 +347,7 @@ console.log(sol); // 3.005
 ```
 
 ```typescript
-import { getLamportsToSol } from 'solutils';
+import { getLamportsToSol } from '@lndgalante/solutils';
 
 const { sol } = getLamportsToSol(3345400000, 2);
 
@@ -376,14 +356,12 @@ console.log(sol); // 3.34
 
 ##### getSolToLamports()
 
-_Definition_
-
 Converts lamports units to SOL units.
 
 _Example_
 
 ```typescript
-import { getSolToLamports } from 'solutils';
+import { getSolToLamports } from '@lndgalante/solutils';
 
 const { lamports } = getSolToLamports(2.5);
 
@@ -396,8 +374,6 @@ console.log(lamports); // 2500000000
 
 ##### getRpcEndpointUrl()
 
-_Definition_
-
 Returns a RPC endpoint by defining a provider and a cluster type.
 
 Current supported RPC providers are: [Solana](https://solana.com/rpc), [Project Serum](https://github.com/project-serum/awesome-serum#rpc-servers), [GenesysGo](https://shdw.genesysgo.com/genesysgo/the-genesysgo-rpc-network), [AllThatNode](https://www.allthatnode.com/solana.dsrv), [Blockdaemon](https://try.blockdaemon.com/rpc/solana), [Ankr](https://www.ankr.com/rpc/solana), [GetBlock](https://getblock.io/nodes/sol), and [Alchemy](https://www.alchemy.com/solana). Being Alchemy the only one that needs an API key that will be received as a third parameter.
@@ -407,7 +383,7 @@ Current supported RPC providers are: [Solana](https://solana.com/rpc), [Project 
 _Example_
 
 ```typescript
-import { getRpcEndpointUrl } from 'solutils';
+import { getRpcEndpointUrl } from '@lndgalante/solutils';
 
 const { rpcEndpointUrl: solanaMainnetRpc } = getRpcEndpointUrl('solana', 'mainnet');
 console.log(solanaMainnetRpc); // "https://api.mainnet-beta.solana.com"
@@ -418,8 +394,6 @@ console.log(genesysGoRpc); // "https://devnet.genesysgo.net"
 
 ##### getExplorerUrl()
 
-_Definition_
-
 Returns a Solana explorer url explorer type that could be [Solana Explorer](https://explorer.solana.com), [Solscan](https://solscan.io), [SolanaFM](https://solana.fm), or [Solana Beach](https://solanabeach.io), and a transaction siganture, block or address.
 It automatically switches between a transaction, block, or address url parameter based on its length.
 By default uses Mainnet cluster, but optionally takes a cluster as third parameter.
@@ -427,7 +401,7 @@ By default uses Mainnet cluster, but optionally takes a cluster as third paramet
 _Example_
 
 ```typescript
-import { getExplorerUrl } from 'solutils';
+import { getExplorerUrl } from '@lndgalante/solutils';
 
 const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
 const { url: solanaExplorerUrl } = getExplorerUrl('solana-explorer', transactionSignature);
@@ -440,14 +414,12 @@ console.log(solscanUrl); // "https://solscan.io/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM
 
 ##### getAllExplorersUrl()
 
-_Definition_
-
 Returns all explorer URLs from [Solana Explorer](https://explorer.solana.com), [Solscan](https://solscan.io), [SolanaFM](https://solana.fm), and [Solana Beach](https://solanabeach.io).
 
 _Example_
 
 ```typescript
-import { getAllExplorersUrl } from 'solutils';
+import { getAllExplorersUrl } from '@lndgalante/solutils';
 
 const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
 const { urls } = getAllExplorersUrl(transactionSignature);
@@ -463,8 +435,6 @@ console.log(urls.solscanUrl); // "https://solscan.io/tx/5iY4JfaVwEBBfVvhrBqqWc3F
 
 ##### getEncodedBufferFromData()
 
-_Definition_
-
 Returns a serialized buffer from a data array, to afterwards use in your instructions.
 
 > ⚠️ WARNING: Data sent to getEncodedBufferFromData should be in correct order that the program receives it.
@@ -473,7 +443,7 @@ _Example_
 
 ```typescript
 import { Transaction, TransactionInstruction, sendAndConfirmTransaction } from '@solana/web3.js';
-import { getRpcEndpointUrl, getNewConnection, getEncodedBufferFromData, getExplorerUrl } from 'solutils';
+import { getRpcEndpointUrl, getNewConnection, getEncodedBufferFromData, getExplorerUrl } from '@lndgalante/solutils';
 
 const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'devnet');
 const connection = getNewConnection(rpcEndpointUrl);
@@ -503,8 +473,6 @@ sendAndConfirmTransaction(connection, transaction, [EXAMPLE_SIGNER]).then((trans
 
 ##### getDecodedDataFromBufferAndSchema()
 
-_Definition_
-
 Returns a serialized buffer from a data array, to afterwards use in your instructions.
 
 > ⚠️ WARNING: Data sent to getEncodedBufferFromData should be in correct order that the program receives it.
@@ -512,7 +480,7 @@ Returns a serialized buffer from a data array, to afterwards use in your instruc
 _Example_
 
 ```typescript
-import { getDecodedDataFromBufferAndSchema, getEncodedBufferFromData } from 'solutils';
+import { getDecodedDataFromBufferAndSchema, getEncodedBufferFromData } from '@lndgalante/solutils';
 
 // required initial schema
 const schema = [
@@ -535,14 +503,12 @@ const data = getDecodedDataFromBufferAndSchema(schema, instructionBuffer);
 
 ##### getEmptyBuffer()
 
-_Definition_
-
 Returns an empty buffer, needed when no data is mandatory to send to a Program.
 
 _Example_
 
 ```typescript
-import { getEmptyBuffer } from 'solutils';
+import { getEmptyBuffer } from '@lndgalante/solutils';
 
 const connection = getNewConnection('devnet');
 
@@ -569,14 +535,12 @@ sendAndConfirmTransaction(connection, transaction, [EXAMPLE_SIGNER]).then((trans
 
 ##### getTransactionDetails()
 
-_Definition_
-
 Returns all details related to a transaction by sending its signature.
 
 _Example_
 
 ```typescript
-import { getTransactionDetails } from 'solutils';
+import { getTransactionDetails } from '@lndgalante/solutils';
 
 const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
 
@@ -588,14 +552,12 @@ console.log(transactionDetails);
 
 ##### useTransactionDetails()
 
-_Definition_
-
 Same as previous method but in a hook form, accepting an `autoTrigger` which by defaults is true to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
 
 _Example_
 
 ```tsx
-import { useTransactionDetails } from 'solutils';
+import { useTransactionDetails } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // constants
@@ -607,7 +569,7 @@ function DemoComponent() {
 
   return (
     <div>
-      {status === 'iddle' ? <p>Haven't request any transaction details yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t request any transaction details yet</p> : null}
       {status === 'loading' ? <p>Requesting your transaction details</p> : null}
       {status === 'success' ? <pre>{JSON.stringify(null, 2, result)}</pre> : null}
       {status === 'error' ? <p>Ups, something wrong happened</p> : null}
@@ -622,15 +584,13 @@ function DemoComponent() {
 
 ##### getIdlFromAddress()
 
-_Definition_
-
 Returns IDL from an specific address. Optionally you can use a different cluster as a second parameter, which by default will be `'mainnet-beta'`.
 You can use this method in a hook form [useRequestIdlFromAddress()](#####useRequestIdlFromAddress>).
 
 _Example_
 
 ```typescript
-import { getRpcEndpointUrl, getNewConnection, getIdlFromAddress } from 'solutils';
+import { getRpcEndpointUrl, getNewConnection, getIdlFromAddress } from '@lndgalante/solutils';
 
 async function example() {
   const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
@@ -647,14 +607,12 @@ example();
 
 ##### getInstructionFromIdl()
 
-_Definition_
-
 Returns a IDL instruction data (account and arguments) given his name.
 
 _Example_
 
 ```typescript
-import { getIdlFromAddress, getInstructionFromIdl } from 'solutils';
+import { getIdlFromAddress, getInstructionFromIdl } from '@lndgalante/solutils';
 
 async function example() {
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
@@ -682,14 +640,12 @@ example();
 
 ##### useRequestIdlFromAddress()
 
-_Definition_
-
 Returns a IDL from a particular address
 
 _Example_
 
 ```tsx
-import { useRequestIdlFromAddress } from 'solutils';
+import { useRequestIdlFromAddress } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
@@ -707,7 +663,7 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleIdlRequest}>Request IDL</button>
-      {status === 'iddle' ? <p>Haven't request any IDL yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t request any IDL yet</p> : null}
       {status === 'loading' ? <p>Requesting your IDL</p> : null}
       {status === 'success' ? <pre>{JSON.stringify(null, 2, idl)}</pre> : null}
       {status === 'error' ? <p>Ups, something wrong happened</p> : null}
@@ -722,14 +678,12 @@ function DemoComponent() {
 
 ##### getPdaFromSeedAndProgramAddress()
 
-_Definition_
-
 Returns PDAs public key and address from a string seed and a program address.
 
 _Example_
 
 ```typescript
-import { getPdaFromSeedAndProgramAddress } from 'solutils';
+import { getPdaFromSeedAndProgramAddress } from '@lndgalante/solutils';
 
 async function example() {
   const SEED = 'SOME_RANDOM_SEED';
@@ -743,14 +697,12 @@ example();
 
 ##### usePdaFromUserPublicKeyAndProgramAddress()
 
-_Definition_
-
 Use it to get PDA public key and address using public key from user connected wallet and a pogram address. Optionally `getPdaFromUserPublicKeyAndProgramAddress` accepts a second argument with a seeds string array.
 
 _Example_
 
 ```tsx
-import { usePdaFromUserPublicKeyAndProgramAddress } from 'solutils';
+import { usePdaFromUserPublicKeyAndProgramAddress } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
@@ -769,7 +721,7 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleRequestPDA}>Request PDA</button>
-      {status === 'iddle' ? <p>Haven't request any PDA yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t request any PDA yet</p> : null}
       {status === 'loading' ? <p>Requesting PDA...</p> : null}
       {status === 'success' ? <p>We successfully get PDA address: {result.pdaAddress}</p> : null}
       {status === 'error' ? <p>Ups, something wrong happened</p> : null}
@@ -784,14 +736,12 @@ function DemoComponent() {
 
 ##### getSolanaStatus()
 
-_Definition_
-
 Returns a `isHealthy` boolean to know blockchain current status
 
 _Example_
 
 ```typescript
-import { getSolanaStatus } from 'solutils';
+import { getSolanaStatus } from '@lndgalante/solutils';
 
 async function example() {
   const { isHealthy } = await getSolanaStatus();
@@ -804,14 +754,12 @@ example();
 
 ##### useSolanaStatus()
 
-_Definition_
-
 Same as previous method but by default re-fetchs Solana status every 30 seconds. Optionally refetching can be disabled using a false flag as a first parameter, and refetch interval could be also modified in ms as a second parameter.
 
 _Example_
 
 ```tsx
-import { useSolanaStatus } from 'solutils';
+import { useSolanaStatus } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
@@ -828,20 +776,20 @@ function DemoComponent() {
 }
 ```
 
+[Codesandbox](https://codesandbox.io/s/solutils-usesolanastatus-vj8uy9?file=/src/App.js)
+
 ---
 
 #### Tokens
 
 ##### useUserBalance()
 
-_Definition_
-
 Returns user current balance in SOL.
 
 _Example_
 
 ```tsx
-import { useUserBalance } from 'solutils';
+import { useUserBalance } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
@@ -855,7 +803,7 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleUserBalanceRequest}>Request user balance</button>
-      {status === 'iddle' ? <p>Haven't request any SOL balance yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t request any SOL balance yet</p> : null}
       {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
       {status === 'success' ? <p>We successfully get your balance: {userBalance} SOL</p> : null}
       {status === 'error' ? <p>Ups, something wrong happened</p> : null}
@@ -866,14 +814,12 @@ function DemoComponent() {
 
 ##### useRequestSolAirdrop()
 
-_Definition_
-
 Returns a function to request SOL airdrop for the connected wallet and a status variable to track transaction state.
 
 _Example_
 
 ```tsx
-import { useRequestSolAirdrop } from 'solutils';
+import { useRequestSolAirdrop } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
@@ -890,16 +836,16 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleSolRequest}>Request Airdrop</button>
-      {status === 'iddle' ? <p>Haven't request any SOL yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t request any SOL yet</p> : null}
       {status === 'loading' ? <p>Airdroping your SOL tokens</p> : null}
       {status === 'success' ? (
         <div>
           <p>Your {SOL} tokens have arrived, check your wallet!</p>
           <p>Transaction signature: {result.transactionSignature}</p>
-          <a href={result.urls.solscanUrl} target='_blank'>
+          <a href={result.urls.solscanUrl} target='_blank' rel='noreferrer'>
             Solscan
           </a>
-          <a href={result.urls.solanaExplorerUrl} target='_blank'>
+          <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
             Solana Explorer
           </a>
         </div>
@@ -912,21 +858,19 @@ function DemoComponent() {
 
 ##### useTransferSolTokens()
 
-_Definition_
-
 Use it to transfer SOL tokens from connected wallet to a specific address.
 
 _Example_
 
 ```tsx
-import { useTransferSolTokens } from 'solutils';
+import { useTransferSolTokens } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
   const { getTransferSolTokensReceipt, result, status, error } = useTransferSolTokens();
 
   // constants
-  const SOL_TO_SEND = 0.5;
+  const SOL_TO_SEND = 0.0001;
   const ADDRESS_TO_SEND = '5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc';
 
   // handlers
@@ -937,16 +881,16 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleUserBalanceRequest}>Send {SOL_TO_SEND} SOL tokens</button>
-      {status === 'iddle' ? <p>Haven't sent any SOL yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t sent any SOL yet</p> : null}
       {status === 'loading' ? <p>Sending your SOL tokens</p> : null}
-      {status === 'success' ? (
+      {status === 'success' && result ? (
         <div>
           <p>We successfully sent: {SOL_TO_SEND} SOL</p>
           <p>Transaction signature: {result.transactionSignature}</p>
-          <a href={result.urls.solscanUrl} target='_blank'>
+          <a href={result.urls.solscanUrl} target='_blank' rel='noreferrer'>
             Solscan
           </a>
-          <a href={result.urls.solanaExplorerUrl} target='_blank'>
+          <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
             Solana Explorer
           </a>
         </div>
@@ -963,14 +907,12 @@ function DemoComponent() {
 
 ##### useAnchorProvider()
 
-_Definition_
-
 Returns an anchor provider receiving optionally a keypair parameter.
 
 _Example_
 
 ```tsx
-import { useAnchorProvider } from 'solutils';
+import { useAnchorProvider } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
