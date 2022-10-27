@@ -103,7 +103,7 @@ export type Provider =
   | 'ankr'
   | 'getblock'
   | 'alchemy';
-export type Network = 'mainnet' | 'devnet' | 'testnet';
+export type Network = 'mainnet' | 'devnet';
 
 export function getRpcEndpointUrl(provider: Provider, network: Network, apiKey?: string): { rpcEndpointUrl: string } {
   const endpoints = {
@@ -114,7 +114,7 @@ export function getRpcEndpointUrl(provider: Provider, network: Network, apiKey?:
     solana: {
       mainnet: clusterApiUrl('mainnet-beta'),
       devnet: clusterApiUrl('devnet'),
-      testnet: clusterApiUrl('testnet'),
+      // testnet: clusterApiUrl('testnet'), TODO: Fix for testnet type definition
     },
     serum: {
       mainnet: 'https://solana-api.projectserum.com',
