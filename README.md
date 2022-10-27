@@ -610,11 +610,14 @@ You can use this method in a hook form [useRequestIdlFromAddress()](#####useRequ
 _Example_
 
 ```typescript
-import { getIdlFromAddress } from 'solutils';
+import { getRpcEndpointUrl, getNewConnection, getIdlFromAddress } from 'solutils';
 
 async function example() {
+  const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+  const { connection } = getNewConnection(rpcEndpointUrl);
+
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
-  const { idl } = await getIdlFromAddress(address);
+  const { idl } = await getIdlFromAddress(address, connection);
 
   console.log(idl); // { version: '4.4.0', name: 'candy_machine', ... }
 }
