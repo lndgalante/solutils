@@ -15,7 +15,7 @@
 
 ### Installation
 
-At the moment package is scoped, but scope will be removed soon.
+⚠️ At the moment the package is scoped, but scope will be removed soon. ⚠️
 
 NPM
 
@@ -165,7 +165,7 @@ pnpm add @lndgalante/solutils
 
   </details>
 
-> Solana Pay, and NFT helpers coming soon!
+> Solana Pay and NFT helpers coming soon!
 
 ---
 
@@ -173,7 +173,7 @@ pnpm add @lndgalante/solutils
 
 ##### getNewConnection()
 
-Establish a JSON RPC connection from a provided endpoint and return a [Connection](https://docs.solana.com/developing/clients/javascript-reference#connection) object.
+Establishes a JSON RPC connection from a provided endpoint and returns a [Connection](https://docs.solana.com/developing/clients/javascript-reference#connection) object.
 
 > ⚠️ WARNING: You shouldn't use this method if you're using [@solana/wallet-adapter-react](https://github.com/solana-labs/wallet-adapter) since you have this method in a hook form.
 
@@ -193,7 +193,7 @@ connection.getSlot().then((slot) => console.log(slot));
 
 ##### getClusterName()
 
-It returns a parsed name from your cluster name.
+Returns a parsed name from your cluster name.
 
 _Example_
 
@@ -207,7 +207,7 @@ console.log(clusterName); // "Mainnet"
 
 ##### getClusterNameFromEndpoint()
 
-It returns the cluster name from any endpoint. This is especially useful when you want to know which cluster the user is on when they are using a custom endpoint.
+Returns the cluster name from any endpoint. This is especially useful when you want to know which cluster the user is on when they are using a custom endpoint.
 
 _Example_
 
@@ -225,7 +225,7 @@ console.log(clusterName); // "mainnet-beta"
 
 ##### getNewKeypair()
 
-It returns a new account keypair that could be used for testing purposes like signing transactions.
+Returns a new account keypair that could be used for testing purposes like signing transactions.
 
 _Example_
 
@@ -237,9 +237,9 @@ const { keypair } = getNewKeypair();
 
 ##### getKeypairFromFile()
 
-It returns a keypair by reading a secret key from a filepath, if not path is specified it will use defaults Solana path which is `~/.config/solana/id.json`.
+Returns a keypair by reading a secret key from a filepath, if no path is specified it will use the default Solana path which is `~/.config/solana/id.json`.
 
-> ⚠️ WARNING: This method only works on a Node.js only environment.
+> ⚠️ WARNING: This method only works on a Node.js environment.
 
 _Example_
 
@@ -251,7 +251,7 @@ const { keypair } = getKeypairFromFile();
 
 ##### getKeypairFromSecretKey()
 
-It returns an account keypair from a secret key, needed when you have a secret key but not the public key related.
+Returns an account keypair from a secret key, needed when you have a secret key but not the public key related.
 
 _Example_
 
@@ -334,7 +334,7 @@ console.log(shortAddress); // "BV4u...YfDM"
 
 ##### getLamportsToSol()
 
-Converts lamports units to SOL units. Optionally send a second argument to define amount of digits to truncate without rounding.
+Converts lamports units to SOL units. You can send a second argument to define amount of digits to truncate without rounding (Optional).
 
 _Example_
 
@@ -356,7 +356,7 @@ console.log(sol); // 3.34
 
 ##### getSolToLamports()
 
-Converts lamports units to SOL units.
+Converts SOL units to lamports units.
 
 _Example_
 
@@ -374,11 +374,11 @@ console.log(lamports); // 2500000000
 
 ##### getRpcEndpointUrl()
 
-Returns a RPC endpoint by defining a provider and a cluster type.
+Returns an RPC endpoint by defining a provider and a cluster type.
 
-Current supported RPC providers are: [Solana](https://solana.com/rpc), [Project Serum](https://github.com/project-serum/awesome-serum#rpc-servers), [GenesysGo](https://shdw.genesysgo.com/genesysgo/the-genesysgo-rpc-network), [AllThatNode](https://www.allthatnode.com/solana.dsrv), [Blockdaemon](https://try.blockdaemon.com/rpc/solana), [Ankr](https://www.ankr.com/rpc/solana), [GetBlock](https://getblock.io/nodes/sol), and [Alchemy](https://www.alchemy.com/solana). Being Alchemy the only one that needs an API key that will be received as a third parameter.
+Current supported RPC providers are: [Solana](https://solana.com/rpc), [Project Serum](https://github.com/project-serum/awesome-serum#rpc-servers), [GenesysGo](https://shdw.genesysgo.com/genesysgo/the-genesysgo-rpc-network), [AllThatNode](https://www.allthatnode.com/solana.dsrv), [Blockdaemon](https://try.blockdaemon.com/rpc/solana), [Ankr](https://www.ankr.com/rpc/solana), [GetBlock](https://getblock.io/nodes/sol), and [Alchemy](https://www.alchemy.com/solana). Being Alchemy the only one that needs an API key that should be sent as a third parameter.
 
-> ⚠️ WARNING: For production you probably want to get a paid RPC service due to service limitations.
+> ⚠️ WARNING: For production builds you probably want to get a paid RPC service due to service limitations.
 
 _Example_
 
@@ -390,12 +390,15 @@ console.log(solanaMainnetRpc); // "https://api.mainnet-beta.solana.com"
 
 const { rpcEndpointUrl: genesysGoRpc } = getRpcEndpointUrl('genesysgo', 'devnet');
 console.log(genesysGoRpc); // "https://devnet.genesysgo.net"
+
+const { rpcEndpointUrl: alchemyRpc } = getRpcEndpointUrl('alchemy', 'testnet', ALCHEMY_API_KEY);
+console.log(alchemyRpc); // "https://api.testnet.solana.co"
 ```
 
 ##### getExplorerUrl()
 
-Returns a Solana explorer url explorer type that could be [Solana Explorer](https://explorer.solana.com), [Solscan](https://solscan.io), [SolanaFM](https://solana.fm), or [Solana Beach](https://solanabeach.io), and a transaction siganture, block or address.
-It automatically switches between a transaction, block, or address url parameter based on its length.
+Returns a Solana explorer URL which type can be [Solana Explorer](https://explorer.solana.com), [Solscan](https://solscan.io), [SolanaFM](https://solana.fm), or [Solana Beach](https://solanabeach.io), with a transaction signature, block or address.
+It automatically switches between a transaction, block, or address URL parameter based on its length.
 By default uses Mainnet cluster, but optionally takes a cluster as third parameter.
 
 _Example_
@@ -435,9 +438,9 @@ console.log(urls.solscanUrl); // "https://solscan.io/tx/5iY4JfaVwEBBfVvhrBqqWc3F
 
 ##### getEncodedBufferFromData()
 
-Returns a serialized buffer from a data array, to afterwards use in your instructions.
+Returns a serialized buffer from a data array, to be used afterwards in your instructions.
 
-> ⚠️ WARNING: Data sent to getEncodedBufferFromData should be in correct order that the program receives it.
+> ⚠️ WARNING: Data sent to getEncodedBufferFromData should be in the correct order that the program receives it.
 
 _Example_
 
@@ -473,9 +476,9 @@ sendAndConfirmTransaction(connection, transaction, [EXAMPLE_SIGNER]).then((trans
 
 ##### getDecodedDataFromBufferAndSchema()
 
-Returns a serialized buffer from a data array, to afterwards use in your instructions.
+Returns a serialized buffer from a data array, to be used afterwards in your instructions.
 
-> ⚠️ WARNING: Data sent to getEncodedBufferFromData should be in correct order that the program receives it.
+> ⚠️ WARNING: Data sent to getEncodedBufferFromData should be in the correct order that the program receives it.
 
 _Example_
 
@@ -552,7 +555,7 @@ console.log(transactionDetails);
 
 ##### useTransactionDetails()
 
-Same as previous method but in a hook form, accepting an `autoTrigger` which by defaults is true to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
+Same as previous method but in a hook form, accepts an `autoTrigger` which defaults to `true` to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
 
 _Example_
 
@@ -569,10 +572,10 @@ function DemoComponent() {
 
   return (
     <div>
-      {status === 'iddle' ? <p>Haven&apos;t request any transaction details yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
       {status === 'loading' ? <p>Requesting your transaction details</p> : null}
       {status === 'success' ? <pre>{JSON.stringify(null, 2, result)}</pre> : null}
-      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
     </div>
   );
 }
@@ -584,7 +587,7 @@ function DemoComponent() {
 
 ##### getIdlFromAddress()
 
-Returns IDL from an specific address. Optionally you can use a different cluster as a second parameter, which by default will be `'mainnet-beta'`.
+Returns IDL from a specific address. Optionally, you can use a different cluster as a second parameter, which by default will be `'mainnet-beta'`.
 You can use this method in a hook form [useRequestIdlFromAddress()](#####useRequestIdlFromAddress>).
 
 _Example_
@@ -607,7 +610,7 @@ example();
 
 ##### getInstructionFromIdl()
 
-Returns a IDL instruction data (account and arguments) given his name.
+Returns IDL instruction data (account and arguments) given its name.
 
 _Example_
 
@@ -640,7 +643,7 @@ example();
 
 ##### useRequestIdlFromAddress()
 
-Returns a IDL from a particular address
+Returns an IDL from a particular address.
 
 _Example_
 
@@ -663,10 +666,10 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleIdlRequest}>Request IDL</button>
-      {status === 'iddle' ? <p>Haven&apos;t request any IDL yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t requested any IDL yet</p> : null}
       {status === 'loading' ? <p>Requesting your IDL</p> : null}
       {status === 'success' ? <pre>{JSON.stringify(null, 2, idl)}</pre> : null}
-      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
     </div>
   );
 }
@@ -697,7 +700,7 @@ example();
 
 ##### usePdaFromUserPublicKeyAndProgramAddress()
 
-Use it to get PDA public key and address using public key from user connected wallet and a pogram address. Optionally `getPdaFromUserPublicKeyAndProgramAddress` accepts a second argument with a seeds string array.
+Use it to get PDA public key and address using public key from user connected wallet and a program address. Optionally `getPdaFromUserPublicKeyAndProgramAddress` accepts a second argument with a seeds string array.
 
 _Example_
 
@@ -721,10 +724,10 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleRequestPDA}>Request PDA</button>
-      {status === 'iddle' ? <p>Haven&apos;t request any PDA yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t requested any PDA yet</p> : null}
       {status === 'loading' ? <p>Requesting PDA...</p> : null}
-      {status === 'success' ? <p>We successfully get PDA address: {result.pdaAddress}</p> : null}
-      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'success' ? <p>We successfully got PDA address: {result.pdaAddress}</p> : null}
+      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
     </div>
   );
 }
@@ -736,7 +739,7 @@ function DemoComponent() {
 
 ##### getSolanaStatus()
 
-Returns a `isHealthy` boolean to know blockchain current status
+Returns an `isHealthy` boolean to know blockchain current status.
 
 _Example_
 
@@ -754,7 +757,7 @@ example();
 
 ##### useSolanaStatus()
 
-Same as previous method but by default re-fetchs Solana status every 30 seconds. Optionally refetching can be disabled using a false flag as a first parameter, and refetch interval could be also modified in ms as a second parameter.
+Same as previous method but by default re-fetchs Solana status every 30 seconds. Optionally, refetching can be disabled using a `false` flag as a first parameter, and refetch interval could be also modified in ms as a second parameter.
 
 _Example_
 
@@ -770,7 +773,7 @@ function DemoComponent() {
       {result === true ? <p>All systems are operational</p> : null}
       {result === false ? <p>Blockchain is having some issues</p> : null}
       {status === 'loading' ? <p>Requesting blockchain status</p> : null}
-      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
     </div>
   );
 }
@@ -803,10 +806,10 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleUserBalanceRequest}>Request user balance</button>
-      {status === 'iddle' ? <p>Haven&apos;t request any SOL balance yet</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t requested any SOL balance yet</p> : null}
       {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
-      {status === 'success' ? <p>We successfully get your balance: {userBalance} SOL</p> : null}
-      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'success' ? <p>We successfully got your balance: {userBalance} SOL</p> : null}
+      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
     </div>
   );
 }
@@ -836,8 +839,8 @@ function DemoComponent() {
   return (
     <div>
       <button onClick={handleSolRequest}>Request Airdrop</button>
-      {status === 'iddle' ? <p>Haven&apos;t request any SOL yet</p> : null}
-      {status === 'loading' ? <p>Airdroping your SOL tokens</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t requested any SOL yet</p> : null}
+      {status === 'loading' ? <p>Airdropping your SOL tokens</p> : null}
       {status === 'success' ? (
         <div>
           <p>Your {SOL} tokens have arrived, check your wallet!</p>
@@ -850,7 +853,7 @@ function DemoComponent() {
           </a>
         </div>
       ) : null}
-      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
     </div>
   );
 }
@@ -858,7 +861,7 @@ function DemoComponent() {
 
 ##### useTransferSolTokens()
 
-Use it to transfer SOL tokens from connected wallet to a specific address.
+Use this hook to transfer SOL tokens from the connected wallet to a specific address.
 
 _Example_
 
@@ -895,7 +898,7 @@ function DemoComponent() {
           </a>
         </div>
       ) : null}
-      {status === 'error' ? <p>Ups, something wrong happened</p> : null}
+      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
     </div>
   );
 }
@@ -907,7 +910,7 @@ function DemoComponent() {
 
 ##### useAnchorProvider()
 
-Returns an anchor provider receiving optionally a keypair parameter.
+Returns an anchor provider receiving an optional keypair parameter.
 
 _Example_
 
