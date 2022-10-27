@@ -1,5 +1,5 @@
 <p align="center">
-  <picture>
+   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/lndgalante/solutils/main/docs/solutils-light.svg">
     <img alt="solutils logo" src="https://raw.githubusercontent.com/lndgalante/solutils/main/docs/solutils-dark.svg" width="auto" height="90">
   </picture>
@@ -13,7 +13,27 @@
 
 > This library is still a WIP, so community help and feedback is more than welcome.
 
-> ⚠️ Library is still not published at NPM, coming soon ⚠️
+### Installation
+
+At the moment package is scoped, but scope will be removed soon.
+
+NPM
+
+```
+npm install @lndgalante/solutils
+```
+
+Yarn
+
+```
+yarn add @lndgalante/solutils
+```
+
+PNPM
+
+```
+pnpm add @lndgalante/solutils
+```
 
 ### Summary
 
