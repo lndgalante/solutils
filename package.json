@@ -1,12 +1,12 @@
 {
   "name": "@lndgalante/solutils",
-  "version": "0.2.0",
+  "version": "0.2.6",
   "license": "MIT",
   "author": {
     "name": "Leonardo Galante",
     "email": "lndgalante@gmail.com"
   },
-  "main": "./dist/index.mjs",
+  "main": "./dist/index.js",
   "files": [
     "dist/"
   ],
