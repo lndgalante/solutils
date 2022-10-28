@@ -157,14 +157,6 @@ pnpm add @lndgalante/solutils @solana/web3.js @solana/wallet-adapter-react
 
   </details>
 
-- [Anchor](#Anchor)
-  <details>
-    <summary>Hooks</summary>
-
-  - [useAnchorProvider()](#useAnchorProvider)
-
-  </details>
-
 > Solana Pay and NFT helpers coming soon!
 
 ---
@@ -940,25 +932,6 @@ export default function Home() {
 ```
 
 [CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-sol-tokens)
-
----
-
-#### Anchor
-
-##### useAnchorProvider()
-
-Returns an anchor provider receiving an optional keypair parameter.
-
-_Example_
-
-```tsx
-import { useAnchorProvider } from '@lndgalante/solutils';
-
-function DemoComponent() {
-  // solutils hooks
-  const { provider } = useAnchorProvider();
-}
-```
 
 ---
 
