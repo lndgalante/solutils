@@ -61,7 +61,7 @@ export function useRequestSolAirdrop(publicKey: PublicKey | null, connection: Co
 
       return result;
     } catch (error) {
-      setError(error as Error);
+      setError((error as Error).message);
       setStatus('error');
       return null;
     }
@@ -95,7 +95,7 @@ export function useUserBalance(publicKey: PublicKey | null, connection: Connecti
 
       return sol;
     } catch (error) {
-      setError(error as Error);
+      setError((error as Error).message);
       setStatus('error');
       return null;
     }
@@ -160,7 +160,7 @@ export function useTransferSolTokens(
 
       return result;
     } catch (error) {
-      setError(error as Error);
+      setError((error as Error).message);
       setStatus('error');
       return null;
     }

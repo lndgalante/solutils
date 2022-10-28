@@ -57,7 +57,7 @@ export function usePdaFromUserPublicKeyAndProgramAddress(): {
 
       return result;
     } catch (error) {
-      setError(error as Error);
+      setError((error as Error).message);
       setStatus('error');
       return null;
     }

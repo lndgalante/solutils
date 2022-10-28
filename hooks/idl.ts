@@ -48,7 +48,7 @@ export function useRequestIdlFromAddress(): {
 
       return { idl };
     } catch (error) {
-      setError(error as Error);
+      setError((error as Error).message);
       setStatus('error');
       return { idl: null };
     }

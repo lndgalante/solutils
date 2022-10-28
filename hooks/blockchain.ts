@@ -31,7 +31,7 @@ export function useSolanaStatus(
         setStatus('success');
         setResult(isHealthy);
       } catch (error) {
-        setError(error as Error);
+        setError((error as Error).message);
         setStatus('error');
       }
     }
