@@ -189,7 +189,7 @@ const { connection } = getNewConnection(rpcEndpointUrl);
 connection.getSlot().then((slot) => console.log(slot));
 ```
 
-[Codesandbox](https://codesandbox.io/s/solutils-usesolanastatus-vj8uy9?file=/src/App.js)
+[CodeSandbox](https://codeSandbox.io/s/solutils-usesolanastatus-vj8uy9?file=/src/App.js)
 
 ##### getClusterName()
 
@@ -780,7 +780,7 @@ function DemoComponent() {
 }
 ```
 
-[Codesandbox](https://codesandbox.io/s/solutils-usesolanastatus-vj8uy9?file=/src/App.js)
+[CodeSandbox](https://codeSandbox.io/s/solutils-usesolanastatus-vj8uy9?file=/src/App.js)
 
 ---
 
@@ -796,8 +796,12 @@ _Example_
 import { useUserBalance } from '@lndgalante/solutils';
 
 function DemoComponent() {
+  // solana hooks
+  const { publicKey } = useWallet();
+  const { connection } = useConnection();
+
   // solutils hooks
-  const { getUserBalance, result, status } = useUserBalance();
+  const { getUserBalance, result, status } = useUserBalance(publicKey, connection);
 
   // handlers
   function handleUserBalanceRequest() {
@@ -826,8 +830,12 @@ _Example_
 import { useRequestSolAirdrop } from '@lndgalante/solutils';
 
 function DemoComponent() {
+  // solana hooks
+  const { publicKey } = useWallet();
+  const { connection } = useConnection();
+
   // solutils hooks
-  const { getSolAirdrop, result, status, error } = useRequestSolAirdrop();
+  const { getSolAirdrop, result, status, error } = useRequestSolAirdrop(publicKey, connection);
 
   // constants
   const SOL = 2;
@@ -917,7 +925,7 @@ export default function Home() {
 }
 ```
 
-[Codesandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/examples/hooks/use-transfer-sok-tokens)
+[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/examples/hooks/use-transfer-sol-tokens)
 
 ---
 
