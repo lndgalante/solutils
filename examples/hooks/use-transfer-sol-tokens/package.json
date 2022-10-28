@@ -1,0 +1,29 @@
+{
+  "name": "use-transfer-sol-tokens",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@lndgalante/solutils": "^0.1.9",
+    "@solana/wallet-adapter-react": "0.15.20",
+    "@solana/wallet-adapter-react-ui": "^0.9.18",
+    "@solana/wallet-adapter-wallets": "^0.19.5",
+    "@solana/web3.js": "^1.66.2",
+    "next": "12.2.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.7",
+    "@types/react": "18.0.24",
+    "@types/react-dom": "18.0.8",
+    "eslint": "8.26.0",
+    "eslint-config-next": "13.0.0",
+    "typescript": "4.8.4"
+  }
+}
