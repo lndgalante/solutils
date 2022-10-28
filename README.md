@@ -795,7 +795,7 @@ _Example_
 ```tsx
 import { useUserBalance } from '@lndgalante/solutils';
 
-function DemoComponent() {
+export default function Home() {
   // solana hooks
   const { publicKey } = useWallet();
   const { connection } = useConnection();
@@ -810,15 +810,22 @@ function DemoComponent() {
 
   return (
     <div>
-      <button onClick={handleUserBalanceRequest}>Request user balance</button>
-      {status === 'iddle' ? <p>Haven&apos;t requested any SOL balance yet</p> : null}
-      {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
-      {status === 'success' ? <p>We successfully got your balance: {userBalance} SOL</p> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      <WalletMultiButton />
+      <WalletDisconnectButton />
+
+      <main>
+        <button onClick={handleUserBalanceRequest}>Request user balance</button>
+        {status === 'iddle' ? <p>Haven&apos;t requested any SOL balance yet</p> : null}
+        {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
+        {status === 'success' && result ? <p>We successfully got your balance: {result} SOL</p> : null}
+        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      </main>
     </div>
   );
 }
 ```
+
+[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-user-balance)
 
 ##### useRequestSolAirdrop()
 
@@ -829,7 +836,7 @@ _Example_
 ```tsx
 import { useRequestSolAirdrop } from '@lndgalante/solutils';
 
-function DemoComponent() {
+export default function Home() {
   // solana hooks
   const { publicKey } = useWallet();
   const { connection } = useConnection();
@@ -847,26 +854,33 @@ function DemoComponent() {
 
   return (
     <div>
-      <button onClick={handleSolRequest}>Request Airdrop</button>
-      {status === 'iddle' ? <p>Haven&apos;t requested any SOL yet</p> : null}
-      {status === 'loading' ? <p>Airdropping your SOL tokens</p> : null}
-      {status === 'success' ? (
-        <div>
-          <p>Your {SOL} tokens have arrived, check your wallet!</p>
-          <p>Transaction signature: {result.transactionSignature}</p>
-          <a href={result.urls.solscanUrl} target='_blank' rel='noreferrer'>
-            Solscan
-          </a>
-          <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
-            Solana Explorer
-          </a>
-        </div>
-      ) : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      <WalletMultiButton />
+      <WalletDisconnectButton />
+
+      <main>
+        <button onClick={handleSolRequest}>Request Airdrop</button>
+        {status === 'iddle' ? <p>Haven&apos;t requested any SOL yet</p> : null}
+        {status === 'loading' ? <p>Airdropping your SOL tokens</p> : null}
+        {status === 'success' && result ? (
+          <div>
+            <p>Your {SOL} tokens have arrived, check your wallet!</p>
+            <p>Transaction signature: {result.transactionSignature}</p>
+            <a href={result.urls.solscanUrl} target='_blank' rel='noreferrer'>
+              Solscan
+            </a>
+            <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
+              Solana Explorer
+            </a>
+          </div>
+        ) : null}
+        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      </main>
     </div>
   );
 }
 ```
+
+[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-request-sol-airdrop)
 
 ##### useTransferSolTokens()
 
