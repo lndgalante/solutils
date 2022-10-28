@@ -1,5 +1,3 @@
-import fetch from 'cross-fetch';
-
 export type SolanaStatusData = {
   page: {
     id: string;
