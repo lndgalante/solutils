@@ -157,14 +157,6 @@ pnpm add @lndgalante/solutils @solana/web3.js @solana/wallet-adapter-react
 
   </details>
 
-- [Anchor](#Anchor)
-  <details>
-    <summary>Hooks</summary>
-
-  - [useAnchorProvider()](#useAnchorProvider)
-
-  </details>
-
 > Solana Pay and NFT helpers coming soon!
 
 ---
@@ -566,21 +558,28 @@ import { useTransactionDetails } from '@lndgalante/solutils';
 function DemoComponent() {
   // constants
   const transactionSignature =
-    '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+    '5YhPNrHFcR9h2BaNvqahEb7JjY6XFkXyeeVANguFxzSrQHLvVB3ZZVVA7PLsqm7J7Gec94x8UztvVYds7H7U2ZNv';
+
+  // solana hooks
+  const { connection } = useConnection();
 
   // solutils hooks
-  const { result, status, error } = useTransactionDetails(transactionSignature);
+  const { result, status, error } = useTransactionDetails(connection, transactionSignature);
 
   return (
-    <div>
+    <main>
+      <p>Transaction signature {transactionSignature}</p>
+
       {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
       {status === 'loading' ? <p>Requesting your transaction details</p> : null}
-      {status === 'success' ? <pre>{JSON.stringify(null, 2, result)}</pre> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
-    </div>
+      {status === 'success' && result ? <p>{result.transactionDetails.meta}</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
+    </main>
   );
 }
 ```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaciton-details)
 
 ---
 
@@ -652,8 +651,11 @@ _Example_
 import { useRequestIdlFromAddress } from '@lndgalante/solutils';
 
 function DemoComponent() {
+  // solana hooks
+  const { connection } = useConnection();
+
   // solutils hooks
-  const { getIdlFromAddress, idl, status } = useRequestIdlFromAddress();
+  const { getIdlFromAddress, result, status, error } = useRequestIdlFromAddress(connection);
 
   // constants
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
@@ -661,20 +663,32 @@ function DemoComponent() {
   // handlers
   async function handleIdlRequest() {
     await getIdlFromAddress(address);
-    console.log('Operation finalized');
   }
 
   return (
-    <div>
+    <main>
       <button onClick={handleIdlRequest}>Request IDL</button>
       {status === 'iddle' ? <p>Haven&apos;t requested any IDL yet</p> : null}
       {status === 'loading' ? <p>Requesting your IDL</p> : null}
-      {status === 'success' ? <pre>{JSON.stringify(null, 2, idl)}</pre> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
-    </div>
+      {status === 'success' && result ? (
+        <div>
+          <h3>IDL name: {result.idl.name}</h3>
+          <h3>IDL version: {result.idl.version}</h3>
+          <h3>IDL Instructions:</h3>
+          <ul>
+            {result.idl.instructions.map((instruction) => (
+              <li key={instruction.name}>{instruction.name}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+      {status === 'error' ? <p>{error}</p> : null}
+    </main>
   );
 }
 ```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-request-idl-from-address)
 
 ---
 
@@ -728,11 +742,13 @@ function DemoComponent() {
       {status === 'iddle' ? <p>Haven&apos;t requested any PDA yet</p> : null}
       {status === 'loading' ? <p>Requesting PDA...</p> : null}
       {status === 'success' ? <p>We successfully got PDA address: {result.pdaAddress}</p> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
     </div>
   );
 }
 ```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-pda-from-user-public-key-and-program-address)
 
 ---
 
@@ -774,13 +790,13 @@ function DemoComponent() {
       {result === true ? <p>All systems are operational</p> : null}
       {result === false ? <p>Blockchain is having some issues</p> : null}
       {status === 'loading' ? <p>Requesting blockchain status</p> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
     </div>
   );
 }
 ```
 
-[CodeSandbox](https://codeSandbox.io/s/solutils-usesolanastatus-vj8uy9?file=/src/App.js)
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-solana-status)
 
 ---
 
@@ -795,7 +811,7 @@ _Example_
 ```tsx
 import { useUserBalance } from '@lndgalante/solutils';
 
-function DemoComponent() {
+export default function Home() {
   // solana hooks
   const { publicKey } = useWallet();
   const { connection } = useConnection();
@@ -810,15 +826,22 @@ function DemoComponent() {
 
   return (
     <div>
-      <button onClick={handleUserBalanceRequest}>Request user balance</button>
-      {status === 'iddle' ? <p>Haven&apos;t requested any SOL balance yet</p> : null}
-      {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
-      {status === 'success' ? <p>We successfully got your balance: {userBalance} SOL</p> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      <WalletMultiButton />
+      <WalletDisconnectButton />
+
+      <main>
+        <button onClick={handleUserBalanceRequest}>Request user balance</button>
+        {status === 'iddle' ? <p>Haven&apos;t requested any SOL balance yet</p> : null}
+        {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
+        {status === 'success' && result ? <p>We successfully got your balance: {result} SOL</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
+      </main>
     </div>
   );
 }
 ```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-user-balance)
 
 ##### useRequestSolAirdrop()
 
@@ -829,7 +852,7 @@ _Example_
 ```tsx
 import { useRequestSolAirdrop } from '@lndgalante/solutils';
 
-function DemoComponent() {
+export default function Home() {
   // solana hooks
   const { publicKey } = useWallet();
   const { connection } = useConnection();
@@ -847,26 +870,33 @@ function DemoComponent() {
 
   return (
     <div>
-      <button onClick={handleSolRequest}>Request Airdrop</button>
-      {status === 'iddle' ? <p>Haven&apos;t requested any SOL yet</p> : null}
-      {status === 'loading' ? <p>Airdropping your SOL tokens</p> : null}
-      {status === 'success' ? (
-        <div>
-          <p>Your {SOL} tokens have arrived, check your wallet!</p>
-          <p>Transaction signature: {result.transactionSignature}</p>
-          <a href={result.urls.solscanUrl} target='_blank' rel='noreferrer'>
-            Solscan
-          </a>
-          <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
-            Solana Explorer
-          </a>
-        </div>
-      ) : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      <WalletMultiButton />
+      <WalletDisconnectButton />
+
+      <main>
+        <button onClick={handleSolRequest}>Request Airdrop</button>
+        {status === 'iddle' ? <p>Haven&apos;t requested any SOL yet</p> : null}
+        {status === 'loading' ? <p>Airdropping your SOL tokens</p> : null}
+        {status === 'success' && result ? (
+          <div>
+            <p>Your {SOL} tokens have arrived, check your wallet!</p>
+            <p>Transaction signature: {result.transactionSignature}</p>
+            <a href={result.urls.solscanUrl} target='_blank' rel='noreferrer'>
+              Solscan
+            </a>
+            <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
+              Solana Explorer
+            </a>
+          </div>
+        ) : null}
+        {status === 'error' ? <p>{error}</p> : null}
+      </main>
     </div>
   );
 }
 ```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-request-sol-airdrop)
 
 ##### useTransferSolTokens()
 
@@ -918,33 +948,14 @@ export default function Home() {
             </a>
           </div>
         ) : null}
-        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
       </main>
     </div>
   );
 }
 ```
 
-[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-sol-tokens)
-
----
-
-#### Anchor
-
-##### useAnchorProvider()
-
-Returns an anchor provider receiving an optional keypair parameter.
-
-_Example_
-
-```tsx
-import { useAnchorProvider } from '@lndgalante/solutils';
-
-function DemoComponent() {
-  // solutils hooks
-  const { provider } = useAnchorProvider();
-}
-```
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-sol-tokens)
 
 ---
 

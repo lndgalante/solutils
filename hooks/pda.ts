@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { PublicKey } from '@solana/web3.js';
-import { useWallet } from '@solana/wallet-adapter-react';
 
 // common
 import { ErrorState, StatusState } from '../common';
@@ -11,7 +10,7 @@ import { getPublicKeyFromAddress, getAddressFromPublicKey } from '../core';
 // types
 type ResultState = { pdaPublickKey: PublicKey; pdaAddress: string; bump: number } | null;
 
-export function usePdaFromUserPublicKeyAndProgramAddress(): {
+export function usePdaFromUserPublicKeyAndProgramAddress(publicKey: PublicKey | null): {
   result: ResultState;
   status: StatusState;
   error: ErrorState;
@@ -24,9 +23,6 @@ export function usePdaFromUserPublicKeyAndProgramAddress(): {
   const [error, setError] = useState<ErrorState>(null);
   const [status, setStatus] = useState<StatusState>('iddle');
   const [result, setResult] = useState<ResultState>(null);
-
-  // solana hooks
-  const { publicKey } = useWallet();
 
   // helpers
   async function getPdaFromUserPublicKeyAndProgramAddress(
@@ -57,7 +53,7 @@ export function usePdaFromUserPublicKeyAndProgramAddress(): {
 
       return result;
     } catch (error) {
-      setError(error as Error);
+      setError((error as Error).message);
       setStatus('error');
       return null;
     }

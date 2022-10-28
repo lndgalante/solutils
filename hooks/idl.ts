@@ -1,7 +1,6 @@
 import { inflate } from 'pako';
 import { useState } from 'react';
-import { PublicKey } from '@solana/web3.js';
-import { useConnection } from '@solana/wallet-adapter-react';
+import { Connection, PublicKey } from '@solana/web3.js';
 import { utf8 } from '@project-serum/anchor/dist/cjs/utils/bytes';
 import { decodeIdlAccount, Idl } from '@project-serum/anchor/dist/cjs/idl';
 
@@ -12,24 +11,21 @@ import { ErrorState, StatusState } from '../common';
 import { getPublicKeyFromAddress } from '../core';
 
 // types
-type ResultState = Idl | null;
+type ResultState = { idl: Idl } | null;
 
-export function useRequestIdlFromAddress(): {
+export function useRequestIdlFromAddress(connection: Connection): {
   result: ResultState;
   status: StatusState;
   error: ErrorState;
-  getIdlFromAddress: (address: string) => Promise<{ idl: ResultState }>;
+  getIdlFromAddress: (address: string) => Promise<ResultState>;
 } {
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
   const [status, setStatus] = useState<StatusState>('iddle');
   const [result, setResult] = useState<ResultState>(null);
 
-  // solana hooks
-  const { connection } = useConnection();
-
   // helpers
-  async function getIdlFromAddress(address: string): Promise<{ idl: ResultState }> {
+  async function getIdlFromAddress(address: string): Promise<ResultState> {
     try {
       setStatus('loading');
 
@@ -38,20 +34,20 @@ export function useRequestIdlFromAddress(): {
 
       const idlAddress = await PublicKey.createWithSeed(base, 'anchor:idl', programId);
       const idlAccountInfo = await connection.getAccountInfo(idlAddress);
-      if (!idlAccountInfo) return { idl: null };
+      if (!idlAccountInfo) return null;
 
       const idlAccount = decodeIdlAccount(idlAccountInfo.data.slice(8));
       const inflatedIdl = inflate(idlAccount.data);
       const idl: Idl = JSON.parse(utf8.decode(inflatedIdl));
 
-      setResult(idl);
+      setResult({ idl });
       setStatus('success');
 
       return { idl };
     } catch (error) {
-      setError(error as Error);
+      setError((error as Error).message);
       setStatus('error');
-      return { idl: null };
+      return null;
     }
   }
 

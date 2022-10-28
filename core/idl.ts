@@ -1,7 +1,6 @@
 import { inflate } from 'pako';
 import { PublicKey, Connection } from '@solana/web3.js';
-import { utf8 } from '@project-serum/anchor/dist/cjs/utils/bytes';
-import { decodeIdlAccount, Idl, IdlInstruction } from '@project-serum/anchor/dist/cjs/idl';
+import { utf8, decodeIdlAccount, Idl, IdlInstruction } from '@project-serum/anchor/dist/browser';
 
 // internal helpers
 import { getPublicKeyFromAddress } from './keypairs';
