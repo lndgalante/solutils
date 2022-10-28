@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { PublicKey, Transaction, SystemProgram, TransactionSignature } from '@solana/web3.js';
+import { WalletNotConnectedError, WalletAdapterProps } from '@solana/wallet-adapter-base';
+import { PublicKey, Transaction, SystemProgram, TransactionSignature, Connection } from '@solana/web3.js';
 
 // common
 import { ErrorState, StatusState } from '../common';
@@ -21,15 +20,11 @@ type AirdropResultState = {
   transactionSignature: TransactionSignature;
 } | null;
 
-export function useRequestSolAirdrop() {
+export function useRequestSolAirdrop(publicKey: PublicKey | null, connection: Connection) {
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
   const [status, setStatus] = useState<StatusState>('iddle');
   const [result, setResult] = useState<AirdropResultState>(null);
-
-  // solana hooks
-  const { publicKey } = useWallet();
-  const { connection } = useConnection();
 
   // helpers
   async function getSolAirdrop(solana: number = 1): Promise<{ transactionSignature: string } | null> {
@@ -37,10 +32,10 @@ export function useRequestSolAirdrop() {
       throw new WalletNotConnectedError();
     }
 
-    const { lamports } = getSolToLamports(solana);
-
     try {
       setStatus('loading');
+
+      const { lamports } = getSolToLamports(solana);
       const transactionSignature = await connection.requestAirdrop(publicKey, lamports);
 
       const {
@@ -77,18 +72,18 @@ export function useRequestSolAirdrop() {
 
 type UserBalanceResultState = number;
 
-export function useUserBalance() {
+export function useUserBalance(publicKey: PublicKey | null, connection: Connection) {
   // react hooks
-  const [result, setResult] = useState<UserBalanceResultState>(0);
   const [error, setError] = useState<ErrorState>(null);
   const [status, setStatus] = useState<StatusState>('iddle');
-
-  // solana hooks
-  const { publicKey } = useWallet();
-  const { connection } = useConnection();
+  const [result, setResult] = useState<UserBalanceResultState>(0);
 
   // helpers
   async function getUserBalance() {
+    if (!publicKey) {
+      throw new WalletNotConnectedError();
+    }
+
     try {
       setStatus('loading');
 
@@ -114,18 +109,22 @@ type TransefSolTokensResultState = {
   transactionSignature: TransactionSignature;
 } | null;
 
-export function useTransferSolTokens() {
+export function useTransferSolTokens(
+  publicKey: PublicKey | null,
+  connection: Connection,
+  sendTransaction: WalletAdapterProps['sendTransaction'],
+) {
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
   const [status, setStatus] = useState<StatusState>('iddle');
   const [result, setResult] = useState<TransefSolTokensResultState>(null);
 
-  // solana hooks
-  const { connection } = useConnection();
-  const { publicKey, sendTransaction } = useWallet();
-
   // helpers
   async function getTransferSolTokensReceipt(solAmountToSend: number, addressToSend: string) {
+    if (!publicKey) {
+      throw new WalletNotConnectedError();
+    }
+
     try {
       setStatus('loading');
 
