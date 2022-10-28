@@ -925,7 +925,7 @@ export default function Home() {
 }
 ```
 
-[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/examples/hooks/use-transfer-sol-tokens)
+[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-sol-tokens)
 
 ---
 
