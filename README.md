@@ -391,8 +391,9 @@ console.log(solanaMainnetRpc); // "https://api.mainnet-beta.solana.com"
 const { rpcEndpointUrl: genesysGoRpc } = getRpcEndpointUrl('genesysgo', 'devnet');
 console.log(genesysGoRpc); // "https://devnet.genesysgo.net"
 
-const { rpcEndpointUrl: alchemyRpc } = getRpcEndpointUrl('alchemy', 'testnet', ALCHEMY_API_KEY);
-console.log(alchemyRpc); // "https://api.testnet.solana.co"
+const ALCHEMY_API_KEY = '3EUkBvPfNdHg3qsazLs1zqUVUQfz3ipRXM';
+const { rpcEndpointUrl: alchemyRpc } = getRpcEndpointUrl('alchemy', 'mainnet', ALCHEMY_API_KEY);
+console.log(alchemyRpc); // "https://solana-mainnet.g.alchemy.com/v2/3EUkBvPfNdHg3qsazLs1zqUVUQfz3ipRXM"
 ```
 
 ##### getExplorerUrl()
