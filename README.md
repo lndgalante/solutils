@@ -558,21 +558,28 @@ import { useTransactionDetails } from '@lndgalante/solutils';
 function DemoComponent() {
   // constants
   const transactionSignature =
-    '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+    '5YhPNrHFcR9h2BaNvqahEb7JjY6XFkXyeeVANguFxzSrQHLvVB3ZZVVA7PLsqm7J7Gec94x8UztvVYds7H7U2ZNv';
+
+  // solana hooks
+  const { connection } = useConnection();
 
   // solutils hooks
-  const { result, status, error } = useTransactionDetails(transactionSignature);
+  const { result, status, error } = useTransactionDetails(connection, transactionSignature);
 
   return (
-    <div>
+    <main>
+      <p>Transaction signature {transactionSignature}</p>
+
       {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
       {status === 'loading' ? <p>Requesting your transaction details</p> : null}
-      {status === 'success' ? <pre>{JSON.stringify(null, 2, result)}</pre> : null}
+      {status === 'success' && result ? <p>{result.transactionDetails.meta}</p> : null}
       {status === 'error' ? <p>{error}</p> : null}
-    </div>
+    </main>
   );
 }
 ```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaciton-details)
 
 ---
 
@@ -644,8 +651,11 @@ _Example_
 import { useRequestIdlFromAddress } from '@lndgalante/solutils';
 
 function DemoComponent() {
+  // solana hooks
+  const { connection } = useConnection();
+
   // solutils hooks
-  const { getIdlFromAddress, result, status, error } = useRequestIdlFromAddress();
+  const { getIdlFromAddress, result, status, error } = useRequestIdlFromAddress(connection);
 
   // constants
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
@@ -653,20 +663,32 @@ function DemoComponent() {
   // handlers
   async function handleIdlRequest() {
     await getIdlFromAddress(address);
-    console.log('Operation finalized');
   }
 
   return (
-    <div>
+    <main>
       <button onClick={handleIdlRequest}>Request IDL</button>
       {status === 'iddle' ? <p>Haven&apos;t requested any IDL yet</p> : null}
       {status === 'loading' ? <p>Requesting your IDL</p> : null}
-      {status === 'success' ? <pre>{JSON.stringify(null, 2, result.idl)}</pre> : null}
+      {status === 'success' && result ? (
+        <div>
+          <h3>IDL name: {result.idl.name}</h3>
+          <h3>IDL version: {result.idl.version}</h3>
+          <h3>IDL Instructions:</h3>
+          <ul>
+            {result.idl.instructions.map((instruction) => (
+              <li key={instruction.name}>{instruction.name}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       {status === 'error' ? <p>{error}</p> : null}
-    </div>
+    </main>
   );
 }
 ```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-request-idl-from-address)
 
 ---
 
@@ -726,6 +748,8 @@ function DemoComponent() {
 }
 ```
 
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-pda-from-user-public-key-and-program-address)
+
 ---
 
 #### Blockchain
@@ -772,7 +796,7 @@ function DemoComponent() {
 }
 ```
 
-[CodeSandbox](https://codeSandbox.io/s/solutils-usesolanastatus-vj8uy9?file=/src/App.js)
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-solana-status)
 
 ---
 
@@ -817,7 +841,7 @@ export default function Home() {
 }
 ```
 
-[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-user-balance)
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-user-balance)
 
 ##### useRequestSolAirdrop()
 
@@ -872,7 +896,7 @@ export default function Home() {
 }
 ```
 
-[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-request-sol-airdrop)
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-request-sol-airdrop)
 
 ##### useTransferSolTokens()
 
@@ -931,7 +955,7 @@ export default function Home() {
 }
 ```
 
-[CodeSandbox]() | [Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-sol-tokens)
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-sol-tokens)
 
 ---
 
