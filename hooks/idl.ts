@@ -2,8 +2,7 @@ import { inflate } from 'pako';
 import { useState } from 'react';
 import { PublicKey } from '@solana/web3.js';
 import { useConnection } from '@solana/wallet-adapter-react';
-import { utf8 } from '@project-serum/anchor/dist/cjs/utils/bytes';
-import { decodeIdlAccount, Idl } from '@project-serum/anchor/dist/cjs/idl';
+import { utf8, decodeIdlAccount, Idl } from '@project-serum/anchor/dist/browser';
 
 // common
 import { ErrorState, StatusState } from '../common';
