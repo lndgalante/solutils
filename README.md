@@ -568,7 +568,7 @@ function DemoComponent() {
       {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
       {status === 'loading' ? <p>Requesting your transaction details</p> : null}
       {status === 'success' ? <pre>{JSON.stringify(null, 2, result)}</pre> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
     </div>
   );
 }
@@ -645,7 +645,7 @@ import { useRequestIdlFromAddress } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
-  const { getIdlFromAddress, idl, status } = useRequestIdlFromAddress();
+  const { getIdlFromAddress, result, status, error } = useRequestIdlFromAddress();
 
   // constants
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
@@ -661,8 +661,8 @@ function DemoComponent() {
       <button onClick={handleIdlRequest}>Request IDL</button>
       {status === 'iddle' ? <p>Haven&apos;t requested any IDL yet</p> : null}
       {status === 'loading' ? <p>Requesting your IDL</p> : null}
-      {status === 'success' ? <pre>{JSON.stringify(null, 2, idl)}</pre> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      {status === 'success' ? <pre>{JSON.stringify(null, 2, result.idl)}</pre> : null}
+      {status === 'error' ? <p>{error}</p> : null}
     </div>
   );
 }
@@ -720,7 +720,7 @@ function DemoComponent() {
       {status === 'iddle' ? <p>Haven&apos;t requested any PDA yet</p> : null}
       {status === 'loading' ? <p>Requesting PDA...</p> : null}
       {status === 'success' ? <p>We successfully got PDA address: {result.pdaAddress}</p> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
     </div>
   );
 }
@@ -766,7 +766,7 @@ function DemoComponent() {
       {result === true ? <p>All systems are operational</p> : null}
       {result === false ? <p>Blockchain is having some issues</p> : null}
       {status === 'loading' ? <p>Requesting blockchain status</p> : null}
-      {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
     </div>
   );
 }
@@ -810,7 +810,7 @@ export default function Home() {
         {status === 'iddle' ? <p>Haven&apos;t requested any SOL balance yet</p> : null}
         {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
         {status === 'success' && result ? <p>We successfully got your balance: {result} SOL</p> : null}
-        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
       </main>
     </div>
   );
@@ -865,7 +865,7 @@ export default function Home() {
             </a>
           </div>
         ) : null}
-        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
       </main>
     </div>
   );
@@ -924,7 +924,7 @@ export default function Home() {
             </a>
           </div>
         ) : null}
-        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
       </main>
     </div>
   );
