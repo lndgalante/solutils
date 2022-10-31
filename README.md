@@ -9,6 +9,15 @@
   React Hooks and Helpers for Solana
 <p>
 
+<div align="center">
+  <a href="https://www.npmjs.com/package/@lndgalante/solutils">
+    <img src="https://img.shields.io/npm/v/@lndgalante/solutils?colorA=21262d&colorB=161b22&style=flat" alt="Version">
+  </a>
+  <a href="https://www.npmjs.com/package/@lndgalante/solutils">
+    <img src="https://img.shields.io/npm/dm/@lndgalante/solutils?colorA=21262d&colorB=161b22&style=flat" alt="Downloads per month">
+  </a>
+</div>
+
 ---
 
 > This library is still a WIP, so community help and feedback is more than welcome.
