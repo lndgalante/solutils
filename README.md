@@ -549,9 +549,65 @@ const { transactionDetails } = await getTransactionDetails(transactionSignature,
 console.log(transactionDetails);
 ```
 
+##### getIsValidTransaction()
+
+Returns all details related to a transaction by sending its signature.
+
+_Example_
+
+```typescript
+import { getTransactionDetails } from '@lndgalante/solutils';
+
+const transactionSignature = '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
+
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { connection } = getNewConnection(rpcEndpointUrl);
+
+const { isValidTransaction } = await getIsValidTransaction(transactionSignature, connection);
+
+console.log(isValidTransaction); // true
+```
+
+##### useIsValidTransaction()
+
+Checks if transaction is valid or not by receiving it's signature, accepts an `autoTrigger` which defaults to `true` to automatically get transaction validity.
+
+_Example_
+
+```tsx
+import { useIsValidTransaction } from '@lndgalante/solutils';
+
+function DemoComponent() {
+  // constants
+  const transactionSignature =
+    '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
+
+  // solana hooks
+  const { connection } = useConnection();
+
+  // solutils hooks
+  const { result, status, error } = useIsValidTransaction(connection, transactionSignature);
+
+  return (
+    <main>
+      <p>Transaction signature {transactionSignature}</p>
+
+      {status === 'iddle' ? <p>Haven&apos;t checked transaction validity</p> : null}
+      {status === 'loading' ? <p>Requesting if transaction is valid or not</p> : null}
+      {status === 'success' && result ? (
+        <p>{result.isValidTransaction ? 'Transaction is a valid' : 'Transaction is not valid'}</p>
+      ) : null}
+      {status === 'error' ? <p>{error}</p> : null}
+    </main>
+  );
+}
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaction-details)
+
 ##### useTransactionDetails()
 
-Same as previous method but in a hook form, accepts an `autoTrigger` which defaults to `true` to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
+Receives a transaction signature and return all its details, accepts an `autoTrigger` which defaults to `true` to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
 
 _Example_
 
@@ -582,7 +638,7 @@ function DemoComponent() {
 }
 ```
 
-[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaciton-details)
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaction-details)
 
 ---
 

@@ -12,3 +12,13 @@ export async function getTransactionDetails(
 
   return { transactionDetails: transactionDetails as ParsedTransactionWithMeta };
 }
+
+export async function getIsValidTransaction(
+  transactionSignature: TransactionSignature,
+  connection: Connection,
+): Promise<{ isValidTransaction: boolean }> {
+  const status = await connection.getSignatureStatus(transactionSignature, { searchTransactionHistory: true });
+  const isValidTransaction = status.value?.err === null && status.value?.confirmationStatus === 'finalized';
+
+  return { isValidTransaction };
+}
