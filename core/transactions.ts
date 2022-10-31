@@ -3,9 +3,22 @@ import { Connection, TransactionSignature, ParsedTransactionWithMeta } from '@so
 export async function getTransactionDetails(
   transactionSignature: TransactionSignature,
   connection: Connection,
-): Promise<{ transactionDetails: ParsedTransactionWithMeta | null }> {
-  const configuration = { maxSupportedTransactionVersion: 0 };
-  const transactionDetails = await connection.getParsedTransaction(transactionSignature, configuration);
+): Promise<{ transactionDetails: ParsedTransactionWithMeta }> {
+  const transactionDetails = await connection.getParsedTransaction(transactionSignature, 'finalized');
 
-  return { transactionDetails };
+  if (!transactionDetails) {
+    throw new Error('Transaction not found');
+  }
+
+  return { transactionDetails: transactionDetails as ParsedTransactionWithMeta };
+}
+
+export async function getIsValidTransaction(
+  transactionSignature: TransactionSignature,
+  connection: Connection,
+): Promise<{ isValidTransaction: boolean }> {
+  const status = await connection.getSignatureStatus(transactionSignature, { searchTransactionHistory: true });
+  const isValidTransaction = status.value?.err === null && status.value?.confirmationStatus === 'finalized';
+
+  return { isValidTransaction };
 }

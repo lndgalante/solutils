@@ -5,7 +5,7 @@ import { TransactionSignature, ParsedTransactionWithMeta, Connection } from '@so
 import { ErrorState, StatusState } from '../common';
 
 // types
-type ResultState = { transactionDetails: ParsedTransactionWithMeta | null } | null;
+type DetailsResultState = { transactionDetails: ParsedTransactionWithMeta } | null;
 
 export function useTransactionDetails(
   connection: Connection,
@@ -15,14 +15,13 @@ export function useTransactionDetails(
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
   const [status, setStatus] = useState<StatusState>('iddle');
-  const [result, setResult] = useState<ResultState>(null);
+  const [result, setResult] = useState<DetailsResultState>(null);
 
   // helpers
   async function getTransactionDetails(
     transactionSignature: TransactionSignature,
   ): Promise<{ transactionDetails: ParsedTransactionWithMeta }> {
-    const configuration = { maxSupportedTransactionVersion: 0 };
-    const transactionDetails = await connection.getParsedTransaction(transactionSignature, configuration);
+    const transactionDetails = await connection.getParsedTransaction(transactionSignature, 'finalized');
 
     if (!transactionDetails) {
       throw new Error('Transaction not found');
@@ -52,4 +51,49 @@ export function useTransactionDetails(
   }, [transactionSignature, autoTrigger]);
 
   return { result, status, error, getTransactionDetails };
+}
+
+type ValidResultState = { isValidTransaction: boolean } | null;
+
+export function useIsValidTransaction(
+  connection: Connection,
+  transactionSignature: TransactionSignature,
+  autoTrigger: boolean = true,
+) {
+  // react hooks
+  const [error, setError] = useState<ErrorState>(null);
+  const [status, setStatus] = useState<StatusState>('iddle');
+  const [result, setResult] = useState<ValidResultState>(null);
+
+  // helpers
+  async function getIsValidTransaction(
+    transactionSignature: TransactionSignature,
+  ): Promise<{ isValidTransaction: boolean }> {
+    const status = await connection.getSignatureStatus(transactionSignature, { searchTransactionHistory: true });
+    const isValidTransaction = status.value?.err === null && status.value?.confirmationStatus === 'finalized';
+
+    return { isValidTransaction };
+  }
+
+  // effects
+  useEffect(() => {
+    async function fetchIsValidTransaction() {
+      try {
+        setStatus('loading');
+        const result = await getIsValidTransaction(transactionSignature);
+
+        setResult(result);
+        setStatus('success');
+      } catch (error) {
+        setError((error as Error).message);
+        setStatus('error');
+      }
+    }
+
+    if (autoTrigger) {
+      fetchIsValidTransaction();
+    }
+  }, [transactionSignature, autoTrigger]);
+
+  return { result, status, error, getIsValidTransaction };
 }

@@ -1,4 +1,4 @@
-import { useTransactionDetails } from '@lndgalante/solutils';
+import { useIsValidTransaction } from '@lndgalante/solutils';
 import { useConnection } from '@solana/wallet-adapter-react';
 
 export default function Home() {
@@ -10,19 +10,16 @@ export default function Home() {
   const { connection } = useConnection();
 
   // solutils hooks
-  const { result, status, error } = useTransactionDetails(connection, transactionSignature);
+  const { result, status, error } = useIsValidTransaction(connection, transactionSignature);
 
   return (
     <main>
       <p>Transaction signature {transactionSignature}</p>
 
-      {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
-      {status === 'loading' ? <p>Requesting your transaction deytails</p> : null}
+      {status === 'iddle' ? <p>Haven&apos;t checked transaction validity</p> : null}
+      {status === 'loading' ? <p>Requesting if transaction is valid or not</p> : null}
       {status === 'success' && result ? (
-        <div>
-          <p>Block time : {result.transactionDetails.blockTime}</p>
-          <p>Slot : {result.transactionDetails.slot}</p>
-        </div>
+        <p>{result.isValidTransaction ? 'Transaction is a valid' : 'Transaction is not valid'}</p>
       ) : null}
       {status === 'error' ? <p>{error}</p> : null}
     </main>
