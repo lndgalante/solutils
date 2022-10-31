@@ -3,8 +3,12 @@ import { Connection, TransactionSignature, ParsedTransactionWithMeta } from '@so
 export async function getTransactionDetails(
   transactionSignature: TransactionSignature,
   connection: Connection,
-): Promise<{ transactionDetails: ParsedTransactionWithMeta | null }> {
-  const transactionDetails = await connection.getParsedTransaction(transactionSignature);
+): Promise<{ transactionDetails: ParsedTransactionWithMeta }> {
+  const transactionDetails = await connection.getParsedTransaction(transactionSignature, 'finalized');
 
-  return { transactionDetails };
+  if (!transactionDetails) {
+    throw new Error('Transaction not found');
+  }
+
+  return { transactionDetails: transactionDetails as ParsedTransactionWithMeta };
 }

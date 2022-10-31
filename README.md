@@ -506,7 +506,8 @@ _Example_
 ```typescript
 import { getEmptyBuffer } from '@lndgalante/solutils';
 
-const connection = getNewConnection('devnet');
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'devnet');
+const { connection } = getNewConnection(rpcEndpointUrl);
 
 const { instructionBuffer } = getEmptyBuffer(data);
 
@@ -538,10 +539,12 @@ _Example_
 ```typescript
 import { getTransactionDetails } from '@lndgalante/solutils';
 
-const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+const transactionSignature = '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
 
-const { connection } = getNewConnection('mainnet-beta');
-const { transactionDetails } = getTransactionDetails(transactionSignature, connection);
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { connection } = getNewConnection(rpcEndpointUrl);
+
+const { transactionDetails } = await getTransactionDetails(transactionSignature, connection);
 
 console.log(transactionDetails);
 ```
@@ -558,7 +561,7 @@ import { useTransactionDetails } from '@lndgalante/solutils';
 function DemoComponent() {
   // constants
   const transactionSignature =
-    '5YhPNrHFcR9h2BaNvqahEb7JjY6XFkXyeeVANguFxzSrQHLvVB3ZZVVA7PLsqm7J7Gec94x8UztvVYds7H7U2ZNv';
+    '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
 
   // solana hooks
   const { connection } = useConnection();

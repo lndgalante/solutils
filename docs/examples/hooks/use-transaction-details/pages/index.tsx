@@ -4,7 +4,7 @@ import { useConnection } from '@solana/wallet-adapter-react';
 export default function Home() {
   // constants
   const transactionSignature =
-    '5YhPNrHFcR9h2BaNvqahEb7JjY6XFkXyeeVANguFxzSrQHLvVB3ZZVVA7PLsqm7J7Gec94x8UztvVYds7H7U2ZNv';
+    '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
 
   // solana hooks
   const { connection } = useConnection();
@@ -17,8 +17,13 @@ export default function Home() {
       <p>Transaction signature {transactionSignature}</p>
 
       {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
-      {status === 'loading' ? <p>Requesting your transaction details</p> : null}
-      {status === 'success' && result ? <p>{result.transactionDetails.meta}</p> : null}
+      {status === 'loading' ? <p>Requesting your transaction deytails</p> : null}
+      {status === 'success' && result ? (
+        <div>
+          <p>Block time : {result.transactionDetails.blockTime}</p>
+          <p>Slot : {result.transactionDetails.slot}</p>
+        </div>
+      ) : null}
       {status === 'error' ? <p>{error}</p> : null}
     </main>
   );
