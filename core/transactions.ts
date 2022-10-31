@@ -4,8 +4,7 @@ export async function getTransactionDetails(
   transactionSignature: TransactionSignature,
   connection: Connection,
 ): Promise<{ transactionDetails: ParsedTransactionWithMeta | null }> {
-  const configuration = { maxSupportedTransactionVersion: 0 };
-  const transactionDetails = await connection.getParsedTransaction(transactionSignature, configuration);
+  const transactionDetails = await connection.getParsedTransaction(transactionSignature);
 
   return { transactionDetails };
 }
