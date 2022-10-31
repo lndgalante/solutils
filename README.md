@@ -95,12 +95,14 @@ pnpm add @lndgalante/solutils @solana/web3.js @solana/wallet-adapter-react
     <summary>Methods</summary>
 
   - [getTransactionDetails()](#getTransactionDetails)
+  - [getIsValidTransaction()](#getIsValidTransaction)
 
   </details>
   <details>
     <summary>Hooks</summary>
 
   - [useTransactionDetails()](#useTransactionDetails)
+  - [useIsValidTransaction()](#useIsValidTransaction)
 
   </details>
 
@@ -568,6 +570,41 @@ const { isValidTransaction } = await getIsValidTransaction(transactionSignature,
 console.log(isValidTransaction); // true
 ```
 
+##### useTransactionDetails()
+
+Receives a transaction signature and return all its details, accepts an `autoTrigger` which defaults to `true` to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
+
+_Example_
+
+```tsx
+import { useTransactionDetails } from '@lndgalante/solutils';
+
+function DemoComponent() {
+  // constants
+  const transactionSignature =
+    '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
+
+  // solana hooks
+  const { connection } = useConnection();
+
+  // solutils hooks
+  const { result, status, error } = useTransactionDetails(connection, transactionSignature);
+
+  return (
+    <main>
+      <p>Transaction signature {transactionSignature}</p>
+
+      {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
+      {status === 'loading' ? <p>Requesting your transaction details</p> : null}
+      {status === 'success' && result ? <p>{result.transactionDetails.meta}</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
+    </main>
+  );
+}
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaction-details)
+
 ##### useIsValidTransaction()
 
 Checks if transaction is valid or not by receiving it's signature, accepts an `autoTrigger` which defaults to `true` to automatically get transaction validity.
@@ -603,42 +640,7 @@ function DemoComponent() {
 }
 ```
 
-[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaction-details)
-
-##### useTransactionDetails()
-
-Receives a transaction signature and return all its details, accepts an `autoTrigger` which defaults to `true` to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
-
-_Example_
-
-```tsx
-import { useTransactionDetails } from '@lndgalante/solutils';
-
-function DemoComponent() {
-  // constants
-  const transactionSignature =
-    '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
-
-  // solana hooks
-  const { connection } = useConnection();
-
-  // solutils hooks
-  const { result, status, error } = useTransactionDetails(connection, transactionSignature);
-
-  return (
-    <main>
-      <p>Transaction signature {transactionSignature}</p>
-
-      {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
-      {status === 'loading' ? <p>Requesting your transaction details</p> : null}
-      {status === 'success' && result ? <p>{result.transactionDetails.meta}</p> : null}
-      {status === 'error' ? <p>{error}</p> : null}
-    </main>
-  );
-}
-```
-
-[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaction-details)
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-is-valid-transaction)
 
 ---
 
