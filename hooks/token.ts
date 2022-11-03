@@ -11,10 +11,13 @@ import {
   getLamportsToSol,
   getSolToLamports,
   getAllExplorersUrl,
+  getTransactionGasFee,
   getPublicKeyFromAddress,
 } from '../core';
 
 // types
+type GasFee = { sol: number; lamports: number };
+
 type AirdropResultState = {
   urls: AllExplorerUrls;
   transactionSignature: TransactionSignature;
@@ -105,14 +108,16 @@ export function useUserBalance(publicKey: PublicKey | null, connection: Connecti
 }
 
 type TransefSolTokensResultState = {
-  urls: AllExplorerUrls;
-  transactionSignature: TransactionSignature;
+  gasFee?: GasFee;
+  urls?: AllExplorerUrls;
+  transactionSignature?: TransactionSignature;
 } | null;
 
 export function useTransferSolTokens(
   publicKey: PublicKey | null,
   connection: Connection,
   sendTransaction: WalletAdapterProps['sendTransaction'],
+  withGasFee: boolean = true,
 ) {
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
@@ -133,6 +138,11 @@ export function useTransferSolTokens(
 
       const transferInstruction = SystemProgram.transfer({ fromPubkey: publicKey as PublicKey, toPubkey, lamports });
       const transaction = new Transaction().add(transferInstruction);
+
+      if (withGasFee) {
+        const gasFee = await getTransactionGasFee(transaction, publicKey, connection);
+        setResult({ gasFee });
+      }
 
       const {
         context: { slot: minContextSlot },
@@ -156,7 +166,7 @@ export function useTransferSolTokens(
       const result = { transactionSignature, urls };
 
       setStatus('success');
-      setResult(result);
+      setResult((previousResult) => ({ ...previousResult, ...result }));
 
       return result;
     } catch (error) {
