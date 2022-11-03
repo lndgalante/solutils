@@ -971,6 +971,7 @@ export default function Home() {
 ##### useTransferSolTokens()
 
 Use this hook to transfer SOL tokens from the connected wallet to a specific address.
+By defaults also returns transaction gas fee, which can be disabled with a 4th parameter with a `false` flag.
 
 _Example_
 
@@ -1012,6 +1013,7 @@ export default function Home() {
         {status === 'success' && result ? (
           <div>
             <p>We successfully sent: {SOL_TO_SEND} SOL</p>
+            <p>Total gas fees {result.gasFee.sol} SOL</p>
             <p>Transaction signature: {result.transactionSignature}</p>
             <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
               Solana Explorer
