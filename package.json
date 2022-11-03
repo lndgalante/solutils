@@ -1,6 +1,6 @@
 {
   "name": "@lndgalante/solutils",
-  "version": "0.2.7",
+  "version": "0.3.0",
   "license": "MIT",
   "author": {
     "name": "Leonardo Galante",
@@ -18,25 +18,28 @@
     "react": "^18.2.0"
   },
   "devDependencies": {
+    "@solana/spl-token": "^0.3.6",
+    "@solana/wallet-adapter-react": "0.15.23",
+    "@solana/wallet-adapter-react-ui": "^0.9.21",
+    "@solana/wallet-adapter-wallets": "^0.19.5",
+    "@solana/web3.js": "^1.66.2",
     "@types/pako": "^2.0.0",
     "@types/react": "^18.0.24",
     "prettier": "^2.7.1",
     "tsup": "^6.3.0",
-    "typescript": "^4.8.4",
-    "@solana/wallet-adapter-react-ui": "^0.9.21",
-    "@solana/wallet-adapter-wallets": "^0.19.5",
-    "@solana/wallet-adapter-react": "0.15.23",
-    "@solana/web3.js": "^1.66.2"
+    "typescript": "^4.8.4"
   },
   "peerDependencies": {
+    "@solana/spl-token": "^0.3.6",
+    "@solana/wallet-adapter-react": "0.15.23",
     "@solana/wallet-adapter-react-ui": "^0.9.21",
     "@solana/wallet-adapter-wallets": "^0.19.5",
-    "@solana/wallet-adapter-react": "0.15.23",
     "@solana/web3.js": "^1.66.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "build:watch": "tsup --watch"
   }
 }

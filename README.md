@@ -35,13 +35,13 @@ npm install @lndgalante/solutils @solana/web3.js @solana/wallet-adapter-react
 Yarn
 
 ```
-yarn add @lndgalante/solutils @solana/web3.js @solana/wallet-adapter-react
+yarn add @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-adapter-react
 ```
 
 PNPM
 
 ```
-pnpm add @lndgalante/solutils @solana/web3.js @solana/wallet-adapter-react
+pnpm add @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-adapter-react
 ```
 
 ### Summary
