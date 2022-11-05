@@ -397,6 +397,10 @@ console.log(genesysGoRpc); // "https://devnet.genesysgo.net"
 const ALCHEMY_API_KEY = '3EUkBvPfNdHg3qsazLs1zqUVUQfz3ipRXM';
 const { rpcEndpointUrl: alchemyRpc } = getRpcEndpointUrl('alchemy', 'mainnet', ALCHEMY_API_KEY);
 console.log(alchemyRpc); // "https://solana-mainnet.g.alchemy.com/v2/3EUkBvPfNdHg3qsazLs1zqUVUQfz3ipRXM"
+
+const SYNDICA_ACCESS_TOKEN = 'GlGcaiydgQJI0zqkUDKC810LVYXWA1gxx2CtboDluHOp23o2UqkLaRdVZTuJsUvD';
+const { rpcEndpointUrl: syndicaRpc } = getRpcEndpointUrl('syndica', 'mainnet', SYNDICA_ACCESS_TOKEN);
+console.log(syndicaRpc); // "https://solana-api.syndica.io/access-token/GlGcaiydgQJI0zqkUDKC810LVYXWA1gxx2CtboDluHOp23o2UqkLaRdVZTuJsUvD/rpc"
 ```
 
 ##### getExplorerUrl()
@@ -974,6 +978,7 @@ export default function Home() {
 ##### useTransferSolTokens()
 
 Use this hook to transfer SOL tokens from the connected wallet to a specific address.
+By defaults also returns transaction gas fee, which can be disabled with a 4th parameter with a `false` flag.
 
 _Example_
 
@@ -1015,6 +1020,7 @@ export default function Home() {
         {status === 'success' && result ? (
           <div>
             <p>We successfully sent: {SOL_TO_SEND} SOL</p>
+            <p>Total gas fees {result.gasFee.sol} SOL</p>
             <p>Transaction signature: {result.transactionSignature}</p>
             <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
               Solana Explorer
