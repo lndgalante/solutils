@@ -149,8 +149,8 @@ export function getRpcEndpointUrl(
       devnet: '',
     },
     alchemy: {
-      mainnet: `https://solana-mainnet.g.alchemy.com/v2/${apiKey}`,
-      devnet: `https://solana-devnet.g.alchemy.com/v2/${apiKey}`,
+      mainnet: `https://solana-mainnet.g.alchemy.com/v2/${apiKeyOrAccessToken}`,
+      devnet: `https://solana-devnet.g.alchemy.com/v2/${apiKeyOrAccessToken}`,
     },
     syndica: {
       mainnet: `https://solana-api.syndica.io/access-token/${apiKeyOrAccessToken}/rpc`,
