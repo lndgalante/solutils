@@ -105,7 +105,11 @@ export type Provider =
   | 'alchemy';
 export type Network = 'mainnet' | 'devnet';
 
-export function getRpcEndpointUrl(provider: Provider, network: Network, apiKey?: string): { rpcEndpointUrl: string } {
+export function getRpcEndpointUrl(
+  provider: Provider,
+  network: Network,
+  apiKeyOrAccessToken?: string,
+): { rpcEndpointUrl: string } {
   const endpoints = {
     localhost: {
       mainnet: 'http://localhost:8899',
@@ -114,7 +118,7 @@ export function getRpcEndpointUrl(provider: Provider, network: Network, apiKey?:
     solana: {
       mainnet: clusterApiUrl('mainnet-beta'),
       devnet: clusterApiUrl('devnet'),
-      // testnet: clusterApiUrl('testnet'), TODO: Fix for testnet type definition
+      // testnet: clusterApiUrl('testnet'),
     },
     serum: {
       mainnet: 'https://solana-api.projectserum.com',
@@ -145,8 +149,12 @@ export function getRpcEndpointUrl(provider: Provider, network: Network, apiKey?:
       devnet: '',
     },
     alchemy: {
-      mainnet: `https://solana-mainnet.g.alchemy.com/v2/${apiKey}`,
-      devnet: `https://solana-devnet.g.alchemy.com/v2/${apiKey}`,
+      mainnet: `https://solana-mainnet.g.alchemy.com/v2/${apiKeyOrAccessToken}`,
+      devnet: `https://solana-devnet.g.alchemy.com/v2/${apiKeyOrAccessToken}`,
+    },
+    syndica: {
+      mainnet: `https://solana-api.syndica.io/access-token/${apiKeyOrAccessToken}/rpc`,
+      devnet: `https://solana-api.syndica.io/access-token/${apiKeyOrAccessToken}/rpc`,
     },
   };
   const rpcEndpointUrl = endpoints[provider][network];
