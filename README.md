@@ -397,6 +397,10 @@ console.log(genesysGoRpc); // "https://devnet.genesysgo.net"
 const ALCHEMY_API_KEY = '3EUkBvPfNdHg3qsazLs1zqUVUQfz3ipRXM';
 const { rpcEndpointUrl: alchemyRpc } = getRpcEndpointUrl('alchemy', 'mainnet', ALCHEMY_API_KEY);
 console.log(alchemyRpc); // "https://solana-mainnet.g.alchemy.com/v2/3EUkBvPfNdHg3qsazLs1zqUVUQfz3ipRXM"
+
+const SYNDICA_ACCESS_TOKEN = 'GlGcaiydgQJI0zqkUDKC810LVYXWA1gxx2CtboDluHOp23o2UqkLaRdVZTuJsUvD';
+const { rpcEndpointUrl: syndicaRpc } = getRpcEndpointUrl('syndica', 'mainnet', SYNDICA_ACCESS_TOKEN);
+console.log(syndicaRpc); // "https://solana-api.syndica.io/access-token/GlGcaiydgQJI0zqkUDKC810LVYXWA1gxx2CtboDluHOp23o2UqkLaRdVZTuJsUvD/rpc"
 ```
 
 ##### getExplorerUrl()
