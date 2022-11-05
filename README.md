@@ -555,7 +555,7 @@ const transactionSignature = '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUY
 const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
 const { connection } = getNewConnection(rpcEndpointUrl);
 
-const { transactionDetails } = await getTransactionDetails(transactionSignature, connection);
+const { transactionDetails } = await getTransactionDetails(connection, transactionSignature);
 
 console.log(transactionDetails);
 ```
@@ -670,7 +670,7 @@ async function example() {
   const { connection } = getNewConnection(rpcEndpointUrl);
 
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
-  const { idl } = await getIdlFromAddress(address, connection);
+  const { idl } = await getIdlFromAddress(connection, address);
 
   console.log(idl); // { version: '4.4.0', name: 'candy_machine', ... }
 }
@@ -688,9 +688,12 @@ _Example_
 import { getIdlFromAddress, getInstructionFromIdl } from '@lndgalante/solutils';
 
 async function example() {
+  const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+  const { connection } = getNewConnection(rpcEndpointUrl);
+
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
 
-  const { idl } = await getIdlFromAddress(address);
+  const { idl } = await getIdlFromAddress(connection, address);
   const { method } = await getInstructionFromIdl(idl, 'updateCandyMachine');
 
   console.log(method);
@@ -725,7 +728,7 @@ function DemoComponent() {
   const { connection } = useConnection();
 
   // solutils hooks
-  const { getIdlFromAddress, result, status, error } = useRequestIdlFromAddress(connection);
+  const { result, status, error, getIdlFromAddress } = useRequestIdlFromAddress(connection);
 
   // constants
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
@@ -794,7 +797,7 @@ import { usePdaFromUserPublicKeyAndProgramAddress } from '@lndgalante/solutils';
 
 function DemoComponent() {
   // solutils hooks
-  const { getPdaFromUserPublicKeyAndProgramAddress, result, status, error } =
+  const { result, status, error, getPdaFromUserPublicKeyAndProgramAddress } =
     usePdaFromUserPublicKeyAndProgramAddress();
 
   // constants
@@ -887,7 +890,7 @@ export default function Home() {
   const { connection } = useConnection();
 
   // solutils hooks
-  const { getUserBalance, result, status } = useUserBalance(publicKey, connection);
+  const { result, status, getUserBalance } = useUserBalance(publicKey, connection);
 
   // handlers
   function handleUserBalanceRequest() {
@@ -928,7 +931,7 @@ export default function Home() {
   const { connection } = useConnection();
 
   // solutils hooks
-  const { getSolAirdrop, result, status, error } = useRequestSolAirdrop(publicKey, connection);
+  const { result, status, error, getSolAirdrop } = useRequestSolAirdrop(publicKey, connection);
 
   // constants
   const SOL = 2;
@@ -985,7 +988,7 @@ export default function Home() {
   const { publicKey, sendTransaction } = useWallet();
 
   // solutils hooks
-  const { getTransferSolTokensReceipt, result, status, error } = useTransferSolTokens(
+  const { result, status, error, getTransferSolTokensReceipt } = useTransferSolTokens(
     publicKey,
     connection,
     sendTransaction,

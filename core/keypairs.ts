@@ -23,6 +23,7 @@ export function getKeypairFromFile(path?: string): { keypair: Keypair } {
 
   return { keypair };
 }
+
 */
 
 export function getKeypairFromSecretKey(secret: number[]): { keypair: Keypair } {

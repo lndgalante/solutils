@@ -5,20 +5,23 @@ import { utf8, decodeIdlAccount, Idl, IdlInstruction } from '@project-serum/anch
 // internal helpers
 import { getPublicKeyFromAddress } from './keypairs';
 
-export async function getIdlFromAddress(address: string, connection: Connection): Promise<{ idl: Idl | null }> {
+export async function getIdlFromAddress(connection: Connection, address: string): Promise<{ idl: Idl }> {
   const { publicKey: programId } = getPublicKeyFromAddress(address);
 
   const [base] = await PublicKey.findProgramAddress([], programId);
 
   const idlAddress = await PublicKey.createWithSeed(base, 'anchor:idl', programId);
   const idlAccountInfo = await connection.getAccountInfo(idlAddress);
-  if (!idlAccountInfo) return { idl: null };
+
+  if (!idlAccountInfo) {
+    throw new Error('Unable to find IDL account');
+  }
 
   const idlAccount = decodeIdlAccount(idlAccountInfo.data.slice(8));
   const inflatedIdl = inflate(idlAccount.data);
   const idl: Idl = JSON.parse(utf8.decode(inflatedIdl));
 
-  return { idl };
+  return { idl: idl as Idl };
 }
 
 export function getInstructionFromIdl(idl: Idl, instructionName: string): { instruction: IdlInstruction } | Error {

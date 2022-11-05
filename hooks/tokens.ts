@@ -199,7 +199,7 @@ export function useTransferSplTokens(
       const { publicKey: tokenMintPublicKey } = getPublicKeyFromAddress(tokenMintAddress);
       const { publicKey: recipientPublicKey } = getPublicKeyFromAddress(recipientAddress);
 
-      const { splTokenDecimals } = await getSplTokenDecimals(tokenMintPublicKey, connection);
+      const { splTokenDecimals } = await getSplTokenDecimals(connection, tokenMintPublicKey);
       console.log('\n ~ getTransferSplTokensReceipt ~ splTokenDecimals', splTokenDecimals);
 
       /* const fromTokenAccount = await getOrCreateAssociatedTokenAccount(

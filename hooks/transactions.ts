@@ -4,6 +4,9 @@ import { TransactionSignature, ParsedTransactionWithMeta, Connection } from '@so
 // common
 import { ErrorState, StatusState } from '../common';
 
+// core
+import { getTransactionDetails, getIsValidTransaction } from '../core';
+
 // types
 type DetailsResultState = { transactionDetails: ParsedTransactionWithMeta } | null;
 
@@ -18,24 +21,13 @@ export function useTransactionDetails(
   const [result, setResult] = useState<DetailsResultState>(null);
 
   // helpers
-  async function getTransactionDetails(
-    transactionSignature: TransactionSignature,
-  ): Promise<{ transactionDetails: ParsedTransactionWithMeta }> {
-    const transactionDetails = await connection.getParsedTransaction(transactionSignature, 'finalized');
-
-    if (!transactionDetails) {
-      throw new Error('Transaction not found');
-    }
-
-    return { transactionDetails: transactionDetails as ParsedTransactionWithMeta };
-  }
 
   // effects
   useEffect(() => {
     async function fetchTransactionDetails() {
       try {
         setStatus('loading');
-        const result = await getTransactionDetails(transactionSignature);
+        const result = await getTransactionDetails(connection, transactionSignature);
 
         setResult(result);
         setStatus('success');
@@ -65,22 +57,12 @@ export function useIsValidTransaction(
   const [status, setStatus] = useState<StatusState>('iddle');
   const [result, setResult] = useState<ValidResultState>(null);
 
-  // helpers
-  async function getIsValidTransaction(
-    transactionSignature: TransactionSignature,
-  ): Promise<{ isValidTransaction: boolean }> {
-    const status = await connection.getSignatureStatus(transactionSignature, { searchTransactionHistory: true });
-    const isValidTransaction = status.value?.err === null && status.value?.confirmationStatus === 'finalized';
-
-    return { isValidTransaction };
-  }
-
   // effects
   useEffect(() => {
     async function fetchIsValidTransaction() {
       try {
         setStatus('loading');
-        const result = await getIsValidTransaction(transactionSignature);
+        const result = await getIsValidTransaction(connection, transactionSignature);
 
         setResult(result);
         setStatus('success');

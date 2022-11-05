@@ -1,8 +1,8 @@
 import { Connection, ParsedAccountData, PublicKey } from '@solana/web3.js';
 
 export async function getSplTokenDecimals(
-  tokenMintPublicKey: PublicKey,
   connection: Connection,
+  tokenMintPublicKey: PublicKey,
 ): Promise<{ splTokenDecimals: number }> {
   const mintAccountInformation = await connection.getParsedAccountInfo(tokenMintPublicKey);
 
