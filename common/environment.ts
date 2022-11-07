@@ -1,7 +1,7 @@
-export function isBrowser() {
+export function isBrowser(): boolean {
   return typeof window !== 'undefined';
 }
 
-export function isNode() {
+export function isNode(): boolean {
   return !isBrowser();
 }

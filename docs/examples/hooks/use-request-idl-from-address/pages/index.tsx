@@ -6,14 +6,14 @@ export default function Home() {
   const { connection } = useConnection();
 
   // solutils hooks
-  const { getIdlFromAddress, result, status, error } = useRequestIdlFromAddress(connection);
+  const { result, status, error, getIdlFromAddress } = useRequestIdlFromAddress(connection);
 
   // constants
   const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
 
   // handlers
   async function handleIdlRequest() {
-    await getIdlFromAddress(address);
+    await getIdlFromAddress(connection, address);
   }
 
   return (

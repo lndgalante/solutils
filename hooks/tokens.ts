@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createTransferInstruction } from '@solana/spl-token';
 import { WalletNotConnectedError, WalletAdapterProps } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction, SystemProgram, TransactionSignature, Connection } from '@solana/web3.js';
 
@@ -7,12 +8,17 @@ import { ErrorState, StatusState } from '../common';
 
 // core
 import {
+  isAddress,
+  TokenSymbols,
   AllExplorerUrls,
   getLamportsToSol,
   getSolToLamports,
   getAllExplorersUrl,
+  getSplTokenDecimals,
   getTransactionGasFee,
   getPublicKeyFromAddress,
+  TOKEN_SYMBOLS_TO_MINT_ADDRESS,
+  getOrCreateAssociatedTokenAccountClientSide,
 } from '../core';
 
 // types
@@ -51,9 +57,7 @@ export function useRequestSolAirdrop(publicKey: PublicKey | null, connection: Co
       });
 
       if (confirmation.value.err) {
-        setStatus('error');
-        setError(confirmation.value as any);
-        return null;
+        throw new Error(confirmation.value as any);
       }
 
       const { urls } = getAllExplorersUrl(transactionSignature);
@@ -117,7 +121,7 @@ export function useTransferSolTokens(
   publicKey: PublicKey | null,
   connection: Connection,
   sendTransaction: WalletAdapterProps['sendTransaction'],
-  withGasFee: boolean = true,
+  withGasFee: boolean = false,
 ) {
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
@@ -125,7 +129,7 @@ export function useTransferSolTokens(
   const [result, setResult] = useState<TransefSolTokensResultState>(null);
 
   // helpers
-  async function getTransferSolTokensReceipt(solAmountToSend: number, addressToSend: string) {
+  async function getTransferSolTokensReceipt(recipientAddress: string, solAmountToSend: number) {
     if (!publicKey) {
       throw new WalletNotConnectedError();
     }
@@ -134,7 +138,7 @@ export function useTransferSolTokens(
       setStatus('loading');
 
       const { lamports } = getSolToLamports(solAmountToSend);
-      const { publicKey: toPubkey } = getPublicKeyFromAddress(addressToSend);
+      const { publicKey: toPubkey } = getPublicKeyFromAddress(recipientAddress);
 
       const transferInstruction = SystemProgram.transfer({ fromPubkey: publicKey as PublicKey, toPubkey, lamports });
       const transaction = new Transaction().add(transferInstruction);
@@ -157,16 +161,14 @@ export function useTransferSolTokens(
       });
 
       if (confirmation.value.err) {
-        setStatus('error');
-        setError(confirmation.value as any);
-        return;
+        throw new Error(confirmation.value as any);
       }
 
       const { urls } = getAllExplorersUrl(transactionSignature);
       const result = { transactionSignature, urls };
 
       setStatus('success');
-      setResult((previousResult) => ({ ...previousResult, ...result }));
+      setResult(result);
 
       return result;
     } catch (error) {
@@ -177,4 +179,107 @@ export function useTransferSolTokens(
   }
 
   return { result, status, error, getTransferSolTokensReceipt };
+}
+
+type TransefSplTokensResultState = {
+  gasFee?: GasFee;
+  urls?: AllExplorerUrls;
+  transactionSignature?: TransactionSignature;
+} | null;
+
+export function useTransferSplTokens(
+  publicKey: PublicKey | null,
+  connection: Connection,
+  sendTransaction: WalletAdapterProps['sendTransaction'],
+  withGasFee: boolean = false,
+) {
+  // react hooks
+  const [error, setError] = useState<ErrorState>(null);
+  const [status, setStatus] = useState<StatusState>('iddle');
+  const [result, setResult] = useState<TransefSplTokensResultState>(null);
+
+  // helpers
+  async function getTransferSplTokensReceipt(
+    recipientAddress: string,
+    tokenSymbolOrTokenAddress: TokenSymbols | string,
+    amountToSend: number,
+  ) {
+    if (!publicKey) {
+      throw new WalletNotConnectedError();
+    }
+
+    try {
+      setStatus('loading');
+
+      const tokenMintAddress = isAddress(tokenSymbolOrTokenAddress)
+        ? tokenSymbolOrTokenAddress
+        : TOKEN_SYMBOLS_TO_MINT_ADDRESS[tokenSymbolOrTokenAddress];
+
+      const { publicKey: tokenMintPublicKey } = getPublicKeyFromAddress(tokenMintAddress);
+      const { publicKey: recipientPublicKey } = getPublicKeyFromAddress(recipientAddress);
+
+      const senderTokenAccount = await getOrCreateAssociatedTokenAccountClientSide(
+        connection,
+        publicKey,
+        tokenMintPublicKey,
+        publicKey,
+        sendTransaction,
+      );
+
+      const recipientTokenAccount = await getOrCreateAssociatedTokenAccountClientSide(
+        connection,
+        publicKey,
+        tokenMintPublicKey,
+        recipientPublicKey,
+        sendTransaction,
+      );
+
+      const { splTokenDecimals } = await getSplTokenDecimals(connection, tokenMintPublicKey);
+      const amount = amountToSend * Math.pow(10, splTokenDecimals);
+
+      const transferInstruction = createTransferInstruction(
+        senderTokenAccount.address,
+        recipientTokenAccount.address,
+        publicKey,
+        amount,
+      );
+
+      const transaction = new Transaction().add(transferInstruction);
+
+      if (withGasFee) {
+        const gasFee = await getTransactionGasFee(transaction, publicKey, connection);
+        setResult({ gasFee });
+      }
+
+      const {
+        context: { slot: minContextSlot },
+        value: { blockhash, lastValidBlockHeight },
+      } = await connection.getLatestBlockhashAndContext();
+
+      const transactionSignature = await sendTransaction(transaction, connection, { minContextSlot });
+      const confirmation = await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature: transactionSignature,
+      });
+
+      if (confirmation.value.err) {
+        throw new Error(confirmation.value as any);
+      }
+
+      const { urls } = getAllExplorersUrl(transactionSignature);
+      const result = { transactionSignature, urls };
+
+      setStatus('success');
+      setResult(result);
+
+      return result;
+    } catch (error) {
+      setStatus('error');
+      setError((error as Error).message);
+      return null;
+    }
+  }
+
+  return { result, status, error, getTransferSplTokensReceipt };
 }
