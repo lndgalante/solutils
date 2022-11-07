@@ -1,23 +1,29 @@
 import { useState } from 'react';
-import { createTransferInstruction, getOrCreateAssociatedTokenAccount } from '@solana/spl-token';
+import { createTransferInstruction } from '@solana/spl-token';
+import { WalletNotConnectedError, WalletAdapterProps } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction, SystemProgram, TransactionSignature, Connection } from '@solana/web3.js';
-import { WalletNotConnectedError, WalletAdapterProps, SignerWalletAdapterProps } from '@solana/wallet-adapter-base';
-// import { WalletNotConnectedError, WalletAdapterProps } from '@solana/wallet-adapter-base';
 
 // common
 import { ErrorState, StatusState } from '../common';
 
 // core
 import {
+  isAddress,
+  TokenSymbols,
   AllExplorerUrls,
   getLamportsToSol,
   getSolToLamports,
   getAllExplorersUrl,
   getSplTokenDecimals,
+  getTransactionGasFee,
   getPublicKeyFromAddress,
+  TOKEN_SYMBOLS_TO_MINT_ADDRESS,
+  getOrCreateAssociatedTokenAccountClientSide,
 } from '../core';
 
 // types
+type GasFee = { sol: number; lamports: number };
+
 type AirdropResultState = {
   urls: AllExplorerUrls;
   transactionSignature: TransactionSignature;
@@ -106,14 +112,16 @@ export function useUserBalance(publicKey: PublicKey | null, connection: Connecti
 }
 
 type TransefSolTokensResultState = {
-  urls: AllExplorerUrls;
-  transactionSignature: TransactionSignature;
+  gasFee?: GasFee;
+  urls?: AllExplorerUrls;
+  transactionSignature?: TransactionSignature;
 } | null;
 
 export function useTransferSolTokens(
   publicKey: PublicKey | null,
   connection: Connection,
   sendTransaction: WalletAdapterProps['sendTransaction'],
+  withGasFee: boolean = false,
 ) {
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
@@ -134,6 +142,11 @@ export function useTransferSolTokens(
 
       const transferInstruction = SystemProgram.transfer({ fromPubkey: publicKey as PublicKey, toPubkey, lamports });
       const transaction = new Transaction().add(transferInstruction);
+
+      if (withGasFee) {
+        const gasFee = await getTransactionGasFee(transaction, publicKey, connection);
+        setResult({ gasFee });
+      }
 
       const {
         context: { slot: minContextSlot },
@@ -169,15 +182,16 @@ export function useTransferSolTokens(
 }
 
 type TransefSplTokensResultState = {
-  urls: AllExplorerUrls;
-  transactionSignature: TransactionSignature;
+  gasFee?: GasFee;
+  urls?: AllExplorerUrls;
+  transactionSignature?: TransactionSignature;
 } | null;
 
 export function useTransferSplTokens(
   publicKey: PublicKey | null,
   connection: Connection,
   sendTransaction: WalletAdapterProps['sendTransaction'],
-  signTransaction: SignerWalletAdapterProps['signTransaction'],
+  withGasFee: boolean = false,
 ) {
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
@@ -185,10 +199,11 @@ export function useTransferSplTokens(
   const [result, setResult] = useState<TransefSplTokensResultState>(null);
 
   // helpers
-
-  // TODO: Instead of supporting any address support only the ones that are supported by the wallet
-  //          i.e: USDC, USDT, SOL, and then map it to it token address
-  async function getTransferSplTokensReceipt(tokenMintAddress: string, recipientAddress: string, amountToSend: number) {
+  async function getTransferSplTokensReceipt(
+    recipientAddress: string,
+    tokenSymbolOrTokenAddress: TokenSymbols | string,
+    amountToSend: number,
+  ) {
     if (!publicKey) {
       throw new WalletNotConnectedError();
     }
@@ -196,58 +211,45 @@ export function useTransferSplTokens(
     try {
       setStatus('loading');
 
+      const tokenMintAddress = isAddress(tokenSymbolOrTokenAddress)
+        ? tokenSymbolOrTokenAddress
+        : TOKEN_SYMBOLS_TO_MINT_ADDRESS[tokenSymbolOrTokenAddress];
+
       const { publicKey: tokenMintPublicKey } = getPublicKeyFromAddress(tokenMintAddress);
       const { publicKey: recipientPublicKey } = getPublicKeyFromAddress(recipientAddress);
 
-      const { splTokenDecimals } = await getSplTokenDecimals(connection, tokenMintPublicKey);
-      console.log('\n ~ getTransferSplTokensReceipt ~ splTokenDecimals', splTokenDecimals);
-
-      /* const fromTokenAccount = await getOrCreateAssociatedTokenAccount(
+      const senderTokenAccount = await getOrCreateAssociatedTokenAccountClientSide(
         connection,
-        fromPublicKey,
-        tokenPublicKey,
-        fromPublicKey,
-        signTransaction // Don't pass that if you have the private key as a string
-      );
-
-      const toTokenAccount = await getOrCreateAssociatedTokenAccount(
-        connection,
-        fromPublicKey,
-        tokenPublicKey,
-        toPublicKey,
-        signTransaction // Don't pass that if you have the private key as a string
-      ); */
-
-      const fromTokenAccount = await getOrCreateAssociatedTokenAccount(
-        connection,
-        // @ts-expect-error
         publicKey,
         tokenMintPublicKey,
         publicKey,
-        signTransaction,
+        sendTransaction,
       );
-      console.log('\n ~ getTransferSplTokensReceipt ~ fromTokenAccount', fromTokenAccount);
 
-      const toTokenAccount = await getOrCreateAssociatedTokenAccount(
+      const recipientTokenAccount = await getOrCreateAssociatedTokenAccountClientSide(
         connection,
-        // @ts-expect-error
         publicKey,
         tokenMintPublicKey,
         recipientPublicKey,
-        signTransaction,
+        sendTransaction,
       );
-      console.log('\n ~ getTransferSplTokensReceipt ~ toTokenAccount', toTokenAccount);
 
+      const { splTokenDecimals } = await getSplTokenDecimals(connection, tokenMintPublicKey);
       const amount = amountToSend * Math.pow(10, splTokenDecimals);
-      console.log('\n ~ getTransferSplTokensReceipt ~ amount', amount);
 
       const transferInstruction = createTransferInstruction(
-        fromTokenAccount.address,
-        toTokenAccount.address,
+        senderTokenAccount.address,
+        recipientTokenAccount.address,
         publicKey,
         amount,
       );
+
       const transaction = new Transaction().add(transferInstruction);
+
+      if (withGasFee) {
+        const gasFee = await getTransactionGasFee(transaction, publicKey, connection);
+        setResult({ gasFee });
+      }
 
       const {
         context: { slot: minContextSlot },
@@ -273,7 +275,6 @@ export function useTransferSplTokens(
 
       return result;
     } catch (error) {
-      console.log('\n ~ getTransferSplTokensReceipt ~ error', error);
       setStatus('error');
       setError((error as Error).message);
       return null;

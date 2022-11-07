@@ -3,6 +3,10 @@ import { Keypair, PublicKey } from '@solana/web3.js';
 // common
 import { getTruncatedText } from '../common';
 
+export function isAddress(address: string) {
+  return address.length === 44;
+}
+
 export function getNewKeypair(): { keypair: Keypair } {
   const keypair = Keypair.generate();
   return { keypair };

@@ -165,6 +165,7 @@ pnpm add @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-a
   - [useUserBalance()](#useUserBalance)
   - [useRequestSolAirdrop()](#useRequestSolAirdrop)
   - [useTransferSolTokens()](#useTransferSolTokens)
+  - [useTransferSplTokens()](#useTransferSplTokens)
 
   </details>
 
@@ -978,7 +979,7 @@ export default function Home() {
 ##### useTransferSolTokens()
 
 Use this hook to transfer SOL tokens from the connected wallet to a specific address.
-By defaults also returns transaction gas fee, which can be disabled with a 4th parameter with a `false` flag.
+It also can return the transaction gas fee, which can be enabled at the 4th parameter with a `true` flag
 
 _Example_
 
@@ -1028,6 +1029,62 @@ export default function Home() {
           </div>
         ) : null}
         {status === 'error' ? <p>{error}</p> : null}
+      </main>
+    </div>
+  );
+}
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-sol-tokens)
+
+##### useTransferSplTokens()
+
+Use this hook to transfer any SPL tokens, by defining only the token symbol or token mint address, from the connected wallet to a specific address.
+It also can return the transaction gas fee, which can be enabled at the 4th parameter with a `true` flag
+
+_Example_
+
+```tsx
+import { useTransferSplTokens } from '@lndgalante/solutils';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
+
+export default function Home() {
+  // solana hooks
+  const { connection } = useConnection();
+  const { publicKey, sendTransaction } = useWallet();
+
+  // solutils hooks
+  const { getTransferSplTokensReceipt, result, status } = useTransferSplTokens(publicKey, connection, sendTransaction);
+
+  // constants
+  const USDC_AMOUNT = 1;
+  const RECIPIENT_ADDRESS = '5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc';
+
+  // handlers
+  function handleSplTransfer() {
+    getTransferSplTokensReceipt(RECIPIENT_ADDRESS, 'USDC', USDC_AMOUNT);
+  }
+
+  return (
+    <div>
+      <WalletMultiButton />
+      <WalletDisconnectButton />
+
+      <main>
+        <button onClick={handleSplTransfer}>Send {USDC_AMOUNT} USDC tokens</button>
+        {status === 'iddle' ? <p>Haven&apos;t sent any USDC yet</p> : null}
+        {status === 'loading' ? <p>Sending your USDC tokens</p> : null}
+        {status === 'success' && result ? (
+          <div>
+            <p>We successfully sent: {USDC_AMOUNT} USDC</p>
+            <p>Transaction signature: {result.transactionSignature}</p>
+            <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
+              Solana Explorer
+            </a>
+          </div>
+        ) : null}
+        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
       </main>
     </div>
   );

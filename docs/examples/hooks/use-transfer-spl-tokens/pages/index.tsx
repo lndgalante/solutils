@@ -5,26 +5,18 @@ import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapte
 export default function Home() {
   // solana hooks
   const { connection } = useConnection();
-  const { publicKey, signTransaction, sendTransaction } = useWallet();
+  const { publicKey, sendTransaction } = useWallet();
 
   // solutils hooks
-  const { getTransferSplTokensReceipt, result, status, error } = useTransferSplTokens(
-    publicKey,
-    connection,
-    sendTransaction,
-    // @ts-expect-error
-    signTransaction,
-  );
-  console.log('\n ~ Home ~ error', error);
+  const { getTransferSplTokensReceipt, result, status } = useTransferSplTokens(publicKey, connection, sendTransaction);
 
   // constants
-  const SBR_AMOUNT = 1;
+  const USDC_AMOUNT = 1;
   const RECIPIENT_ADDRESS = '5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc';
-  const SBR_TOKEN_MINT_ADDRESS = 'Saber2gLauYim4Mvftnrasomsv6NvAuncvMEZwcLpD1';
 
   // handlers
   function handleSplTransfer() {
-    getTransferSplTokensReceipt(SBR_TOKEN_MINT_ADDRESS, RECIPIENT_ADDRESS, SBR_AMOUNT);
+    getTransferSplTokensReceipt(RECIPIENT_ADDRESS, 'USDC', USDC_AMOUNT);
   }
 
   return (
@@ -33,12 +25,12 @@ export default function Home() {
       <WalletDisconnectButton />
 
       <main>
-        <button onClick={handleSplTransfer}>Send {SBR_AMOUNT} SBR tokens</button>
-        {status === 'iddle' ? <p>Haven&apos;t sent any SBR yet</p> : null}
-        {status === 'loading' ? <p>Sending your SBR tokens</p> : null}
+        <button onClick={handleSplTransfer}>Send {USDC_AMOUNT} USDC tokens</button>
+        {status === 'iddle' ? <p>Haven&apos;t sent any USDC yet</p> : null}
+        {status === 'loading' ? <p>Sending your USDC tokens</p> : null}
         {status === 'success' && result ? (
           <div>
-            <p>We successfully sent: {SBR_AMOUNT} SBR</p>
+            <p>We successfully sent: {USDC_AMOUNT} USDC</p>
             <p>Transaction signature: {result.transactionSignature}</p>
             <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
               Solana Explorer

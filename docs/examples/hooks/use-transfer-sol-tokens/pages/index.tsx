@@ -20,7 +20,7 @@ export default function Home() {
 
   // handlers
   function handleUserBalanceRequest() {
-    getTransferSolTokensReceipt(SOL_TO_SEND, ADDRESS_TO_SEND);
+    getTransferSolTokensReceipt(ADDRESS_TO_SEND, SOL_TO_SEND);
   }
 
   return (

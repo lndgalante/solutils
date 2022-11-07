@@ -9,7 +9,7 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 
 // rpc endpoint and wallet
 const wallets = [new PhantomWalletAdapter()];
-const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'devnet');
+const { rpcEndpointUrl } = getRpcEndpointUrl('serum', 'mainnet');
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
