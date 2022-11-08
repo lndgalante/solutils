@@ -1,3 +1,4 @@
+import invariant from 'tiny-invariant';
 import { Commitment, Connection, ParsedAccountData, PublicKey, Transaction } from '@solana/web3.js';
 import {
   TokenInvalidMintError,
@@ -23,10 +24,7 @@ export async function getSplTokenDecimals(
   tokenMintPublicKey: PublicKey,
 ): Promise<{ splTokenDecimals: number }> {
   const mintAccountInformation = await connection.getParsedAccountInfo(tokenMintPublicKey);
-
-  if (!mintAccountInformation.value) {
-    throw new Error(`No account information found for mint.`);
-  }
+  invariant(mintAccountInformation.value, 'Mint account not found');
 
   const mintAccountData = mintAccountInformation.value.data as ParsedAccountData;
   const splTokenDecimals = mintAccountData.parsed.info.decimals as number;
@@ -52,18 +50,12 @@ export async function getOrCreateAssociatedTokenAccountClientSide(
     programId,
     associatedTokenProgramId,
   );
-  // This is the optimal logic, considering TX fee, client-side computation, RPC roundtrips and guaranteed idempotent.
-  // Sadly we can't do this atomically.
   let account;
 
   try {
     account = await getAccount(connection, associatedToken, commitment, programId);
   } catch (error) {
-    // TokenAccountNotFoundError can be possible if the associated address has already received some lamports,
-    // becoming a system account. Assuming program derived addressing is safe, this is the only case for the
-    // TokenInvalidAccountOwnerError in this code path.
     if (error instanceof TokenAccountNotFoundError || error instanceof TokenInvalidAccountOwnerError) {
-      // As this isn't atomic, it's possible others can create associated accounts meanwhile.
       try {
         const transaction = new Transaction().add(
           createAssociatedTokenAccountInstruction(
@@ -78,16 +70,13 @@ export async function getOrCreateAssociatedTokenAccountClientSide(
         const signature = await sendTransaction(transaction, connection);
 
         await connection.confirmTransaction(signature);
-      } catch (error) {
-        // Ignore all errors; for now there is no API-compatible way to selectively ignore the expected
-        // instruction error if the associated account exists already.
-      }
-      // Now this should always succeed
+      } catch (error) {}
       account = await getAccount(connection, associatedToken, commitment, programId);
     } else {
       throw error;
     }
   }
+
   if (!account.mint.equals(mint)) throw new TokenInvalidMintError();
   if (!account.owner.equals(owner)) throw new TokenInvalidOwnerError();
 

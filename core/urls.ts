@@ -9,7 +9,7 @@ function getClusterSuffix(connectionUrl: Cluster): { clusterSuffix: string } {
     return { clusterSuffix: '?cluster=devnet' };
   }
 
-  throw new Error('Unknown cluster');
+  return { clusterSuffix: '' };
 }
 
 export function getSolanaExplorerUrl(signature: string, clusterSuffix: string): { url: string } {
@@ -71,7 +71,7 @@ export function getExplorerUrl(
     return getSolanaBeach(signature, clusterSuffix);
   }
 
-  throw new Error('Unknown explorer');
+  return { url: '' };
 }
 
 export type AllExplorerUrls = {
@@ -118,7 +118,6 @@ export function getRpcEndpointUrl(
     solana: {
       mainnet: clusterApiUrl('mainnet-beta'),
       devnet: clusterApiUrl('devnet'),
-      // testnet: clusterApiUrl('testnet'),
     },
     serum: {
       mainnet: 'https://solana-api.projectserum.com',

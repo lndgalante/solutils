@@ -14,9 +14,11 @@ import {
   getLamportsToSol,
   getSolToLamports,
   getAllExplorersUrl,
+  confirmTransaction,
   getSplTokenDecimals,
   getTransactionGasFee,
   getPublicKeyFromAddress,
+  sendAndConfirmTransaction,
   TOKEN_SYMBOLS_TO_MINT_ADDRESS,
   getOrCreateAssociatedTokenAccountClientSide,
 } from '../core';
@@ -43,22 +45,10 @@ export function useRequestSolAirdrop(publicKey: PublicKey | null, connection: Co
 
     try {
       setStatus('loading');
-
       const { lamports } = getSolToLamports(solana);
+
       const transactionSignature = await connection.requestAirdrop(publicKey, lamports);
-
-      const {
-        value: { blockhash, lastValidBlockHeight },
-      } = await connection.getLatestBlockhashAndContext();
-      const confirmation = await connection.confirmTransaction({
-        blockhash,
-        lastValidBlockHeight,
-        signature: transactionSignature,
-      });
-
-      if (confirmation.value.err) {
-        throw new Error(confirmation.value as any);
-      }
+      await confirmTransaction(connection, transactionSignature);
 
       const { urls } = getAllExplorersUrl(transactionSignature);
       const result = { transactionSignature, urls };
@@ -148,21 +138,7 @@ export function useTransferSolTokens(
         setResult({ gasFee });
       }
 
-      const {
-        context: { slot: minContextSlot },
-        value: { blockhash, lastValidBlockHeight },
-      } = await connection.getLatestBlockhashAndContext();
-
-      const transactionSignature = await sendTransaction(transaction, connection, { minContextSlot });
-      const confirmation = await connection.confirmTransaction({
-        blockhash,
-        lastValidBlockHeight,
-        signature: transactionSignature,
-      });
-
-      if (confirmation.value.err) {
-        throw new Error(confirmation.value as any);
-      }
+      const { transactionSignature } = await sendAndConfirmTransaction(connection, transaction, sendTransaction);
 
       const { urls } = getAllExplorersUrl(transactionSignature);
       const result = { transactionSignature, urls };
@@ -251,21 +227,7 @@ export function useTransferSplTokens(
         setResult({ gasFee });
       }
 
-      const {
-        context: { slot: minContextSlot },
-        value: { blockhash, lastValidBlockHeight },
-      } = await connection.getLatestBlockhashAndContext();
-
-      const transactionSignature = await sendTransaction(transaction, connection, { minContextSlot });
-      const confirmation = await connection.confirmTransaction({
-        blockhash,
-        lastValidBlockHeight,
-        signature: transactionSignature,
-      });
-
-      if (confirmation.value.err) {
-        throw new Error(confirmation.value as any);
-      }
+      const { transactionSignature } = await sendAndConfirmTransaction(connection, transaction, sendTransaction);
 
       const { urls } = getAllExplorersUrl(transactionSignature);
       const result = { transactionSignature, urls };
