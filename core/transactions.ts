@@ -1,3 +1,5 @@
+import invariant from 'tiny-invariant';
+import { WalletAdapterProps } from '@solana/wallet-adapter-base';
 import { Connection, Transaction, TransactionSignature, ParsedTransactionWithMeta, PublicKey } from '@solana/web3.js';
 
 // core
@@ -8,10 +10,7 @@ export async function getTransactionDetails(
   transactionSignature: TransactionSignature,
 ): Promise<{ transactionDetails: ParsedTransactionWithMeta }> {
   const transactionDetails = await connection.getParsedTransaction(transactionSignature, 'finalized');
-
-  if (!transactionDetails) {
-    throw new Error('Transaction not found');
-  }
+  invariant(transactionDetails, 'Transaction not found');
 
   return { transactionDetails: transactionDetails as ParsedTransactionWithMeta };
 }
@@ -38,4 +37,32 @@ export async function getTransactionGasFee(
   const { sol } = getLamportsToSol(gasFee);
 
   return { lamports: gasFee, sol };
+}
+
+export async function confirmTransaction(connect, transactionSignature: TransactionSignature): Promise<void> {
+  const { connection } = connect;
+  const {
+    value: { blockhash, lastValidBlockHeight },
+  } = await connection.getLatestBlockhashAndContext();
+
+  const confirmation = await connection.confirmTransaction({
+    blockhash,
+    lastValidBlockHeight,
+    signature: transactionSignature,
+  });
+
+  invariant(confirmation.value.err, confirmation.value as any);
+}
+
+export async function sendAndConfirmTransaction(
+  connection: Connection,
+  transaction: Transaction,
+  sendTransaction: WalletAdapterProps['sendTransaction'],
+): Promise<{ transactionSignature: TransactionSignature }> {
+  const minContextSlot = await connection.getSlot();
+  const transactionSignature = await sendTransaction(transaction, connection, { minContextSlot });
+
+  await confirmTransaction(connection, transactionSignature);
+
+  return { transactionSignature };
 }
