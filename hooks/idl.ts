@@ -18,7 +18,7 @@ export function useRequestIdlFromAddress(connection: Connection) {
   const [result, setResult] = useState<ResultState>(null);
 
   // helpers
-  async function getIdlFromAddresss(address: string): Promise<ResultState> {
+  async function getIdlFromAddress(address: string): Promise<ResultState> {
     try {
       setStatus('loading');
 
@@ -35,5 +35,5 @@ export function useRequestIdlFromAddress(connection: Connection) {
     }
   }
 
-  return { result, status, error, getIdlFromAddresss };
+  return { result, status, error, getIdlFromAddress };
 }
