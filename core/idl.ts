@@ -1,7 +1,8 @@
 import { inflate } from 'pako';
 import invariant from 'tiny-invariant';
 import { PublicKey, Connection } from '@solana/web3.js';
-import { utf8, decodeIdlAccount, Idl, IdlInstruction } from '@project-serum/anchor/dist/browser';
+import { utf8 } from '@project-serum/anchor/dist/cjs/utils/bytes';
+import { decodeIdlAccount, Idl, IdlInstruction } from '@project-serum/anchor/dist/cjs/idl';
 
 // internal helpers
 import { getPublicKeyFromAddress } from './keypairs';
