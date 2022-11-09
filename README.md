@@ -29,7 +29,7 @@
 NPM
 
 ```
-npm install @lndgalante/solutils @solana/web3.js @solana/wallet-adapter-react
+npm install @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-adapter-react
 ```
 
 Yarn
@@ -162,7 +162,7 @@ pnpm add @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-a
   <details>
     <summary>Hooks</summary>
 
-  - [useUserBalance()](#useUserBalance)
+  - [useWalletTokenBalance()](#useWalletTokenBalance)
   - [useRequestSolAirdrop()](#useRequestSolAirdrop)
   - [useTransferSolTokens()](#useTransferSolTokens)
   - [useTransferSplTokens()](#useTransferSplTokens)
@@ -646,7 +646,7 @@ function DemoComponent() {
       {status === 'iddle' ? <p>Haven&apos;t checked transaction validity</p> : null}
       {status === 'loading' ? <p>Requesting if transaction is valid or not</p> : null}
       {status === 'success' && result ? (
-        <p>{result.isValidTransaction ? 'Transaction is a valid' : 'Transaction is not valid'}</p>
+        <p>{result.isValidTransaction ? 'Transaction is valid' : 'Transaction is not valid'}</p>
       ) : null}
       {status === 'error' ? <p>{error}</p> : null}
     </main>
@@ -880,14 +880,14 @@ function DemoComponent() {
 
 #### Tokens
 
-##### useUserBalance()
+##### useWalletTokenBalance()
 
 Returns user current balance in SOL.
 
 _Example_
 
 ```tsx
-import { useUserBalance } from '@lndgalante/solutils';
+import { useWalletTokenBalance } from '@lndgalante/solutils';
 
 export default function Home() {
   // solana hooks
@@ -895,11 +895,11 @@ export default function Home() {
   const { connection } = useConnection();
 
   // solutils hooks
-  const { result, status, getUserBalance } = useUserBalance(publicKey, connection);
+  const { getWalletTokenBalance, result, status, error } = useWalletTokenBalance(publicKey, connection);
 
   // handlers
-  function handleUserBalanceRequest() {
-    getUserBalance();
+  function handleWalletBalanceRequest() {
+    getWalletTokenBalance('SOL');
   }
 
   return (
@@ -908,10 +908,10 @@ export default function Home() {
       <WalletDisconnectButton />
 
       <main>
-        <button onClick={handleUserBalanceRequest}>Request user balance</button>
+        <button onClick={handleWalletBalanceRequest}>Request wallet balance</button>
         {status === 'iddle' ? <p>Haven&apos;t requested any SOL balance yet</p> : null}
         {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
-        {status === 'success' && result ? <p>We successfully got your balance: {result} SOL</p> : null}
+        {status === 'success' ? <p>We successfully got your balance: {result} SOL</p> : null}
         {status === 'error' ? <p>{error}</p> : null}
       </main>
     </div>
@@ -1040,7 +1040,12 @@ export default function Home() {
 ##### useTransferSplTokens()
 
 Use this hook to transfer any SPL tokens, by defining only the token symbol or token mint address, from the connected wallet to a specific address.
-It also can return the transaction gas fee, which can be enabled at the 4th parameter with a `true` flag
+It also can return the transaction gas fee, which can be enabled at the 4th parameter with a `true` flag.
+
+Current official SPL tokens supported:
+
+- USDC
+- USDT
 
 _Example_
 
@@ -1084,14 +1089,20 @@ export default function Home() {
             </a>
           </div>
         ) : null}
-        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+        {status === 'error' ? <p>{Oops, something wrong happened}</p> : null}
       </main>
     </div>
   );
 }
 ```
 
-[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-sol-tokens)
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transfer-spl-tokens)
+
+---
+
+### Security
+
+Concerned about using a third-party library due to sensible code? We're working on making a fully tested, and secure library, but in case you or your company don't want to use this directly feel free to fork it, modify it and send any PR to improve it later on.
 
 ---
 
