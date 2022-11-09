@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import invariant from 'tiny-invariant';
 import { PublicKey } from '@solana/web3.js';
+import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
 
 // common
 import { ErrorState, StatusState } from '../common';
@@ -30,12 +32,8 @@ export function usePdaFromUserPublicKeyAndProgramAddress(publicKey: PublicKey | 
     extraSeeds?: string[],
   ): Promise<ResultState> {
     try {
+      invariant(publicKey, () => new WalletNotConnectedError()?.message);
       setStatus('loading');
-
-      if (!publicKey) {
-        setStatus('error');
-        return null;
-      }
 
       const { publicKey: programPublicKey } = getPublicKeyFromAddress(programAddress);
       const extraSeedsBuffer = extraSeeds ? extraSeeds.map((seed) => Buffer.from(seed)) : [];
