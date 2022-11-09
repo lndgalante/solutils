@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import invariant from 'tiny-invariant';
 import { createTransferInstruction } from '@solana/spl-token';
 import { WalletNotConnectedError, WalletAdapterProps } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction, SystemProgram, TransactionSignature, Connection } from '@solana/web3.js';
@@ -39,12 +40,10 @@ export function useRequestSolAirdrop(publicKey: PublicKey | null, connection: Co
 
   // helpers
   async function getSolAirdrop(solana: number = 1): Promise<{ transactionSignature: string } | null> {
-    if (!publicKey) {
-      throw new WalletNotConnectedError();
-    }
-
     try {
+      invariant(publicKey, () => new WalletNotConnectedError()?.message);
       setStatus('loading');
+
       const { lamports } = getSolToLamports(solana);
 
       const transactionSignature = await connection.requestAirdrop(publicKey, lamports);
@@ -69,20 +68,19 @@ export function useRequestSolAirdrop(publicKey: PublicKey | null, connection: Co
 
 type UserBalanceResultState = number;
 
-export function useUserBalance(publicKey: PublicKey | null, connection: Connection) {
+export function useWalletTokenBalance(publicKey: PublicKey | null, connection: Connection) {
   // react hooks
   const [error, setError] = useState<ErrorState>(null);
   const [status, setStatus] = useState<StatusState>('iddle');
   const [result, setResult] = useState<UserBalanceResultState>(0);
 
   // helpers
-  async function getUserBalance() {
-    if (!publicKey) {
-      throw new WalletNotConnectedError();
-    }
-
+  async function getWalletTokenBalance(tokenSymbol: 'SOL'): Promise<number | null> {
     try {
+      invariant(publicKey, () => new WalletNotConnectedError()?.message);
       setStatus('loading');
+
+      invariant(tokenSymbol === 'SOL', () => 'Only SOL is supported');
 
       const lamports = await connection.getBalance(publicKey as PublicKey);
       const { sol } = getLamportsToSol(lamports);
@@ -98,7 +96,7 @@ export function useUserBalance(publicKey: PublicKey | null, connection: Connecti
     }
   }
 
-  return { result, status, error, getUserBalance };
+  return { result, status, error, getWalletTokenBalance };
 }
 
 type TransefSolTokensResultState = {
@@ -120,17 +118,18 @@ export function useTransferSolTokens(
 
   // helpers
   async function getTransferSolTokensReceipt(recipientAddress: string, solAmountToSend: number) {
-    if (!publicKey) {
-      throw new WalletNotConnectedError();
-    }
-
     try {
+      invariant(publicKey, () => new WalletNotConnectedError()?.message);
       setStatus('loading');
 
       const { lamports } = getSolToLamports(solAmountToSend);
-      const { publicKey: toPubkey } = getPublicKeyFromAddress(recipientAddress);
+      const { publicKey: recipientPublicKey } = getPublicKeyFromAddress(recipientAddress);
 
-      const transferInstruction = SystemProgram.transfer({ fromPubkey: publicKey as PublicKey, toPubkey, lamports });
+      const transferInstruction = SystemProgram.transfer({
+        lamports,
+        fromPubkey: publicKey,
+        toPubkey: recipientPublicKey,
+      });
       const transaction = new Transaction().add(transferInstruction);
 
       if (withGasFee) {
@@ -177,19 +176,16 @@ export function useTransferSplTokens(
   // helpers
   async function getTransferSplTokensReceipt(
     recipientAddress: string,
-    tokenSymbolOrTokenAddress: TokenSymbols | string,
+    tokenSymbolOrAddress: TokenSymbols | string,
     amountToSend: number,
   ) {
-    if (!publicKey) {
-      throw new WalletNotConnectedError();
-    }
-
     try {
+      invariant(publicKey, () => new WalletNotConnectedError()?.message);
       setStatus('loading');
 
-      const tokenMintAddress = isAddress(tokenSymbolOrTokenAddress)
-        ? tokenSymbolOrTokenAddress
-        : TOKEN_SYMBOLS_TO_MINT_ADDRESS[tokenSymbolOrTokenAddress];
+      const tokenMintAddress = isAddress(tokenSymbolOrAddress)
+        ? tokenSymbolOrAddress
+        : TOKEN_SYMBOLS_TO_MINT_ADDRESS[tokenSymbolOrAddress];
 
       const { publicKey: tokenMintPublicKey } = getPublicKeyFromAddress(tokenMintAddress);
       const { publicKey: recipientPublicKey } = getPublicKeyFromAddress(recipientAddress);
