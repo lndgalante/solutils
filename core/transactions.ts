@@ -39,19 +39,18 @@ export async function getTransactionGasFee(
   return { lamports: gasFee, sol };
 }
 
-export async function confirmTransaction(connect, transactionSignature: TransactionSignature): Promise<void> {
-  const { connection } = connect;
+export async function confirmTransaction(connection: Connection, signature: TransactionSignature): Promise<void> {
   const {
     value: { blockhash, lastValidBlockHeight },
   } = await connection.getLatestBlockhashAndContext();
 
   const confirmation = await connection.confirmTransaction({
+    signature,
     blockhash,
     lastValidBlockHeight,
-    signature: transactionSignature,
   });
 
-  invariant(confirmation.value.err, confirmation.value as any);
+  invariant(confirmation.value.err === null, confirmation.value as any);
 }
 
 export async function sendAndConfirmTransaction(
