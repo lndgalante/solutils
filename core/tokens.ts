@@ -1,5 +1,5 @@
 import invariant from 'tiny-invariant';
-import { Commitment, Connection, ParsedAccountData, PublicKey, Transaction } from '@solana/web3.js';
+import { Commitment, Connection, ParsedAccountData, PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
 import {
   TokenInvalidMintError,
   TokenInvalidOwnerError,
@@ -13,6 +13,7 @@ import {
 } from '@solana/spl-token';
 
 export const TOKEN_SYMBOLS_TO_MINT_ADDRESS = {
+  SOL: SystemProgram.programId,
   USDC: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
   USDT: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
 };
@@ -77,8 +78,8 @@ export async function getOrCreateAssociatedTokenAccountClientSide(
     }
   }
 
-  if (!account.mint.equals(mint)) throw new TokenInvalidMintError();
-  if (!account.owner.equals(owner)) throw new TokenInvalidOwnerError();
+  invariant(account.mint.equals(mint), () => new TokenInvalidMintError()?.message);
+  invariant(account.owner.equals(owner), () => new TokenInvalidOwnerError()?.message);
 
   return account;
 }
