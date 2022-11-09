@@ -13,7 +13,7 @@ export default function Home() {
 
   // handlers
   async function handleIdlRequest() {
-    await getIdlFromAddress(connection, address);
+    await getIdlFromAddress(address);
   }
 
   return (

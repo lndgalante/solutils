@@ -1,6 +1,7 @@
 import { useRequestSolAirdrop, useUserBalance } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
+import { useEffect } from 'react';
 
 export default function Home() {
   // solana hooks
@@ -39,7 +40,7 @@ export default function Home() {
             </a>
           </div>
         ) : null}
-        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
       </main>
     </div>
   );

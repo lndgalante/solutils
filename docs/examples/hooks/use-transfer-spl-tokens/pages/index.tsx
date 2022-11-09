@@ -37,7 +37,7 @@ export default function Home() {
             </a>
           </div>
         ) : null}
-        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
       </main>
     </div>
   );

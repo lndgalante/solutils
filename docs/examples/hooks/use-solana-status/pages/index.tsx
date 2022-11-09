@@ -10,7 +10,7 @@ export default function Home() {
         {result === true ? <p>All systems are operational</p> : null}
         {result === false ? <p>Blockchain is having some issues</p> : null}
         {status === 'loading' ? <p>Requesting blockchain status</p> : null}
-        {status === 'error' ? <p>Oops, something wrong happened</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
       </main>
     </div>
   );
