@@ -11,13 +11,13 @@ export default function Home() {
   const { getTransferTokensReceipt, result, status, error } = useTransferTokens(publicKey, connection, sendTransaction);
 
   // constants
-  const SOL_TO_SEND = 0.001;
-  const TOKEN_TO_SEND = 'SOL';
-  const ADDRESS_TO_SEND = '5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc';
+  const AMOUNT_TO_SEND = 1;
+  const ADDRESS_TO_SEND = 'Saber2gLauYim4Mvftnrasomsv6NvAuncvMEZwcLpD1';
+  const TOKEN_MINT_ADDRESS = 'mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So';
 
   // handlers
-  function handleUserBalanceRequest() {
-    getTransferTokensReceipt(ADDRESS_TO_SEND, TOKEN_TO_SEND, SOL_TO_SEND);
+  function handleTransferToTokenMintAddress() {
+    getTransferTokensReceipt(ADDRESS_TO_SEND, TOKEN_MINT_ADDRESS, AMOUNT_TO_SEND);
   }
 
   return (
@@ -26,12 +26,12 @@ export default function Home() {
       <WalletDisconnectButton />
 
       <main>
-        <button onClick={handleUserBalanceRequest}>Send {SOL_TO_SEND} SOL tokens</button>
-        {status === 'iddle' ? <p>Haven&apos;t sent any SOL yet</p> : null}
-        {status === 'loading' ? <p>Sending your SOL tokens</p> : null}
+        <button onClick={handleTransferToTokenMintAddress}>Send {AMOUNT_TO_SEND} SBR tokens</button>
+        {status === 'iddle' ? <p>Haven&apos;t sent any SBR yet</p> : null}
+        {status === 'loading' ? <p>Sending your SBR tokens</p> : null}
         {status === 'success' && result ? (
           <div>
-            <p>We successfully sent: {SOL_TO_SEND} SOL</p>
+            <p>We successfully sent: {AMOUNT_TO_SEND} SBR</p>
             <p>Transaction signature: {result.transactionSignature}</p>
             <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
               Solana Explorer

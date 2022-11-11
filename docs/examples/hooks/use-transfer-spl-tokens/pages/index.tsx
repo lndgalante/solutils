@@ -1,4 +1,4 @@
-import { useTransferSplTokens } from '@lndgalante/solutils';
+import { useTransferTokens } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 
@@ -8,15 +8,16 @@ export default function Home() {
   const { publicKey, sendTransaction } = useWallet();
 
   // solutils hooks
-  const { getTransferSplTokensReceipt, result, status } = useTransferSplTokens(publicKey, connection, sendTransaction);
+  const { getTransferTokensReceipt, result, status, error } = useTransferTokens(publicKey, connection, sendTransaction);
 
   // constants
   const USDC_AMOUNT = 1;
+  const TOKEN_TO_SEND = 'USDC';
   const RECIPIENT_ADDRESS = '5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc';
 
   // handlers
   function handleSplTransfer() {
-    getTransferSplTokensReceipt(RECIPIENT_ADDRESS, 'USDC', USDC_AMOUNT);
+    getTransferTokensReceipt(RECIPIENT_ADDRESS, TOKEN_TO_SEND, USDC_AMOUNT);
   }
 
   return (
@@ -25,12 +26,16 @@ export default function Home() {
       <WalletDisconnectButton />
 
       <main>
-        <button onClick={handleSplTransfer}>Send {USDC_AMOUNT} USDC tokens</button>
-        {status === 'iddle' ? <p>Haven&apos;t sent any USDC yet</p> : null}
-        {status === 'loading' ? <p>Sending your USDC tokens</p> : null}
+        <button onClick={handleSplTransfer}>
+          Send {USDC_AMOUNT} {TOKEN_TO_SEND} tokens
+        </button>
+        {status === 'iddle' ? <p>Haven&apos;t sent any {TOKEN_TO_SEND} yet</p> : null}
+        {status === 'loading' ? <p>Sending your {TOKEN_TO_SEND} tokens</p> : null}
         {status === 'success' && result ? (
           <div>
-            <p>We successfully sent: {USDC_AMOUNT} USDC</p>
+            <p>
+              We successfully sent: {USDC_AMOUNT} {TOKEN_TO_SEND}
+            </p>
             <p>Transaction signature: {result.transactionSignature}</p>
             <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
               Solana Explorer
