@@ -18,6 +18,8 @@ export const TOKEN_SYMBOLS_TO_MINT_ADDRESS = {
   USDT: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
 };
 
+export const SUPPORTED_TOKEN_SYMBOLS = Object.keys(TOKEN_SYMBOLS_TO_MINT_ADDRESS) as TokenSymbols[];
+
 export type TokenSymbols = keyof typeof TOKEN_SYMBOLS_TO_MINT_ADDRESS;
 
 export async function getSplTokenDecimals(
