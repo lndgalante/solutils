@@ -19,6 +19,7 @@ import {
   getTransactionGasFee,
   getPublicKeyFromAddress,
   sendAndConfirmTransaction,
+  SUPPORTED_TOKEN_SYMBOLS,
   TOKEN_SYMBOLS_TO_MINT_ADDRESS,
   getOrCreateAssociatedTokenAccountClientSide,
 } from '../core';
@@ -113,7 +114,12 @@ export function useTransferTokens(
         const confirmedTransaction = await sendAndConfirmTransaction(connection, transaction, sendTransaction);
         transactionSignature = confirmedTransaction.transactionSignature;
       } else {
-        const tokenMintAddress = isAddress(tokenSymbolOrAddress)
+        const isTokenAddress = isAddress(tokenSymbolOrAddress);
+        const isTokenSupported = SUPPORTED_TOKEN_SYMBOLS.includes(tokenSymbolOrAddress as TokenSymbols);
+
+        invariant(isTokenAddress && !isTokenSupported, () => `Token ${tokenSymbolOrAddress} is not supported`);
+
+        const tokenMintAddress = isTokenAddress
           ? tokenSymbolOrAddress
           : TOKEN_SYMBOLS_TO_MINT_ADDRESS[tokenSymbolOrAddress];
 
