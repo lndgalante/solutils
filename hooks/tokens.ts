@@ -117,7 +117,8 @@ export function useTransferTokens(
         const isTokenAddress = isAddress(tokenSymbolOrAddress);
         const isTokenSupported = SUPPORTED_TOKEN_SYMBOLS.includes(tokenSymbolOrAddress as TokenSymbols);
 
-        invariant(isTokenAddress && !isTokenSupported, () => `Token ${tokenSymbolOrAddress} is not supported`);
+        const isTokenSymbolNotSupported = !(!isTokenAddress && !isTokenSupported);
+        invariant(isTokenSymbolNotSupported, () => `Token ${tokenSymbolOrAddress} is not supported`);
 
         const tokenMintAddress = isTokenAddress
           ? tokenSymbolOrAddress
