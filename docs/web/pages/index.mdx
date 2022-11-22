@@ -1,0 +1,39 @@
+---
+title: 'wagmi: React Hooks for Ethereum'
+---
+
+import { Tabs, Tab } from 'nextra-theme-docs';
+
+# Solutils
+
+### React hooks and Helpers library for _Solana_
+
+```bash
+yarn add @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-adapter-react
+```
+
+#### Overview
+
+Let's see a simple example on how to send 1 `USDC` to a particular address by creating a custom react hook
+
+```jsx highlight=1
+import { useTransferTokens } from '@lndgalante/solutils';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
+
+function useTransferUsdcTokens() {
+  // solana hooks
+  const { connection } = useConnection();
+  const { publicKey, sendTransaction } = useWallet();
+
+  // solutils hooks
+  const { getTransferTokensReceipt, result, status, error } = useTransferTokens(publicKey, connection, sendTransaction);
+
+  // handlers
+  function handleTransferUsdcTokens() {
+    getTransferTokensReceipt('5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc', 'USDC', 1);
+  }
+
+  return { handleTransferUsdcTokens };
+}
+```

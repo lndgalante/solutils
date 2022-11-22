@@ -1,0 +1,33 @@
+# useTransactionDetails()
+
+Receives a transaction signature and return all its details, accepts an `autoTrigger` which defaults to `true` to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
+
+```tsx
+import { useConnection } from '@solana/wallet-adapter-react';
+import { useTransactionDetails } from '@lndgalante/solutils';
+
+function DemoComponent() {
+  // constants
+  const transactionSignature =
+    '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
+
+  // solana hooks
+  const { connection } = useConnection();
+
+  // solutils hooks
+  const { result, status, error } = useTransactionDetails(connection, transactionSignature);
+
+  return (
+    <main>
+      <p>Transaction signature {transactionSignature}</p>
+
+      {status === 'iddle' ? <p>Haven&apos;t requested any transaction details yet</p> : null}
+      {status === 'loading' ? <p>Requesting your transaction details</p> : null}
+      {status === 'success' && result ? <p>{result.transactionDetails.meta}</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
+    </main>
+  );
+}
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-transaction-details)

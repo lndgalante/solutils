@@ -1,0 +1,11 @@
+# getClusterNameFromEndpoint()
+
+Returns the cluster name from any endpoint. This is especially useful when you want to know which cluster the user is on when they are using a custom endpoint.
+
+```typescript
+import { getClusterNameFromEndpoint } from '@lndgalante/solutils';
+
+const { clusterName } = await getClusterNameFromEndpoint('https://solana-api.projectserum.com');
+
+console.log(clusterName); // "mainnet-beta"
+```

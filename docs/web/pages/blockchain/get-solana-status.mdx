@@ -1,0 +1,13 @@
+# getSolanaStatus()
+
+Returns an `isHealthy` boolean to know blockchain current status.
+
+_Example_
+
+```typescript
+import { getSolanaStatus } from '@lndgalante/solutils';
+
+const { isHealthy } = await getSolanaStatus();
+
+console.log(isHealthy); // true
+```

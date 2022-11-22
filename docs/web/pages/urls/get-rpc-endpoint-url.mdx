@@ -1,0 +1,55 @@
+import Callout from 'nextra-theme-docs/callout';
+
+# getRpcEndpointUrl()
+
+Returns an RPC endpoint by defining a provider and a cluster type.
+
+Current supported RPC providers are:
+
+- [Solana](https://solana.com/rpc)
+- [Project Serum](https://github.com/project-serum/awesome-serum#rpc-servers)
+- [GenesysGo](https://shdw.genesysgo.com/genesysgo/the-genesysgo-rpc-network)
+- [AllThatNode](https://www.allthatnode.com/solana.dsrv)
+- [Blockdaemon](https://try.blockdaemon.com/rpc/solana)
+- [Ankr](https://www.ankr.com/rpc/solana)
+- [GetBlock](https://getblock.io/nodes/sol)
+- [Alchemy](https://www.alchemy.com/solana)
+- [Syndica](https://syndica.io)
+
+Solana RPC in mainnet.
+
+```typescript
+import { getRpcEndpointUrl } from '@lndgalante/solutils';
+
+const { rpcEndpointUrl: solanaMainnetRpc } = getRpcEndpointUrl('solana', 'mainnet');
+console.log(solanaMainnetRpc); // "https://api.mainnet-beta.solana.com"
+```
+
+GenesysGo RPC in devnet.
+
+```typescript
+const { rpcEndpointUrl: genesysGoRpc } = getRpcEndpointUrl('genesysgo', 'devnet');
+console.log(genesysGoRpc); // "https://devnet.genesysgo.net"
+```
+
+Alchemy private RPC in mainnet.
+
+```typescript
+const ALCHEMY_API_KEY = '3EUkBvPfNdHg3qsazLs1zqUVUQfz3ipRXM';
+const { rpcEndpointUrl: alchemyRpc } = getRpcEndpointUrl('alchemy', 'mainnet', ALCHEMY_API_KEY);
+console.log(alchemyRpc); // "https://solana-mainnet.g.alchemy.com/v2/3EUkBvPfNdHg3qsazLs1zqUVUQfz3ipRXM"
+```
+
+Syndica private RPC in mainnet.
+
+```typescript
+const SYNDICA_ACCESS_TOKEN = 'GlGcaiydgQJI0zqkUDKC810LVYXWA1gxx2CtboDluHOp23o2UqkLaRdVZTuJsUvD';
+const { rpcEndpointUrl: syndicaRpc } = getRpcEndpointUrl('syndica', 'mainnet', SYNDICA_ACCESS_TOKEN);
+console.log(syndicaRpc); // "https://solana-api.syndica.io/access-token/GlGcaiydgQJI0zqkUDKC810LVYXWA1gxx2CtboDluHOp23o2UqkLaRdVZTuJsUvD/rpc"
+```
+
+---
+
+<Callout type='warning' emoji='⚠️'>
+  For production builds you probably want to get a paid RPC service due to service limitations.
+</Callout>

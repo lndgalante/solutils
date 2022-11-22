@@ -1,0 +1,27 @@
+# getEmptyBuffer()
+
+Returns an empty buffer, needed when no data is mandatory to send to a Program.
+
+```typescript
+import { Transaction, TransactionInstruction } from '@solana/web3.js';
+import { getRpcEndpointUrl, getNewConnection, getEmptyBuffer, sendAndConfirmTransaction } from '@lndgalante/solutils';
+
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'devnet');
+const { connection } = getNewConnection(rpcEndpointUrl);
+
+const { instructionBuffer } = getEmptyBuffer(data);
+
+const transaction = new Transaction();
+const instruction = new TransactionInstruction({
+  data: instructionBuffer,
+  programId: EXAMPLE_PROGRAM_ID,
+  keys: [{ pubkey: EXAMPLE_PUBLIC_KEY, isSigner: true, isWritable: false }],
+});
+
+transaction.add(instruction);
+
+const { transactionSignature } = await sendAndConfirmTransaction(transaction);
+
+const { url } = getExplorerUrl('solana-explorer', transactionSignature, 'devnet');
+console.log(`Transaction submitted: ${url}`);
+```

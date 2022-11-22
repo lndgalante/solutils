@@ -1,0 +1,16 @@
+# getIsValidTransaction()
+
+Returns all details related to a transaction by sending its signature.
+
+```typescript
+import { getRpcEndpointUrl, getNewConnection, getIsValidTransaction } from '@lndgalante/solutils';
+
+const transactionSignature = '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
+
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { connection } = getNewConnection(rpcEndpointUrl);
+
+const { isValidTransaction } = await getIsValidTransaction(transactionSignature, connection);
+
+console.log(isValidTransaction); // true
+```

@@ -1,0 +1,12 @@
+# getShortAddress()
+
+Returns a shorter string from your address.
+
+```typescript
+import { getShortAddress } from '@lndgalante/solutils';
+
+const address = 'BV4uLAAaPtQSZRYrvwvFzn2fJJkinLQJb73mnhgPYfDM';
+const { shortAddress } = getShortAddress(address);
+
+console.log(shortAddress); // "BV4u...YfDM"
+```

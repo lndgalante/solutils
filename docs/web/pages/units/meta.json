@@ -1,0 +1,4 @@
+{
+  "get-lamports-to-sol": "getLamportsToSol()",
+  "get-sol-to-lamports": "getSolToLamports()"
+}

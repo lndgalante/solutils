@@ -1,0 +1,35 @@
+# useIsValidTransaction()
+
+Checks if transaction is valid or not by receiving it's signature, accepts an `autoTrigger` which defaults to `true` to automatically get transaction validity.
+
+```tsx
+import { useConnection } from '@solana/wallet-adapter-react';
+import { useIsValidTransaction } from '@lndgalante/solutils';
+
+function DemoComponent() {
+  // constants
+  const transactionSignature =
+    '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
+
+  // solana hooks
+  const { connection } = useConnection();
+
+  // solutils hooks
+  const { result, status, error } = useIsValidTransaction(connection, transactionSignature);
+
+  return (
+    <main>
+      <p>Transaction signature {transactionSignature}</p>
+
+      {status === 'iddle' ? <p>Haven&apos;t checked transaction validity</p> : null}
+      {status === 'loading' ? <p>Requesting if transaction is valid or not</p> : null}
+      {status === 'success' && result ? (
+        <p>{result.isValidTransaction ? 'Transaction is valid' : 'Transaction is not valid'}</p>
+      ) : null}
+      {status === 'error' ? <p>{error}</p> : null}
+    </main>
+  );
+}
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-is-valid-transaction)

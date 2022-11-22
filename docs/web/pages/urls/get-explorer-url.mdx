@@ -1,0 +1,37 @@
+import Callout from 'nextra-theme-docs/callout';
+
+# getExplorerUrl()
+
+Returns a Solana explorer URL by sending a explorer type which can be one of
+
+- `solscan`: [Solscan](https://solscan.io)
+- `solanafm`: [SolanaFM](https://solana.fm)
+- `solana-beach`: [Solana Beach](https://solanabeach.io)
+- `solana-explorer`: [Solana Explorer](https://explorer.solana.com)
+
+And a transaction signature, block or address,
+By default uses Mainnet cluster, but optionally takes a cluster as third parameter.
+
+Solana explorer URL.
+
+```typescript
+import { getExplorerUrl } from '@lndgalante/solutils';
+
+const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+
+const { url: solanaExplorerUrl } = getExplorerUrl('solana-explorer', transactionSignature);
+
+console.log(solanaExplorerUrl); // "https://explorer.solana.com/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM32wiEzdwSRzFnddqBTLiErPJr2XsqgfdTQkr92ygW4duSWCjLAomCnTdu3a?cluster=mainnet-beta"
+```
+
+Solscan URL.
+
+```typescript
+import { getExplorerUrl } from '@lndgalante/solutils';
+
+const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+
+const { url: solscanUrl } = getExplorerUrl('solscan', transactionSignature);
+
+console.log(solscanUrl); // "https://solscan.io/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM32wiEzdwSRzFnddqBTLiErPJr2XsqgfdTQkr92ygW4duSWCjLAomCnTdu3a?cluster=mainnet-beta"
+```

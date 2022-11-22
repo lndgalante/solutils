@@ -1,0 +1,38 @@
+##### useWalletTokenBalance()
+
+Returns user current balance in SOL.
+
+```tsx
+import { useWalletTokenBalance } from '@lndgalante/solutils';
+
+export default function Home() {
+  // solana hooks
+  const { publicKey } = useWallet();
+  const { connection } = useConnection();
+
+  // solutils hooks
+  const { getWalletTokenBalance, result, status, error } = useWalletTokenBalance(publicKey, connection);
+
+  // handlers
+  function handleWalletBalanceRequest() {
+    getWalletTokenBalance('SOL');
+  }
+
+  return (
+    <div>
+      <WalletMultiButton />
+      <WalletDisconnectButton />
+
+      <main>
+        <button onClick={handleWalletBalanceRequest}>Request wallet balance</button>
+        {status === 'iddle' ? <p>Haven&apos;t requested any SOL balance yet</p> : null}
+        {status === 'loading' ? <p>Requesting your SOL balance tokens</p> : null}
+        {status === 'success' ? <p>We successfully got your balance: {result} SOL</p> : null}
+        {status === 'error' ? <p>{error}</p> : null}
+      </main>
+    </div>
+  );
+}
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-user-balance)

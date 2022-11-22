@@ -1,0 +1,23 @@
+# useSolanaStatus()
+
+Same as previous method but by default re-fetchs Solana status every 30 seconds. Optionally, refetching can be disabled using a `false` flag as a first parameter, and refetch interval could be also modified in ms as a second parameter.
+
+```tsx
+import { useSolanaStatus } from '@lndgalante/solutils';
+
+function DemoComponent() {
+  // solutils hooks
+  const { result, status, error } = useSolanaStatus();
+
+  return (
+    <div>
+      {result === true ? <p>All systems are operational</p> : null}
+      {result === false ? <p>Blockchain is having some issues</p> : null}
+      {status === 'loading' ? <p>Requesting blockchain status</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
+    </div>
+  );
+}
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-solana-status)

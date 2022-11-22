@@ -1,0 +1,5 @@
+{
+  "get-empty-buffer": "getEmptyBuffer()",
+  "get-encoded-buffer-from-data": "getEncodedBufferFromData()",
+  "get-decoded-data-from-buffer-and-schema": "getDecodedDataFromBufferAndSchema()"
+}

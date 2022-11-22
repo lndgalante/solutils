@@ -1,0 +1,21 @@
+# getLamportsToSol()
+
+Converts lamports units to SOL units.
+
+```typescript
+import { getLamportsToSol } from '@lndgalante/solutils';
+
+const { sol } = getLamportsToSol(3005000000);
+
+console.log(sol); // 3.005
+```
+
+Optionally you can send a second argument to define amount of digits to truncate without rounding.
+
+```typescript
+import { getLamportsToSol } from '@lndgalante/solutils';
+
+const { sol } = getLamportsToSol(3345400000, 2);
+
+console.log(sol); // 3.34
+```

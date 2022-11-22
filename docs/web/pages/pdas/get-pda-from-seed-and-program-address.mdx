@@ -1,0 +1,12 @@
+# getPdaFromSeedAndProgramAddress()
+
+Returns PDAs public key and address from a string seed and a program address.
+
+```typescript
+import { getPdaFromSeedAndProgramAddress } from '@lndgalante/solutils';
+
+const SEED = 'SOME_RANDOM_SEED';
+const PROGRAM_ADDRESS = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN';
+
+const { pdaPublicKey, pdaAddress, bump } = await getPdaFromSeedAndProgramAddress(SEED, PROGRAM_ADDRESS);
+```
