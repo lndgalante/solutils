@@ -1,0 +1,5 @@
+{
+  "get-new-connection": "getNewConnection()",
+  "get-cluster-name": "getClusterName()",
+  "get-cluster-name-from-endpoint": "getClusterNameFromEndpoint()"
+}

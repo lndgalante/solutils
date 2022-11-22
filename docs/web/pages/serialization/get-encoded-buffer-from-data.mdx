@@ -1,0 +1,48 @@
+import Callout from 'nextra-theme-docs/callout';
+
+# getEncodedBufferFromData()
+
+Returns a serialized buffer from a data array, to be used afterwards in your instructions.
+
+```typescript
+import { Transaction, TransactionInstruction } from '@solana/web3.js';
+import {
+  getExplorerUrl,
+  getNewConnection,
+  getRpcEndpointUrl,
+  getEncodedBufferFromData,
+  sendAndConfirmTransaction,
+} from '@lndgalante/solutils';
+
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'devnet');
+const connection = getNewConnection(rpcEndpointUrl);
+
+const data = [
+  { label: 'variant', type: 'u8', value: 2 },
+  { label: 'playerId', type: 'u16', value: 1435 },
+  { label: 'itemId', type: 'u128', value: 737498 },
+] as DataItem[];
+
+const { instructionBuffer } = getEncodedBufferFromData(data);
+
+const transaction = new Transaction();
+
+const instruction = new TransactionInstruction({
+  data: instructionBuffer,
+  programId: EXAMPLE_PROGRAM_ID,
+  keys: [{ pubkey: EXAMPLE_PUBLIC_KEY, isSigner: true, isWritable: false }],
+});
+
+transaction.add(instruction);
+
+const { transactionSignature } = await sendAndConfirmTransaction(transaction);
+
+const { url } = getExplorerUrl('solana-explorer', transactionSignature, 'devnet');
+console.log(`Transaction submitted: ${url}`);
+```
+
+---
+
+<Callout type='warning' emoji='⚠️'>
+  Data sent to getEncodedBufferFromData should be in the correct order that the program receives it.
+</Callout>

@@ -1,0 +1,4 @@
+{
+  "use-request-sol-airdrop": "useRequestSolAirdrop()",
+  "use-transfer-tokens": "useTransferTokens()"
+}

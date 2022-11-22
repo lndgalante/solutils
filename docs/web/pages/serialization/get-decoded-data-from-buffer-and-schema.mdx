@@ -1,0 +1,28 @@
+# getDecodedDataFromBufferAndSchema()
+
+Returns a decoded value from an initial buffer and schema.
+
+```typescript
+import { getDecodedDataFromBufferAndSchema, getEncodedBufferFromData } from '@lndgalante/solutils';
+
+// required initial schema
+const schema = [
+  { label: 'intialized', type: 'bool' },
+  { label: 'playerId', type: 'u16' },
+  { label: 'name', type: 'str' },
+] as SchemaItem[];
+
+// let's create a fake buffer, we probably get it from a PDA and will not be created by us
+const bufferDataInput = [
+  { label: 'initialized', type: 'bool', value: true },
+  { label: 'playerId', type: 'u16', value: 1435 },
+  { label: 'name', type: 'str', value: 'John Doe' },
+] as DataItem[];
+
+const { instructionBuffer } = getEncodedBufferFromData(bufferDataInput);
+
+// get decodad data
+const data = getDecodedDataFromBufferAndSchema(schema, instructionBuffer);
+```
+
+---

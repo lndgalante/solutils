@@ -1,0 +1,33 @@
+# usePdaFromUserPublicKeyAndProgramAddress()
+
+Use it to get PDA public key and address using public key from user connected wallet and a program address. Optionally `getPdaFromUserPublicKeyAndProgramAddress` accepts a second argument with a seeds string array.
+
+```tsx
+import { usePdaFromUserPublicKeyAndProgramAddress } from '@lndgalante/solutils';
+
+function DemoComponent() {
+  // solutils hooks
+  const { result, status, error, getPdaFromUserPublicKeyAndProgramAddress } =
+    usePdaFromUserPublicKeyAndProgramAddress();
+
+  // handlers
+  function handleRequestPDA() {
+    const PROGRAM_ADDRESS = 'CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN';
+    const EXTRA_SEEDS = ['part-a', 'part-b'];
+
+    getPdaFromUserPublicKeyAndProgramAddress(PROGRAM_ADDRESS, EXTRA_SEEDS);
+  }
+
+  return (
+    <div>
+      <button onClick={handleRequestPDA}>Request PDA</button>
+      {status === 'iddle' ? <p>Haven&apos;t requested any PDA yet</p> : null}
+      {status === 'loading' ? <p>Requesting PDA...</p> : null}
+      {status === 'success' ? <p>We successfully got PDA address: {result.pdaAddress}</p> : null}
+      {status === 'error' ? <p>{error}</p> : null}
+    </div>
+  );
+}
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-pda-from-user-public-key-and-program-address)

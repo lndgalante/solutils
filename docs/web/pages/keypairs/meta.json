@@ -1,0 +1,7 @@
+{
+  "get-new-keypair": "getNewKeypair()",
+  "get-keypair-from-secret-key": "getKeypairFromSecretKey()",
+  "get-address-from-public-key": "getAddressFromPublicKey()",
+  "get-public-key-from-address": "getPublicKeyFromAddress()",
+  "get-short-address": "getShortAddress()"
+}

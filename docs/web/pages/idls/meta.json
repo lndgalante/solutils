@@ -1,0 +1,5 @@
+{
+  "get-idl-from-address": "getIdlFromAddress()",
+  "get-instruction-from-idl": "getInstructionFromIdl()",
+  "use-request-idl-from-address": "useRequestIdlFromAddress()"
+}

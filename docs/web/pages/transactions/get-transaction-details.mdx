@@ -1,0 +1,15 @@
+# getTransactionDetails()
+
+Returns all details related to a transaction by sending its signature.
+
+```typescript
+import { getRpcEndpointUrl, getNewConnection, getTransactionDetails } from '@lndgalante/solutils';
+
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { connection } = getNewConnection(rpcEndpointUrl);
+
+const transactionSignature = '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';
+const { transactionDetails } = await getTransactionDetails(connection, transactionSignature);
+
+console.log(transactionDetails);
+```

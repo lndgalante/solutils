@@ -1,0 +1,16 @@
+import Callout from 'nextra-theme-docs/callout';
+
+# getAllExplorerUrls()
+
+Returns all explorer URLs from [Solana Explorer](https://explorer.solana.com), [Solscan](https://solscan.io), [SolanaFM](https://solana.fm) and [Solana Beach](https://solanabeach.io).
+
+```typescript
+import { getAllExplorersUrl } from '@lndgalante/solutils';
+
+const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
+const { urls } = getAllExplorersUrl(transactionSignature);
+
+console.log(urls.solanaExplorerUrl); // "https://explorer.solana.com/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM32wiEzdwSRzFnddqBTLiErPJr2XsqgfdTQkr92ygW4duSWCjLAomCnTdu3a?cluster=mainnet-beta"
+
+console.log(urls.solscanUrl); // "https://solscan.io/tx/5iY4JfaVwEBBfVvhrBqqWc3F75xqM32wiEzdwSRzFnddqBTLiErPJr2XsqgfdTQkr92ygW4duSWCjLAomCnTdu3a?cluster=mainnet-beta"
+```

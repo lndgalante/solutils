@@ -1,0 +1,31 @@
+# getInstructionFromIdl()
+
+Returns IDL instruction data (account and arguments) given its name.
+
+_Example_
+
+```typescript
+import { getRpcEndpointUrl, getNewConnection, getIdlFromAddress, getInstructionFromIdl } from '@lndgalante/solutils';
+
+const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { connection } = getNewConnection(rpcEndpointUrl);
+
+const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
+
+const { idl } = await getIdlFromAddress(connection, address);
+const { method } = await getInstructionFromIdl(idl, 'updateCandyMachine');
+
+console.log(method);
+
+/*
+  {
+    name: 'updateCandyMachine',
+    accounts: [
+      { name: 'candyMachine', isMut: true, isSigner: false },
+      { name: 'authority', isMut: false, isSigner: true },
+      { name: 'wallet', isMut: false, isSigner: false }
+    ],
+    args: [ { name: 'data', type: [ { name: 'data', type: { defined: 'CandyMachineData' } } ] } ]
+  }
+*/
+```

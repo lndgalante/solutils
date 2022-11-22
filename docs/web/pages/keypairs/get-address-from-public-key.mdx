@@ -1,0 +1,12 @@
+# getAddressFromPublicKey()
+
+Returns an account address from a public key object.
+
+```typescript
+import { getNewKeypair, getAddressFromPublicKey } from '@lndgalante/solutils';
+
+const { keypair } = getNewKeypair();
+const { address } = getAddressFromPublicKey(keypair.publicKey);
+
+console.log(address); // G9KwiPLZyC52zrSsHnbf9FPnuHu77CDAeGoVkSa1wS8R
+```

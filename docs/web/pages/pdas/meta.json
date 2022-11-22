@@ -1,0 +1,4 @@
+{
+  "get-pda-from-seed-and-program-address": "getPdaFromSeedAndProgramAddress()",
+  "use-pda-from-user-public-key-and-program-address": "usePdaFromUserPublicKeyAndProgramAddress()"
+}

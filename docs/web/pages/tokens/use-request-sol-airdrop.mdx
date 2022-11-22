@@ -1,6 +1,10 @@
+# useRequestSolAirdrop()
+
+Returns a function to request SOL airdrop for the connected wallet and a status variable to track transaction state.
+
+```tsx
 import { useRequestSolAirdrop } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 
 export default function Home() {
   // solana hooks
@@ -8,13 +12,11 @@ export default function Home() {
   const { connection } = useConnection();
 
   // solutils hooks
-  const { getSolAirdrop, result, status, error } = useRequestSolAirdrop(publicKey, connection);
-
-  // constants
-  const SOL = 2;
+  const { result, status, error, getSolAirdrop } = useRequestSolAirdrop(publicKey, connection);
 
   // handlers
   function handleSolRequest() {
+    const SOL = 2;
     getSolAirdrop(SOL);
   }
 
@@ -44,3 +46,6 @@ export default function Home() {
     </div>
   );
 }
+```
+
+[Repo Example](https://github.com/lndgalante/solutils/tree/main/docs/examples/hooks/use-request-sol-airdrop)

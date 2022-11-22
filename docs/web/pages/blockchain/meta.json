@@ -1,0 +1,4 @@
+{
+  "get-solana-status": "getSolanaStatus()",
+  "use-solana-status": "useSolanaStatus()"
+}

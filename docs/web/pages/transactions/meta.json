@@ -1,0 +1,6 @@
+{
+  "get-is-valid-transaction": "getIsValidTransaction()",
+  "get-transaction-details": "getTransactionDetails()",
+  "use-is-valid-transaction": "useIsValidTransaction()",
+  "use-transaction-details": "useTransactionDetails()"
+}
