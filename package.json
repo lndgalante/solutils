@@ -29,7 +29,7 @@
     "@types/react": "^18.0.25",
     "prettier": "^2.7.1",
     "tsup": "^6.5.0",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.3"
   },
   "peerDependencies": {
     "@solana/spl-token": "^0.3.6",
@@ -42,6 +42,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "build:watch": "tsup --watch"
+    "build:watch": "tsup --watch",
+    "build:docs": "cd docs/web && yarn build"
   }
 }
