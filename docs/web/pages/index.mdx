@@ -12,14 +12,14 @@ yarn add @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-a
 
 #### Overview
 
-Let's see a simple example on how to send `USDC` tokens to a particular address by creating a custom react hook.
+Let's see a simple example on how to send `USDC` tokens to a particular address.
 
-```jsx highlight=1
+```tsx
 import { useTransferTokens } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 
-function useTransferUsdcTokens() {
+export default function Home() {
   // solana hooks
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
@@ -29,9 +29,34 @@ function useTransferUsdcTokens() {
 
   // handlers
   function handleTransferUsdcTokens() {
-    getTransferTokensReceipt('5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc', 'USDC', 1);
+    const AMOUNT_TO_SEND = 1;
+    const TOKEN_TO_SEND = 'USDC';
+    const ADDRESS_TO_SEND = '5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc';
+
+    getTransferTokensReceipt(ADDRESS_TO_SEND, TOKEN_TO_SEND, AMOUNT_TO_SEND);
   }
 
-  return { handleTransferUsdcTokens };
+  return (
+    <div>
+      <WalletMultiButton />
+      <WalletDisconnectButton />
+
+      <main>
+        <button onClick={handleTransferUsdcTokens}>Send {AMOUNT_TO_SEND} USDC tokens</button>
+        {status === 'iddle' ? <p>Haven&apos;t sent any USDC yet</p> : null}
+        {status === 'loading' ? <p>Sending your USDC tokens</p> : null}
+        {status === 'success' && result ? (
+          <div>
+            <p>We successfully sent: {USDC_TO_SEND} USDC</p>
+            <p>Transaction signature: {result.transactionSignature}</p>
+            <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
+              Solana Explorer
+            </a>
+          </div>
+        ) : null}
+        {status === 'error' ? <p>{error}</p> : null}
+      </main>
+    </div>
+  );
 }
 ```
