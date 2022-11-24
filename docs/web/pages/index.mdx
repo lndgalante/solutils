@@ -12,7 +12,7 @@ yarn add @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-a
 
 #### Overview
 
-Let's send USDC tokens in under a minute.
+Let's see a simple example on how to send `USDC` tokens to a particular address.
 
 ```tsx {1,11,15}
 import { useTransferTokens } from '@lndgalante/solutils';
@@ -29,7 +29,11 @@ export default function Home() {
 
   // handlers
   function handleTransferUsdcTokens() {
-    getTransferTokensReceipt('5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc', 'USDC', 1);
+    const AMOUNT_TO_SEND = 1;
+    const TOKEN_TO_SEND = 'USDC';
+    const ADDRESS_TO_SEND = '5NSJUuR9Pn1yiFYGPWonqrVh72xxX8D2yADKrUf1USRc';
+
+    getTransferTokensReceipt(ADDRESS_TO_SEND, TOKEN_TO_SEND, AMOUNT_TO_SEND);
   }
 
   return (
