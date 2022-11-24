@@ -2,13 +2,9 @@
 title: 'IDLs | Solutils'
 ---
 
-# getInstructionFromIdl()
-
 Returns IDL instruction data (account and arguments) given its name.
 
-_Example_
-
-```typescript
+```typescript {1,9}
 import { getRpcEndpointUrl, getNewConnection, getIdlFromAddress, getInstructionFromIdl } from '@lndgalante/solutils';
 
 const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');

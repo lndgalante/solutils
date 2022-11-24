@@ -2,9 +2,7 @@
 title: 'URLs | Solutils'
 ---
 
-import Callout from 'nextra-theme-docs/callout';
-
-# getExplorerUrl()
+import { Callout } from 'nextra-theme-docs';
 
 Returns a Solana explorer URL by sending a explorer type which can be one of
 
@@ -18,7 +16,7 @@ By default uses Mainnet cluster, but optionally takes a cluster as third paramet
 
 Solana explorer URL.
 
-```typescript
+```typescript {1,5}
 import { getExplorerUrl } from '@lndgalante/solutils';
 
 const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';
@@ -30,7 +28,7 @@ console.log(solanaExplorerUrl); // "https://explorer.solana.com/tx/5iY4JfaVwEBBf
 
 Solscan URL.
 
-```typescript
+```typescript {1,5}
 import { getExplorerUrl } from '@lndgalante/solutils';
 
 const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';

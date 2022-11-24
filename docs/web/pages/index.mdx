@@ -14,7 +14,7 @@ yarn add @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-a
 
 Let's see a simple example on how to send `USDC` tokens to a particular address.
 
-```tsx
+```tsx {1,11,19}
 import { useTransferTokens } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';

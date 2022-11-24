@@ -2,11 +2,9 @@
 title: 'Tokens | Solutils'
 ---
 
-# useRequestSolAirdrop()
-
 Returns a function to request SOL airdrop for the connected wallet and a status variable to track transaction state.
 
-```tsx
+```tsx {1, 10, 15}
 import { useRequestSolAirdrop } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 

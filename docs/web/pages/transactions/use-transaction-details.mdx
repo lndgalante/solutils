@@ -2,11 +2,9 @@
 title: 'Transactions | Solutils'
 ---
 
-# useTransactionDetails()
-
 Receives a transaction signature and return all its details, accepts an `autoTrigger` which defaults to `true` to automatically get transaction details. Also returns a `getTransactionDetails` method if you need to trigger the method through the UI.
 
-```tsx
+```tsx {2,13}
 import { useConnection } from '@solana/wallet-adapter-react';
 import { useTransactionDetails } from '@lndgalante/solutils';
 

@@ -2,11 +2,9 @@
 title: 'Transactions | Solutils'
 ---
 
-# getTransactionDetails()
-
 Returns all details related to a transaction by sending its signature.
 
-```typescript
+```typescript {1,7}
 import { getRpcEndpointUrl, getNewConnection, getTransactionDetails } from '@lndgalante/solutils';
 
 const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');

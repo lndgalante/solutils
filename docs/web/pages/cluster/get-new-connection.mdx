@@ -2,13 +2,11 @@
 title: 'Cluster | Solutils'
 ---
 
-import Callout from 'nextra-theme-docs/callout';
-
-# getNewConnection()
+import { Callout } from 'nextra-theme-docs';
 
 Establishes a JSON RPC connection from a provided endpoint and returns a Connection object.
 
-```typescript
+```typescript {1,4}
 import { getRpcEndpointUrl, getNewConnection } from '@lndgalante/solutils';
 
 const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
