@@ -2,13 +2,11 @@
 title: 'URLs | Solutils'
 ---
 
-import Callout from 'nextra-theme-docs/callout';
-
-# getAllExplorerUrls()
+import { Callout } from 'nextra-theme-docs';
 
 Returns all explorer URLs from [Solana Explorer](https://explorer.solana.com), [Solscan](https://solscan.io), [SolanaFM](https://solana.fm) and [Solana Beach](https://solanabeach.io).
 
-```typescript
+```typescript {1, 4}
 import { getAllExplorersUrl } from '@lndgalante/solutils';
 
 const transactionSignature = '55oJv5oCaez344JawHL5gnwqwrbrN4oD5ZN8rQFvyRSWzwXTTe178QG7KK9cR2wFkwecEca3V5vdbFexFG1ayECm';

@@ -2,11 +2,9 @@
 title: 'Transactions | Solutils'
 ---
 
-# getIsValidTransaction()
-
 Returns all details related to a transaction by sending its signature.
 
-```typescript
+```typescript {1,8}
 import { getRpcEndpointUrl, getNewConnection, getIsValidTransaction } from '@lndgalante/solutils';
 
 const transactionSignature = '8ykRq1XtgrtymXVkVhsWjaDrid5FkKzRPJrarzJX9a6EArbEUYMrst6vVC6TydDRG4sagSciK6pP5Lw9ZDnt3RD';

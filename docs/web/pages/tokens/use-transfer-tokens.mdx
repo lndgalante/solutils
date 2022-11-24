@@ -2,8 +2,6 @@
 title: 'Tokens | Solutils'
 ---
 
-# useTransferTokens()
-
 Use this hook to transfer SOL tokens or any SPL tokens, by defining only the address to send, token symbol (or token mint address), and amount to send.
 It also can return the transaction gas fee, which can be enabled at the 4th parameter with a `true` flag.
 
@@ -17,7 +15,7 @@ Either way if your token is not on the above list, you can send any token mint a
 
 Example for `SOL` token
 
-```tsx
+```tsx {1,11,20}
 import { useTransferTokens } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
@@ -69,7 +67,7 @@ export default function Home() {
 
 Example for `USDC` token
 
-```tsx
+```tsx {1,11,20}
 import { useTransferTokens } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
@@ -121,7 +119,7 @@ export default function Home() {
 
 Example for a token mint address `SBR` token
 
-```tsx
+```tsx {1,20}
 import { useTransferTokens } from '@lndgalante/solutils';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';

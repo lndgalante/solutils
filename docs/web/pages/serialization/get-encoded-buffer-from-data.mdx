@@ -2,13 +2,11 @@
 title: 'Serialization | Solutils'
 ---
 
-import Callout from 'nextra-theme-docs/callout';
-
-# getEncodedBufferFromData()
+import { Callout } from 'nextra-theme-docs';
 
 Returns a serialized buffer from a data array, to be used afterwards in your instructions.
 
-```typescript
+```typescript {6, 19}
 import { Transaction, TransactionInstruction } from '@solana/web3.js';
 import {
   getExplorerUrl,

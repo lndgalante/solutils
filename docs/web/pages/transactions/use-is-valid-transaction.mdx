@@ -2,11 +2,9 @@
 title: 'Transactions | Solutils'
 ---
 
-# useIsValidTransaction()
-
 Checks if transaction is valid or not by receiving it's signature, accepts an `autoTrigger` which defaults to `true` to automatically get transaction validity.
 
-```tsx
+```tsx {2,13}
 import { useConnection } from '@solana/wallet-adapter-react';
 import { useIsValidTransaction } from '@lndgalante/solutils';
 

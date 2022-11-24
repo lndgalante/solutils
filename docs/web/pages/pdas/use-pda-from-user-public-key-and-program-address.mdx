@@ -2,11 +2,9 @@
 title: 'PDAs | Solutils'
 ---
 
-# usePdaFromUserPublicKeyAndProgramAddress()
-
 Use it to get PDA public key and address using public key from user connected wallet and a program address. Optionally `getPdaFromUserPublicKeyAndProgramAddress` accepts a second argument with a seeds string array.
 
-```tsx
+```tsx {1, 13}
 import { usePdaFromUserPublicKeyAndProgramAddress } from '@lndgalante/solutils';
 
 function DemoComponent() {

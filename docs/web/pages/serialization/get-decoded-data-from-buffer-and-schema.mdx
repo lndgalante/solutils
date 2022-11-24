@@ -2,11 +2,9 @@
 title: 'Serialization | Solutils'
 ---
 
-# getDecodedDataFromBufferAndSchema()
-
 Returns a decoded value from an initial buffer and schema.
 
-```typescript
+```typescript {1, 20}
 import { getDecodedDataFromBufferAndSchema, getEncodedBufferFromData } from '@lndgalante/solutils';
 
 // required initial schema
@@ -25,7 +23,7 @@ const bufferDataInput = [
 
 const { instructionBuffer } = getEncodedBufferFromData(bufferDataInput);
 
-// get decodad data
+// get decoded data
 const data = getDecodedDataFromBufferAndSchema(schema, instructionBuffer);
 ```
 
