@@ -1,5 +1,6 @@
 {
   "get-rpc-endpoint-url": "getRpcEndpointUrl()",
   "get-explorer-url": "getExplorerUrl()",
-  "get-all-explorer-urls": "getAllExplorerUrls()"
+  "get-all-explorer-urls": "getAllExplorerUrls()",
+  "get-faucet-url": "getFaucetUrl()"
 }

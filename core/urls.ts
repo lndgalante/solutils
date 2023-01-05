@@ -94,7 +94,7 @@ export function getAllExplorersUrl(signature: string, cluster: Cluster = 'mainne
   return { urls };
 }
 
-export type Provider =
+export type RpcProvider =
   | 'solana'
   | 'serum'
   | 'genesysgo'
@@ -106,11 +106,11 @@ export type Provider =
 export type Network = 'mainnet' | 'devnet';
 
 export function getRpcEndpointUrl(
-  provider: Provider,
+  provider: RpcProvider,
   network: Network,
   apiKeyOrAccessToken?: string,
-): { rpcEndpointUrl: string } {
-  const endpoints = {
+): { rpcUrl: string } {
+  const rpcUrls = {
     localhost: {
       mainnet: 'http://localhost:8899',
       devnet: 'http://localhost:8899',
@@ -156,7 +156,40 @@ export function getRpcEndpointUrl(
       devnet: `https://solana-api.syndica.io/access-token/${apiKeyOrAccessToken}/rpc`,
     },
   };
-  const rpcEndpointUrl = endpoints[provider][network];
+  const rpcUrl = rpcUrls[provider][network];
 
-  return { rpcEndpointUrl };
+  return { rpcUrl };
+}
+
+export type FaucetProvider = 'credix' | 'solfaucet' | 'stakely' | 'togatech' | 'thirdweb' | 'quicknode';
+
+type Faucet = { url: string; maxSolAmount: number; tweetRequired: boolean; captchaRequired: boolean };
+
+export function getFaucetUrl(faucetProvider: FaucetProvider): { faucet: Faucet } {
+  const faucetsUrls = {
+    credix: { url: 'https://spl-token-faucet.com', maxSolAmount: 1, tweetRequired: false, captchaRequired: false },
+    solfaucet: { url: 'https://solfaucet.com', maxSolAmount: 1, tweetRequired: false, captchaRequired: false },
+    stakely: {
+      url: 'https://stakely.io/en/faucet/solana-sol',
+      maxSolAmount: 0.001,
+      tweetRequired: true,
+      captchaRequired: true,
+    },
+    togatech: { url: 'https://solfaucet.togatech.org', maxSolAmount: 1, tweetRequired: false, captchaRequired: true },
+    thirdweb: {
+      url: 'https://thirdweb.com/faucet/solana',
+      maxSolAmount: 1,
+      tweetRequired: false,
+      captchaRequired: false,
+    },
+    quicknode: {
+      url: 'https://faucet.quicknode.com/solana/devnet',
+      maxSolAmount: 2,
+      tweetRequired: false,
+      captchaRequired: false,
+    },
+  };
+  const faucet = faucetsUrls[faucetProvider];
+
+  return { faucet };
 }
