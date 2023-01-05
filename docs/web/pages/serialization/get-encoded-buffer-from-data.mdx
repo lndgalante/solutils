@@ -16,7 +16,7 @@ import {
   sendAndConfirmTransaction,
 } from '@lndgalante/solutils';
 
-const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'devnet');
+const { rpcUrl } = getRpcEndpointUrl('solana', 'devnet');
 const connection = getNewConnection(rpcEndpointUrl);
 
 const data = [

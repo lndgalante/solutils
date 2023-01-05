@@ -37,7 +37,7 @@ export default function Home() {
               We successfully sent: {USDC_AMOUNT} {TOKEN_TO_SEND}
             </p>
             <p>Transaction signature: {result.transactionSignature}</p>
-            <a href={result.urls.solanaExplorerUrl} target='_blank' rel='noreferrer'>
+            <a href={result?.urls?.solanaExplorerUrl} target='_blank' rel='noreferrer'>
               Solana Explorer
             </a>
           </div>

@@ -8,7 +8,7 @@ You can use this method in a hook form [useRequestIdlFromAddress()](https://solu
 ```typescript {1,7}
 import { getRpcEndpointUrl, getNewConnection, getIdlFromAddress } from '@lndgalante/solutils';
 
-const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { rpcUrl } = getRpcEndpointUrl('solana', 'mainnet');
 const { connection } = getNewConnection(rpcEndpointUrl);
 
 const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';

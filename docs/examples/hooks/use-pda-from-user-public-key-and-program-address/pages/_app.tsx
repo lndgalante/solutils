@@ -9,11 +9,11 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 
 // rpc endpoint and wallet
 const wallets = [new PhantomWalletAdapter()];
-const { rpcEndpointUrl } = getRpcEndpointUrl('serum', 'devnet');
+const { rpcUrl } = getRpcEndpointUrl('genesysgo', 'devnet');
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ConnectionProvider endpoint={rpcEndpointUrl}>
+    <ConnectionProvider endpoint={rpcUrl}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           <Component {...pageProps} />

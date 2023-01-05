@@ -1,0 +1,33 @@
+---
+title: 'URLs | Solutils'
+---
+
+import { Callout } from 'nextra-theme-docs';
+
+Returns a Faucet object by sending a provider name which can be one of
+
+- `credix`: [Credix](https://spl-token-faucet.com)
+- `solfaucet`: [SolFaucet](https://solfaucet.com)
+- `stakely`: [Stakely](https://stakely.io/en/faucet/solana-sol)
+- `togatech`: [Togatech](https://solfaucet.togatech.org)
+- `thirdweb`: [ThirdWeb](https://thirdweb.com/faucet/solana)
+- `quicknode`: [QuickNode](https://faucet.quicknode.com/solana/devnet)
+
+And a transaction signature, block or address,
+By default uses Mainnet cluster, but optionally takes a cluster as third parameter.
+
+Solana explorer URL.
+
+```typescript {1,3}
+import { getFaucetUrl } from '@lndgalante/solutils';
+
+const { faucet: credixFaucet } = getFaucetUrl('credix');
+
+console.log(credixFaucet);
+// {
+//    url: 'https://spl-token-faucet.com',
+//    maxSolAmount: 1,
+//    tweetRequired: false,
+//    captchaRequired: false
+// }
+```
