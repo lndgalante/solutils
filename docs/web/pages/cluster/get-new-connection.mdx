@@ -9,7 +9,7 @@ Establishes a JSON RPC connection from a provided endpoint and returns a Connect
 ```typescript {1,4}
 import { getRpcEndpointUrl, getNewConnection } from '@lndgalante/solutils';
 
-const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { rpcUrl } = getRpcEndpointUrl('solana', 'mainnet');
 const { connection } = getNewConnection(rpcEndpointUrl);
 
 // Then trigger any API method from connection

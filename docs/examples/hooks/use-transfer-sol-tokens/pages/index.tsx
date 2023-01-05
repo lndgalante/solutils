@@ -9,7 +9,6 @@ export default function Home() {
 
   // solutils hooks
   const { getTransferTokensReceipt, result, status, error } = useTransferTokens(publicKey, connection, sendTransaction);
-
   // constants
   const SOL_TO_SEND = 0.001;
   const TOKEN_TO_SEND = 'SOL';

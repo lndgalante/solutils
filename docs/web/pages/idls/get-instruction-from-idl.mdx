@@ -7,7 +7,7 @@ Returns IDL instruction data (account and arguments) given its name.
 ```typescript {1,9}
 import { getRpcEndpointUrl, getNewConnection, getIdlFromAddress, getInstructionFromIdl } from '@lndgalante/solutils';
 
-const { rpcEndpointUrl } = getRpcEndpointUrl('solana', 'mainnet');
+const { rpcUrl } = getRpcEndpointUrl('solana', 'mainnet');
 const { connection } = getNewConnection(rpcEndpointUrl);
 
 const address = 'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ';
