@@ -27,7 +27,7 @@ For full documentation and examples, visit [solutils.vercel.app](https://solutil
 Install solutils and its @solana peer dependencies.
 
 ```bash
-npm install @lndgalante/solutils @solana/web3.js @solana/spl-token @solana/wallet-adapter-react
+npm install @lndgalante/solutils @solana/web3.js@1 @solana/spl-token @solana/wallet-adapter-react
 ```
 
 ### Quick Start
